@@ -1,11 +1,11 @@
 import Image from "next/image";
-import Logo from "../../../public/image/logo.png";
+import {logo} from "../../../public/assets";
 import styled from "styled-components";
 
 const navbarBeforeLogin = () => {
   return (
     <NavbarBeforeLogin>
-      <Image src={Logo} alt="Logo" />
+      <Image src={logo} alt="Logo" />
       <div className="list-wrapper">
         <li>Home</li>
         <li>Vehicle Type</li>

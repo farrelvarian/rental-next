@@ -1,15 +1,12 @@
 import Image from "next/image";
-import Separator from "../../../public/image/Group 101.png";
-import GoogleIcon from "../../../public/image/image 2.png";
-import NavbarBeforeLogin from "../../../components/module/Navbar/NavbarBeforeLogin";
-import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
+import { separator,google } from "../../../public/assets";
+import Footer from "../../../components/module/Footer";
 import styled from "styled-components";
 
 const loginUser = () => {
   return (
     <LoginUser>
-      <NavbarBeforeLogin />
-      <NavbarAfterLogin />
+
       <div className="image-container">
         <div className="left">
           <h1>Let's Explore The World</h1>
@@ -18,7 +15,7 @@ const loginUser = () => {
             Sign Up
           </button>
         </div>
-        <Image className="separator" src={Separator} alt="Separator" />
+        <Image className="separator" src={separator} alt="Separator" />
         <div className="right">
           <input type="email" className="email" placeholder="Email" />
           <input type="password" className="password" placeholder="Password" />
@@ -27,11 +24,12 @@ const loginUser = () => {
             Login
           </button>
           <button type="button" className="loginWithGoogle">
-            <Image className="google-icon" src={GoogleIcon} alt="google" />
+            <Image className="google-icon" src={google} alt="google" />
             Login with Google
           </button>
         </div>
       </div>
+      <Footer/>
     </LoginUser>
   );
 };
@@ -45,7 +43,7 @@ const LoginUser = styled.div`
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    background: rgba(0, 0, 0, 0.4) url("/image/background.png");
+    background: rgba(0, 0, 0, 0.4) url("/assets/images/hero-login.svg");
     background-size: 100% auto;
     background-blend-mode: multiply;
     .left {
@@ -85,7 +83,7 @@ const LoginUser = styled.div`
       }
     }
     .separator {
-      margin-top: 94px !important;
+      object-fit: contain;
     }
     .right {
       display: flex;
@@ -99,7 +97,7 @@ const LoginUser = styled.div`
         font-weight: 900;
         font-size: 24px;
         line-height: 33px;
-        width: 391px;
+        width: 447px;
         height: 79px;
         background: rgba(255, 255, 255, 0.26);
         border: unset;
@@ -120,7 +118,7 @@ const LoginUser = styled.div`
         font-weight: 900;
         font-size: 24px;
         line-height: 33px;
-        width: 391px;
+        width: 447px;
         height: 79px;
         background: rgba(255, 255, 255, 0.26);
         border: unset;
@@ -148,7 +146,7 @@ const LoginUser = styled.div`
         font-weight: 900;
         font-size: 24px;
         line-height: 33px;
-        width: 391px;
+        width: 447px;
         height: 79px;
         background: #ffcd61;
         box-shadow: 0px 0px 20px rgba(248, 161, 112, 0.47);
@@ -166,7 +164,7 @@ const LoginUser = styled.div`
         font-weight: 900;
         font-size: 24px;
         line-height: 33px;
-        width: 391px;
+        width: 447px;
         height: 79px;
         background: white;
         box-shadow: 0px 0px 20px rgba(218, 218, 218, 0.25);

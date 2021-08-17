@@ -1,13 +1,12 @@
 import Image from "next/image";
-import Logo from "../../../public/image/logo.png";
-import Mail from "../../../public/image/email 1.png";
-import Profile from "../../../public/image/Group 92.png";
+import {logo,mail,profile} from "../../../public/assets";
+
 import styled from "styled-components";
 
 const navbarAfterLogin = () => {
   return (
     <NavbarAfterLogin>
-      <Image src={Logo} alt="Logo" />
+      <Image src={logo} alt="Logo" />
       <div className="list-wrapper">
         <li>Home</li>
         <li>Vehicle Type</li>
@@ -15,8 +14,8 @@ const navbarAfterLogin = () => {
         <li>About</li>
       </div>
       <div className="profile-wrapper">
-        <Image className="mail" src={Mail} alt="Mail" />
-        <Image src={Profile} alt="Profile" />
+        <Image className="mail" src={mail} alt="Mail" />
+        <Image src={profile} alt="Profile" />
       </div>
     </NavbarAfterLogin>
   );
