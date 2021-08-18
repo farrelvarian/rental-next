@@ -1,23 +1,20 @@
-import Image from "next/image";
-import styled from "styled-components";
-import cardImage from "../../../public/manny-moreno-tdVPKfC_rP8-unsplash 1.png"
 
-const card = (image) => {
+import styled from "styled-components";
+import Link from "next/link";
+
+
+const card = (props) => {
  
   return (
-    <Card>
-      <Image
-        className="image-container"
-        src={cardImage}
-        layout="fill"
-        objectFit="cover"
-        alt="vehicle"
-      />
-      <div className="text-container">
-        <p className="info vehicle">Teluk Bogam</p>
-        <p className="info location">Kalimantan Utara</p>
-      </div>
-    </Card>
+    <Link href={props.href}>
+      <Card>
+        <img className="image-container" src={props.image} alt={props.name} />
+        <div className="text-container">
+          <p className="info vehicle">{props.name}</p>
+          <p className="info location">{props.location}</p>
+        </div>
+      </Card>
+    </Link>
   );
 };
 
@@ -30,6 +27,10 @@ const Card = styled.footer`
   position: relative;
   .image-container {
     border-radius: 6px;
+  }
+  img {
+    width: 261px;
+    height: 337px;
   }
   .text-container {
     padding: 0.7rem 0.7rem 0.2rem 1rem;

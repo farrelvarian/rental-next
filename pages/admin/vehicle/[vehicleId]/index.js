@@ -4,8 +4,26 @@ import Footer from "../../../../components/module/Footer";
 import { backBlack,nextBlack,plus,minus,like,imageVehicle } from "../../../../public/assets";
 import styled from "styled-components";
 import Image from "next/image";
+import axios from "axios";
+import { useState } from "react";
 
-const detailVehicle = () => {
+const detailVehicle = (dataVehicle) => {
+  const [vehicles, setVehicles] = useState({
+    name: dataVehicle.name,
+    price: dataVehicle.price,
+    description: dataVehicle.description,
+    category_id: dataVehicle.category_id,
+    location_id: dataVehicle.location_id,
+    category: dataVehicle.category,
+    location: dataVehicle.location,
+    stock: dataVehicle.stock,
+    status: dataVehicle.status,
+    image_id: dataVehicle.image_id,
+    image1: dataVehicle.image1,
+    image2: dataVehicle.image2,
+    image3: dataVehicle.image3,
+    updatedAt: new Date(),
+  });
   return (
     <DetailVehicle>
       <NavbarAfterLogin />
@@ -16,7 +34,7 @@ const detailVehicle = () => {
       <section className=" detail-vehicle">
         <div className="galery-wrapper">
           <div className="image-main">
-            <Image src={imageVehicle} alt="vehicle" layout="fill" />
+            <img src={vehicles.image1} alt="vehicle" />
           </div>
           <div className="item-wrapper">
             <div className="control prev">
@@ -26,10 +44,10 @@ const detailVehicle = () => {
             </div>
             <div className="item-main">
               <div className="item">
-                <Image src={imageVehicle} alt="vehicle" layout="fill" />
+                <img src={vehicles.image2} alt="vehicle" />
               </div>
               <div className="item">
-                <Image src={imageVehicle} alt="vehicle" layout="fill" />
+                <img src={vehicles.image3} alt="vehicle" />
               </div>
             </div>
             <div className="control next">
@@ -40,14 +58,14 @@ const detailVehicle = () => {
           </div>
         </div>
         <div className="detail-info">
-          <h1 className="title-vehicle">Fixie - Gray Only </h1>
-          <p className="location">Yogyakarta</p>
-          <p className="status green">Available</p>
+          <h1 className="title-vehicle">{vehicles.name}</h1>
+          <p className="location">{vehicles.location}</p>
+          <p className="status green">{vehicles.status}</p>
           <p className="paymentOption red">No prepayment</p>
           <p className="detail">Capacity : 1 person</p>
-          <p className="detail">Type : Bike</p>
+          <p className="detail">Type : {vehicles.category}</p>
           <p className="detail">Reservation before 2 PM</p>
-          <p className="price">Rp. 78.000/day</p>
+          <p className="price">Rp. {vehicles.price}/day</p>
           <div className="amount-wrapper">
             <button className="btn primary">
               <Image className="minus-icon" src={minus} alt="minus" />
@@ -73,6 +91,15 @@ const detailVehicle = () => {
 };
 
 export default detailVehicle;
+
+export async function getServerSideProps(vehicles) {
+  const { vehicleId } = vehicles.params;
+  const res = await axios.get(`http://localhost:4000/vehicles/${vehicleId}`);
+  const [dataVehicle] = await res.data.data;
+  return {
+    props: dataVehicle,
+  };
+}
 
 export const DetailVehicle = styled.div`
   width: 100%;
@@ -114,9 +141,8 @@ export const DetailVehicle = styled.div`
         width: 100%;
         height: 400px;
         img {
-          border-radius: 10px;
-          filter: drop-shadow(0px 7px 15px rgba(0, 0, 0, 0.05));
-          object-fit: cover;
+          width: 616px;
+          height: 412px;
         }
       }
       .item-wrapper {
@@ -137,9 +163,8 @@ export const DetailVehicle = styled.div`
             height: 150px;
 
             img {
-              border-radius: 10px;
-              filter: drop-shadow(0px 7px 15px rgba(0, 0, 0, 0.05));
-              object-fit: cover;
+              width: 290px;
+              height: 164px;
             }
           }
         }

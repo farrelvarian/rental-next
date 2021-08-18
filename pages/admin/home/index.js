@@ -6,10 +6,12 @@ import HeroHomeBeforeLogin from "../../../components/module/HeroHome/HeroHomeBef
 import HeroHomeAfterLogin from "../../../components/module/HeroHome/HeroHomeAfterLogin";
 import Footer from "../../../components/module/Footer";
 import styled from "styled-components";
+import Card from "../../../components/base/Card";
 import CardSection from "../../../components/module/SectionCard";
 import { testimonial, star, circle, plusYellow,next,previous } from "../../../public/assets";
+import axios from "axios";
 
-const home = () => {
+const home = ( {vehicles} ) => {
   const isAuth = true;
   return (
     <HomeUser>
@@ -26,8 +28,21 @@ const home = () => {
       )}
       <CardSection
         heading="Popular in Town"
-        anchor="vehicles-type/pupular-in-town"
-      />
+        anchor="vehicles-type/popular-in-town"
+      >
+        {vehicles?.map((item, index) => {
+          return (
+            <Card
+              href={`/admin/vehicle/${item.id}`}
+              key={index}
+              image={item.image1}
+              alt={item.name}
+              name={item.name}
+              location={item.location}
+            ></Card>
+          );
+        })}
+      </CardSection>
       {isAuth ? (
         <>
           <button className="btn add">Add new item</button>
@@ -78,6 +93,15 @@ const home = () => {
 };
 
 export default home;
+
+export async function getServerSideProps() {
+  const res = await axios.get(`http://localhost:4000/vehicles?npp=5`);
+  const vehicles = await res.data.data.result;
+  return {
+    props: { vehicles },
+  };
+}
+
 const HomeUser = styled.div`
   width: 100%;
   display: flex;

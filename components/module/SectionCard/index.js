@@ -3,21 +3,19 @@ import Link from "next/link";
 import styled from "styled-components";
 import Card from "../../base/Card"
 
-const sectionCard = ({ heading, data, anchor }) => {
+const sectionCard = ({ heading,  anchor,children }) => {
   return (
     <SectionCard className="container">
-      {heading && (
+     { heading && (
         <div className="heading-section">
           <h2>{heading}</h2>
           <Link href={`/${anchor}`}>
-            <a className="anchor">Viewe all</a>
+            <a className="anchor">Views all</a>
           </Link>
         </div>
       )}
 
-      <div className="content">
-        <Card /> <Card /> <Card /> <Card /> <Card />
-      </div>
+      <div className="content">{children}</div>
     </SectionCard>
   );
 };
