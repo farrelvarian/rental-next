@@ -89,6 +89,7 @@ function Footer() {
 export default Footer;
 
 const FooterComponent = styled.footer`
+width:100%;
   padding: 5rem;
   hr {
     margin-top: 3rem;

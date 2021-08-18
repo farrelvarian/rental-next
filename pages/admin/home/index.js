@@ -28,7 +28,13 @@ const home = () => {
         heading="Popular in Town"
         anchor="vehicles-type/pupular-in-town"
       />
-
+      {isAuth ? (
+        <>
+          <button className="btn add">Add new item</button>
+        </>
+      ) : (
+        <></>
+      )}
       <section className="container testimonials-sections">
         <div className="heading-section">
           <h2>Testimonials</h2>
@@ -77,7 +83,19 @@ const HomeUser = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  .btn.add {margin-top:50px;
+    height: 89px;
+    border-radius: 10px;
+    border: unset;
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 25px;
+    background-color: #393939;
+    color: #ffcd61;
+    width: 80%;
+  }
   section.testimonials-sections {
     .heading-section {
       h2 {
