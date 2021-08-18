@@ -1,13 +1,24 @@
-
+import { useRouter } from "next/router";
 import NavbarAfterLogin from "../../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../../components/module/Footer";
-import { backBlack,nextBlack,plus,minus,like,imageVehicle } from "../../../../public/assets";
+import {
+  backBlack,
+  nextBlack,
+  plus,
+  minus,
+  like,
+  imageVehicle,
+} from "../../../../public/assets";
 import styled from "styled-components";
 import Image from "next/image";
 import axios from "axios";
 import { useState } from "react";
 
+
 const detailVehicle = (dataVehicle) => {
+   const { query } = useRouter();
+   const id = Number(query.vehicleId);
+  const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: dataVehicle.name,
     price: dataVehicle.price,
@@ -24,6 +35,9 @@ const detailVehicle = (dataVehicle) => {
     image3: dataVehicle.image3,
     updatedAt: new Date(),
   });
+  const gotoEdit = () => {
+    router.push(`/admin/edit-vehicle/${id}`);
+  };
   return (
     <DetailVehicle>
       <NavbarAfterLogin />
@@ -78,11 +92,9 @@ const detailVehicle = (dataVehicle) => {
         </div>
       </section>
       <section className=" button-action-wrapper">
-        <button className="btn chat">Chat Admin</button>
-        <button className="btn reserve">Reservation</button>
-        <button className="btn like">
-          <Image className="like-icon" src={like} alt="like" />
-          Like
+        <button className="btn add">Add to home page</button>
+        <button className="btn edit" onClick={gotoEdit}>
+          Edit item
         </button>
       </section>
       <Footer />
@@ -94,7 +106,9 @@ export default detailVehicle;
 
 export async function getServerSideProps(vehicles) {
   const { vehicleId } = vehicles.params;
-  const res = await axios.get(`http://localhost:4000/vehicles/${vehicleId}`);
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`
+  );
   const [dataVehicle] = await res.data.data;
   return {
     props: dataVehicle,
@@ -280,24 +294,15 @@ export const DetailVehicle = styled.div`
       font-size: 24px;
       line-height: 25px;
     }
-    .chat {
+    .add {
       background-color: #393939;
       color: #ffcd61;
-      width: 443px;
+      width: 610px;
     }
-    .reserve {
+    .edit {
       background-color: #ffcd61;
       color: #393939;
-      width: 443px;
-    }
-    .like {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #393939;
-      color: #ffcd61;
-      width: 225px;
-      gap: 27px;
+      width: 481px;
     }
   }
 `;

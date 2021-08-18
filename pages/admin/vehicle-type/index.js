@@ -3,8 +3,10 @@ import Search from "../../../components/base/Search";
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../components/module/Footer";
 import CardSection from "../../../components/module/SectionCard";
+import Card from "../../../components/base/Card";
+import axios from "axios";
 
-const vehiclesType = (vehicles) => {
+const vehiclesType = ({ vehiclesPopular }) => {
   return (
     <VehiclesType>
       <NavbarAfterLogin />
@@ -16,9 +18,9 @@ const vehiclesType = (vehicles) => {
       </section>
       <CardSection
         heading="Popular in Town"
-        anchor="vehicles-type/ppular-in-town"
+        anchor="vehicles-type/popular-in-town"
       >
-        {vehicles?.map((item, index) => {
+        {vehiclesPopular?.map((item, index) => {
           return (
             <Card
               href={`/admin/vehicle/${item.id}`}
@@ -81,10 +83,12 @@ const vehiclesType = (vehicles) => {
 export default vehiclesType;
 
 export async function getServerSideProps() {
-  const res = await axios.get(`http://localhost:4000/vehicles?npp=5`);
-  const vehicles = await res.data.data.result;
+  const resPopular = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles?npp=5`
+  );
+  const vehiclesPopular = await resPopular.data.data.result;
   return {
-    props: { vehicles },
+    props: { vehiclesPopular },
   };
 }
 

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import NavbarBeforeLogin from "../../../components/module/Navbar/NavbarBeforeLogin";
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
@@ -8,11 +8,20 @@ import Footer from "../../../components/module/Footer";
 import styled from "styled-components";
 import Card from "../../../components/base/Card";
 import CardSection from "../../../components/module/SectionCard";
-import { testimonial, star, circle, plusYellow,next,previous } from "../../../public/assets";
+import {
+  testimonial,
+  star,
+  circle,
+  plusYellow,
+  next,
+  previous,
+} from "../../../public/assets";
 import axios from "axios";
 
-const home = ( {vehicles} ) => {
+const home = ({ vehicles }) => {
+  const router = useRouter();
   const isAuth = true;
+  const gotoAdd=()=>{router.push("/admin/add-vehicle");}
   return (
     <HomeUser>
       {isAuth ? (
@@ -45,7 +54,7 @@ const home = ( {vehicles} ) => {
       </CardSection>
       {isAuth ? (
         <>
-          <button className="btn add">Add new item</button>
+          <button className="btn add" onClick={gotoAdd}>Add new item</button>
         </>
       ) : (
         <></>
@@ -95,7 +104,9 @@ const home = ( {vehicles} ) => {
 export default home;
 
 export async function getServerSideProps() {
-  const res = await axios.get(`http://localhost:4000/vehicles?npp=5`);
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles?npp=5`
+  );
   const vehicles = await res.data.data.result;
   return {
     props: { vehicles },
@@ -107,7 +118,8 @@ const HomeUser = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  .btn.add {margin-top:50px;
+  .btn.add {
+    margin-top: 50px;
     height: 89px;
     border-radius: 10px;
     border: unset;

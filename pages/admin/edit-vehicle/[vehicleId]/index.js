@@ -16,7 +16,7 @@ import { BASE_URL } from "../../../../configs/configs";
 const editVehicle = (dataVehicle) => {
   const { query } = useRouter();
    const id = Number(query.vehicleId);
-
+const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: dataVehicle.name,
     price: dataVehicle.price,
@@ -70,18 +70,20 @@ const editVehicle = (dataVehicle) => {
     }
 
     axios
-      .put(`http://localhost:4000/vehicles/${id}`, formData)
+      .put(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`, formData)
       .then(() => {
         console.log("success edit data");
         alert("data berhasil diedit");
       })
       .catch(console.error());
   };
-   const deleteVehicleByid = (id) => {
+   const deleteVehicleByid = (e) => {
+    e.preventDefault();
      axios
-       .delete(`${BASE_URL}vehicles/${id}`)
+       .delete(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`)
        .then(() => {
          alert("success delete");
+         router.push("/admin/home");
        })
        .catch(console.error());
    };
@@ -223,11 +225,7 @@ const editVehicle = (dataVehicle) => {
           </button>
           <button
             className="btn delete"
-            onClick={() => {
-              if (window.confirm("Delete the item?")) {
-                deleteProductByid(item.id);
-              }
-            }}
+            onClick={deleteVehicleByid}
           >
             Delete
           </button>
@@ -242,7 +240,9 @@ export default editVehicle;
 
 export async function getServerSideProps(vehicles) {
   const { vehicleId } = vehicles.params;
-  const res = await axios.get(`http://localhost:4000/vehicles/${vehicleId}`);
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`
+  );
   const [dataVehicle] = await res.data.data;
 
   return {

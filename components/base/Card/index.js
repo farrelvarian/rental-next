@@ -31,6 +31,7 @@ const Card = styled.footer`
   img {
     width: 261px;
     height: 337px;
+    object-fit:cover;
   }
   .text-container {
     padding: 0.7rem 0.7rem 0.2rem 1rem;

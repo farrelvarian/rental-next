@@ -14,6 +14,7 @@ import Footer from "../../../components/module/Footer";
 import { BASE_URL } from "../../../configs/configs";
 
 const addVehicle = () => {
+  const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: "",
     price: 0,
@@ -58,10 +59,11 @@ const addVehicle = () => {
     console.log(formData);
 
     axios
-      .post(`http://localhost:4000/vehicles/`, formData)
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/`, formData)
       .then(() => {
         console.log("success add data");
         alert("data berhasil ditambahkan");
+        router.push("/admin/home");
       })
       .catch(console.error());
   };
