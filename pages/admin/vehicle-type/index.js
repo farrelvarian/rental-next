@@ -6,7 +6,8 @@ import CardSection from "../../../components/module/SectionCard";
 import Card from "../../../components/base/Card";
 import axios from "axios";
 
-const vehiclesType = ({ vehiclesPopular }) => {
+const vehiclesType = ({ locations, categories}) => {
+  console.log(categories);
   return (
     <VehiclesType>
       <NavbarAfterLogin />
@@ -18,63 +19,43 @@ const vehiclesType = ({ vehiclesPopular }) => {
       </section>
       <CardSection
         heading="Popular in Town"
-        anchor="vehicles-type/popular-in-town"
+        anchor="admin/vehicle-type/popular-in-town"
       >
-        {vehiclesPopular?.map((item, index) => {
+        {locations?.map((item, index) => {
           return (
             <Card
-              href={`/admin/vehicle/${item.id}`}
+              href={`/admin/vehicle-type/location/${item.location}`}
               key={index}
-              image={item.image1}
-              alt={item.name}
-              name={item.name}
+              image={item.image_location}
+              alt={item.location}
+              name={item.location}
               location={item.location}
             ></Card>
           );
         })}
       </CardSection>
-      <CardSection heading="Bike" anchor="vehicles-type/Bike">
-        {vehicles?.map((item, index) => {
-          return (
-            <Card
-              href={`/admin/vehicle/${item.id}`}
-              key={index}
-              image={item.image1}
-              alt={item.name}
-              name={item.name}
-              location={item.location}
-            ></Card>
-          );
+       {categories?.map((categories, index) => {
+         return (
+           <CardSection
+             key={index}
+             heading={categories.category}
+             anchor={`admin/vehicle-type/category/${categories.category}`}
+           >
+             {categories.vehicles.data.map((item, index) => {
+               return (
+                 <Card
+                   href={`/admin/vehicle/${item.id}`}
+                   key={index}
+                   image={item.image1}
+                   alt={item.name}
+                   name={item.name}
+                   location={item.location}
+                 ></Card>
+               );
+             })}
+           </CardSection>
+         );
         })}
-      </CardSection>
-      <CardSection heading="Cars" anchor="vehicles-type/Cars">
-        {vehicles?.map((item, index) => {
-          return (
-            <Card
-              href={`/admin/vehicle/${item.id}`}
-              key={index}
-              image={item.image1}
-              alt={item.name}
-              name={item.name}
-              location={item.location}
-            ></Card>
-          );
-        })}
-      </CardSection>
-      <CardSection heading="Motorbike" anchor="vehicles-type/Motorbike">
-        {vehicles?.map((item, index) => {
-          return (
-            <Card
-              href={`/admin/vehicle/${item.id}`}
-              key={index}
-              image={item.image1}
-              alt={item.name}
-              name={item.name}
-              location={item.location}
-            ></Card>
-          );
-        })}
-      </CardSection>
       <Footer />
     </VehiclesType>
   );
@@ -83,12 +64,28 @@ const vehiclesType = ({ vehiclesPopular }) => {
 export default vehiclesType;
 
 export async function getServerSideProps() {
-  const resPopular = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles?npp=5`
+  const resLocation = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}locations?limit=5`
   );
-  const vehiclesPopular = await resPopular.data.data.result;
+    const resCategory = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}categories`
+    );
+
+  const locations = await resLocation.data.data;
+  const categories = await resCategory.data.data;
+  await Promise.all(
+    categories.map(async (category, index) => {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}categories/${category.category}?limit=5`
+      );
+      const todo = await response
+      console.log(response);
+      categories[index].vehicles = todo.data;
+      // console.log(categories);
+    })
+  );
   return {
-    props: { vehiclesPopular },
+    props: { locations,categories },
   };
 }
 

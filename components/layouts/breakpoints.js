@@ -1,9 +1,10 @@
 import { generateMedia } from "styled-media-query";
 
-export const customMedia = generateMedia({
-  desktop: "1281px",
-  laptop: "1280px",
-  tablet: "800px",
-  mobile: "481px",
-  minimobile: "320px",
+export const breakpoints = generateMedia({
+  xsm: "460px",
+  sm: "640px",
+  md: "768px",
+  lg: "1024px",
+  xl: "1280px",
+  "2xl": "1536px",
 });

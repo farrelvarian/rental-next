@@ -1,4 +1,4 @@
-import { useRouter,useRef } from "next/router";
+import { useRouter, useRef } from "next/router";
 import axios from "axios";
 import styled from "styled-components";
 import Image from "next/image";
@@ -11,12 +11,12 @@ import {
 } from "../../../../public/assets";
 import NavbarAfterLogin from "../../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../../components/module/Footer";
-import { BASE_URL } from "../../../../configs/configs";
+import { breakpoints } from "../../../../components/layouts";
 
 const editVehicle = (dataVehicle) => {
   const { query } = useRouter();
-   const id = Number(query.vehicleId);
-const router = useRouter();
+  const id = Number(query.vehicleId);
+  const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: dataVehicle.name,
     price: dataVehicle.price,
@@ -31,17 +31,13 @@ const router = useRouter();
     image3: dataVehicle.image3,
     updatedAt: new Date(),
   });
-   let imagesArray = [];
-   const [images, setImages] = useState([]);
-   if (images.length < 1) {
-     imagesArray = [
-  dataVehicle.image1,
-   dataVehicle.image2,
-   dataVehicle.image3,
-     ];
-   } else {
-     [imagesArray] = [images.map((item) => URL.createObjectURL(item))];
-   }
+  let imagesArray = [];
+  const [images, setImages] = useState([]);
+  if (images.length < 1) {
+    imagesArray = [dataVehicle.image1, dataVehicle.image2, dataVehicle.image3];
+  } else {
+    [imagesArray] = [images.map((item) => URL.createObjectURL(item))];
+  }
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -77,20 +73,20 @@ const router = useRouter();
       })
       .catch(console.error());
   };
-   const deleteVehicleByid = (e) => {
+  const deleteVehicleByid = (e) => {
     e.preventDefault();
-     axios
-       .delete(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`)
-       .then(() => {
-         alert("success delete");
-         router.push("/admin/home");
-       })
-       .catch(console.error());
-   };
+    axios
+      .delete(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`)
+      .then(() => {
+        alert("success delete");
+        router.push("/admin/home");
+      })
+      .catch(console.error());
+  };
   return (
     <EditVehicle>
       <NavbarAfterLogin />
-      <button type="button" className="back">
+      <button type="button" className="back" onClick={() => router.back()}>
         <Image className="back-icon" src={backBlack} alt="back" />
         Edit item
       </button>
@@ -99,23 +95,29 @@ const router = useRouter();
           <div className="left">
             <div className="image">
               <div className="main-image">
-                <img
-                  src={imagesArray[0] ? imagesArray[0] : imagePrev1}
-                  alt="imagePrev1"
-                />
+                <label className="label-image" htmlFor="image">
+                  <img
+                    src={imagesArray[0] ? imagesArray[0] : imagePrev1}
+                    alt="imagePrev1"
+                  />
+                </label>
               </div>
               <div className="second-image second">
                 <div className="second">
-                  <img
-                    src={imagesArray[1] ? imagesArray[1] : imagePrev2}
-                    alt="imagePrev2"
-                  />
+                  <label className="label-image" htmlFor="image">
+                    <img
+                      src={imagesArray[1] ? imagesArray[1] : imagePrev2}
+                      alt="imagePrev2"
+                    />
+                  </label>
                 </div>
                 <div className="second">
-                  <img
-                    src={imagesArray[2] ? imagesArray[2] : imagePrev3}
-                    alt="imagePrev3"
-                  />
+                  <label className="label-image" htmlFor="image">
+                    <img
+                      src={imagesArray[2] ? imagesArray[2] : imagePrev3}
+                      alt="imagePrev3"
+                    />
+                  </label>
                 </div>
               </div>
               <input
@@ -223,10 +225,7 @@ const router = useRouter();
           <button type="submit" className="btn save" onClick={editVehicleByid}>
             Save Change
           </button>
-          <button
-            className="btn delete"
-            onClick={deleteVehicleByid}
-          >
+          <button className="btn delete" onClick={deleteVehicleByid}>
             Delete
           </button>
         </div>
@@ -246,7 +245,7 @@ export async function getServerSideProps(vehicles) {
   const [dataVehicle] = await res.data.data;
 
   return {
-    props:  dataVehicle ,
+    props: dataVehicle,
   };
 }
 const EditVehicle = styled.div`
@@ -258,7 +257,6 @@ const EditVehicle = styled.div`
   button.back {
     align-self: flex-start;
     margin-top: 34px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -273,38 +271,79 @@ const EditVehicle = styled.div`
     background: transparent;
     border: unset;
     gap: 1rem;
+    ${breakpoints.lessThan("xsm")`
+          width: 100%
+        `}
   }
 
   .content-container {
     display: flex;
     gap: 1.5rem;
+    ${breakpoints.lessThan("lg")`
+        gap: 0rem;
+    `}
+    ${breakpoints.lessThan("md")`
+      margin-bottom: 50px;  
+      flex-direction: column; 
+    `}
     .left {
       .image {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
         .main-image {
-          background: red;
           height: 25.75rem;
           display: flex;
           justify-content: center;
           align-items: center;
           background: #f5f5f6;
-          img {
+          .label-image {
             width: 616px;
             height: 412px;
+            ${breakpoints.lessThan("2xl")`
+      width: 516px; 
+    `}
+            ${breakpoints.lessThan("xl")`
+      width: 416px; 
+    `}
+    ${breakpoints.lessThan("md")` 
+      width: 100%; 
+    `}
+            img {
+              height: 100%;
+              width: 100%;
+              object-fit: cover;
+            }
           }
         }
         .second-image {
           display: flex;
           gap: 1.5rem;
-          img {
-            width: 290px;
-            height: 164px;
-          }
+          ${breakpoints.lessThan("sm")`
+      display:none;
+    `}
           .second {
             height: 10.25rem;
             background: #f5f5f6;
+            .label-image {
+              width: 290px;
+              height: 164px;
+
+              ${breakpoints.lessThan("2xl")`
+              width: 150px; 
+            `}
+              ${breakpoints.lessThan("md")`
+              width: 150px;
+            `}
+            ${breakpoints.lessThan("xsm")`
+              display: none; 
+            `}
+              img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+              }
+            }
           }
           .second:nth-child(1) {
             flex: 1;
@@ -318,6 +357,9 @@ const EditVehicle = styled.div`
             justify-content: center;
             align-items: center;
           }
+        }
+        input#image {
+          display: none;
         }
       }
       button {
@@ -339,9 +381,27 @@ const EditVehicle = styled.div`
         &:focus {
           outline: none;
         }
+        ${breakpoints.lessThan("xl")`
+      width: 500px;
+    `}
+        ${breakpoints.lessThan("lg")`
+      width: 400px;
+    `}
+    ${breakpoints.lessThan("md")`
+      width: 300px;
+    `}
       }
       .line {
         border: 1px solid #9f9f9f;
+        ${breakpoints.lessThan("xl")`
+      width: 500px;
+    `}
+        ${breakpoints.lessThan("lg")`
+      width: 400px;
+    `}
+    ${breakpoints.lessThan("md")`
+      width: 300px;
+    `}
       }
       .my-choice {
         display: flex;
@@ -379,6 +439,15 @@ const EditVehicle = styled.div`
         font-size: 24px;
         line-height: 24px;
         color: #80918e;
+        ${breakpoints.lessThan("xl")`
+      width: 500px;
+    `}
+        ${breakpoints.lessThan("lg")`
+      width: 400px;
+    `}
+    ${breakpoints.lessThan("md")`
+      width: 300px;
+    `}
         &:focus {
           outline: none;
           box-shadow: 0 0 0 2pt #ffcd61;
@@ -399,6 +468,10 @@ const EditVehicle = styled.div`
     .stock-item {
       display: flex;
       justify-content: space-between;
+      ${breakpoints.lessThan("md")`
+      flex-direction: column; 
+      gap: 1rem; 
+    `}
       label {
         margin-top: 20px;
         font-family: Playfair Display;
@@ -426,6 +499,10 @@ const EditVehicle = styled.div`
     display: flex;
     justify-content: center;
     gap: 5rem;
+    ${breakpoints.lessThan("md")`
+      flex-direction: column; 
+      gap: 1rem; 
+    `}
     .btn {
       height: 89px;
       border-radius: 10px;
@@ -440,18 +517,43 @@ const EditVehicle = styled.div`
       width: 433px;
       background-color: #393939;
       color: #ffcd61;
+      ${breakpoints.lessThan("xl")`
+  width: 333px;
+    `}
+      ${breakpoints.lessThan("lg")`
+    width: 233px;
+    `}
+      ${breakpoints.lessThan("md")`
+    width: 100%;
+    `}
     }
     .save {
       width: 337px;
       background-color: #ffcd61;
       color: #393939;
+      ${breakpoints.lessThan("xl")`
+width: 237px;
+    `}
+      ${breakpoints.lessThan("lg")`
+   width: 137px;
+    `}
+      ${breakpoints.lessThan("md")`
+    width: 100%;
+    `}
     }
     .delete {
       width: 296px;
       background-color: #393939;
       color: #ffcd61;
+      ${breakpoints.lessThan("xl")`
+ width: 196px;
+    `}
+      ${breakpoints.lessThan("lg")`
+    width: 96px;
+    `}
+      ${breakpoints.lessThan("md")`
+    width: 100%;
+    `}
     }
   }
 `;
-
-

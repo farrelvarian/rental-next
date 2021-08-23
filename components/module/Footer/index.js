@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
+import {brakpoints} from "../../layouts"
 
 import {
     logo,
@@ -9,6 +10,7 @@ import {
   linkedin,
   youtube,
 } from "../../../public/assets";
+import { breakpoints } from "../../layouts";
 function Footer() {
 
   const destinations = [
@@ -89,15 +91,19 @@ function Footer() {
 export default Footer;
 
 const FooterComponent = styled.footer`
-width:100%;
+  width: 100%;
   padding: 5rem;
+  ${breakpoints.lessThan("sm")`
+  padding: 1rem;`}
   hr {
     margin-top: 3rem;
     margin-bottom: 2rem;
   }
   .wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;  
+     ${breakpoints.lessThan('md')`
+  flex-direction: column;`}
     .identity {
       max-width: 391px;
       .indentity-text {

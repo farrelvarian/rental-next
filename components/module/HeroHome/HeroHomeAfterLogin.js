@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "../../layouts";
 
 const heroHomeAfterLogin = () => {
   const location = [];
@@ -53,6 +54,8 @@ const HeroHomeAfterLogin = styled.div`
   .home {
     padding-top: 70px;
     margin-left: 121px;
+    ${breakpoints.lessThan("sm")`
+  margin-left: 15px;`}
     h1 {
       width: 356px;
       font-family: Playfair Display;
@@ -60,6 +63,8 @@ const HeroHomeAfterLogin = styled.div`
       font-weight: bold;
       font-size: 64px;
       line-height: 85px;
+      ${breakpoints.lessThan("sm")`
+       width: 256px; `}
     }
     h3 {
       margin-top: 74px;
@@ -71,7 +76,8 @@ const HeroHomeAfterLogin = styled.div`
       font-size: 24px;
       line-height: 33px;
     }
-    .row {input {
+    .row {
+      input {
         margin-right: 30px;
         padding-left: 31px;
         font-family: Nunito;
@@ -83,7 +89,12 @@ const HeroHomeAfterLogin = styled.div`
         height: 52px;
         background: rgba(255, 255, 255, 0.26);
         border: unset;
-        border-radius: 10px;}
+        border-radius: 10px;
+        ${breakpoints.lessThan("sm")`
+        margin-right: 0px;
+  margin-left: 0px;
+  width: 300px;`}
+      }
       select {
         margin-right: 30px;
         padding-left: 31px;
@@ -97,6 +108,11 @@ const HeroHomeAfterLogin = styled.div`
         background: rgba(255, 255, 255, 0.26);
         border: unset;
         border-radius: 10px;
+        ${breakpoints.lessThan("sm")`
+        margin-bottom:15px;
+        margin-right: 0px;
+  margin-left: 0px;
+  width: 300px;`}
         option {
           font-family: Nunito;
           font-style: normal;

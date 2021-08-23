@@ -16,6 +16,7 @@ import {
   next,
   previous,
 } from "../../../public/assets";
+import { breakpoints } from "../../../components/layouts";
 import axios from "axios";
 
 const home = ({ vehicles }) => {
@@ -37,7 +38,7 @@ const home = ({ vehicles }) => {
       )}
       <CardSection
         heading="Popular in Town"
-        anchor="vehicles-type/popular-in-town"
+        anchor="admin/vehicle-type/popular-in-town"
       >
         {vehicles?.map((item, index) => {
           return (
@@ -146,13 +147,25 @@ const HomeUser = styled.div`
     .content {
       display: flex;
       gap: 20rem;
-
+      ${breakpoints.lessThan("2xl")`
+         gap: 15rem;
+        `}
+      ${breakpoints.lessThan("xl")`
+          gap: 5rem;
+        `}
+     
+        ${breakpoints.lessThan("md")`
+          flex-direction:column
+        `}
+     
       .left {
         display: flex;
         justify-content: center;
         flex-direction: column;
         width: 480px;
-
+        ${breakpoints.lessThan("lg")`
+        width:280px;
+        `}
         .star-wrapper {
           display: flex;
           gap: 1rem;
@@ -192,6 +205,10 @@ const HomeUser = styled.div`
           width: 380px;
           height: 490px;
           filter: drop-shadow(0px 7px 15px rgba(0, 0, 0, 0.05));
+          ${breakpoints.lessThan("sm")`
+          width: 300px;
+          height: 390px;
+        `}
 
           img {
             border-radius: 25px;

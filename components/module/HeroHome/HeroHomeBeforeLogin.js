@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "../../layouts";
 
 const heroHomeBeforeLogin = () => {
   const location = []
@@ -63,15 +64,19 @@ const HeroHomeBeforeLogin = styled.div`
   background-blend-mode: multiply;
   .home {
     padding-top: 70px;
-    margin-left:121px;
+    margin-left: 121px;
+    ${breakpoints.lessThan("sm")`
+  margin-left: 15px;`}
     h1 {
-      width:356px;
+      width: 356px;
       color: white;
       font-family: Playfair Display;
       font-style: normal;
       font-weight: bold;
       font-size: 64px;
       line-height: 85px;
+      ${breakpoints.lessThan("sm")`
+       width: 256px; `}
     }
     h3 {
       margin-top: 74px;
@@ -97,6 +102,11 @@ const HeroHomeBeforeLogin = styled.div`
         background: rgba(255, 255, 255, 0.26);
         border: unset;
         border-radius: 10px;
+        ${breakpoints.lessThan("xsm")`
+        margin-bottom:15px;
+        margin-right: 0px;
+  margin-left: 0px;
+  `}
         option {
           font-family: Nunito;
           font-style: normal;
@@ -111,11 +121,14 @@ const HeroHomeBeforeLogin = styled.div`
         }
       }
     }
-    .row.first {margin-bottom:35px
+    .row.first {
+      margin-bottom: 35px;
     }
-    .row.last {margin-bottom:51px
+    .row.last {
+      margin-bottom: 51px;
     }
-    button.explore {margin-bottom:124px;
+    button.explore {
+      margin-bottom: 124px;
       font-family: Nunito;
       font-style: normal;
       font-weight: 900;

@@ -3,13 +3,16 @@ import Footer from "../../../../../components/module/Footer";
 import { backBlack, imageVehicle } from "../../../../../public/assets";
 import styled from "styled-components";
 import Image from "next/image";
+import { breakpoints } from "../../../../../components/layouts/breakpoints";
+import { useRouter } from "next/router";
 
 const paymentVehicle = () => {
+  const router = useRouter()
   const payment = ["Cash", "Transfer"];
   return (
     <PaymentVehicle>
       <NavbarAfterLogin />
-      <button type="button" className="back">
+      <button type="button" className="back" onClick={() => router.back()}>
         <Image className="back-icon" src={backBlack} alt="back" />
         Payment
       </button>
@@ -100,18 +103,26 @@ export const PaymentVehicle = styled.div`
     background: transparent;
     border: unset;
     gap: 1rem;
-  }
+     ${breakpoints.lessThan("xsm")`
+           width: 100%
+        `}
+    }
+  
   .detail-vehicle {
     width: 80%;
     display: flex;
     align-items: center;
-
+    ${breakpoints.lessThan("md")`
+    flex-direction:column
+    `}
     gap: 3rem;
     .image-wrapper {
       position: relative;
       width: 39%;
       height: 310px;
-
+      ${breakpoints.lessThan("md")`
+     width: 100%;
+    `}
       img {
         object-fit: cover;
         border-radius: 10px;
@@ -177,14 +188,20 @@ export const PaymentVehicle = styled.div`
       display: flex;
       gap: 2rem;
       margin-bottom: 2rem;
-
+      ${breakpoints.lessThan("md")`
+    flex-direction:column;
+    `}
       .left {
         padding: 42px;
         border: 1px solid #80918e;
         box-sizing: border-box;
         border-radius: 10px;
         width: 40%;
-
+        ${breakpoints.lessThan("md")`
+  width: 100%;
+    `} ${breakpoints.lessThan("xsm")`
+     padding: 15px;
+    `}
         &.order-detail {
           display: flex;
           flex-direction: column;
@@ -196,6 +213,9 @@ export const PaymentVehicle = styled.div`
           font-weight: 700;
           font-size: 24px;
           margin: 0;
+          ${breakpoints.lessThan("xsm")`
+     font-size: 17px;
+    `}
         }
         .text-desc {
           font-family: Nunito;
@@ -203,6 +223,9 @@ export const PaymentVehicle = styled.div`
           font-weight: 300;
           font-size: 24px;
           margin: 0;
+          ${breakpoints.lessThan("xsm")`
+     font-size: 17px;
+    `}
         }
       }
       .right {
@@ -211,7 +234,9 @@ export const PaymentVehicle = styled.div`
         border: 1px solid #80918e;
         box-sizing: border-box;
         border-radius: 10px;
-
+        ${breakpoints.lessThan("md")`
+  width: 100%;
+    `}
         &.date-wrapper {
           display: flex;
           justify-content: space-between;
@@ -229,6 +254,9 @@ export const PaymentVehicle = styled.div`
           font-weight: 700;
           font-size: 24px;
           margin: 0;
+          ${breakpoints.lessThan("xsm")`
+     font-size: 17px;
+    `}
         }
         .text-desc {
           font-family: Nunito;
@@ -236,6 +264,9 @@ export const PaymentVehicle = styled.div`
           font-weight: 300;
           font-size: 24px;
           margin: 0;
+          ${breakpoints.lessThan("xsm")`
+     font-size: 17px;
+    `}
         }
       }
     }
@@ -245,6 +276,9 @@ export const PaymentVehicle = styled.div`
     align-items: center;
     gap: 2rem;
     margin-bottom: 2rem;
+    ${breakpoints.lessThan("lg")`
+    flex-direction:column;
+    `}
     .text-label {
       font-family: Nunito;
       font-style: normal;
@@ -261,8 +295,11 @@ export const PaymentVehicle = styled.div`
       align-items: center;
       height: 80px;
       flex: 1;
-
       padding: 0 2rem;
+      ${breakpoints.lessThan("md")`
+  flex-direction:column;
+  padding: 1rem 2rem;
+    `}
       .invoice-code {
         font-family: Playfair Display;
         font-style: normal;
@@ -270,7 +307,8 @@ export const PaymentVehicle = styled.div`
         font-size: 24px;
         line-height: 24px;
         color: #393939;
-      }
+        ${breakpoints.lessThan("md")`
+  margin:15px`}}
       .btn.copy {
         margin-left: 30px;
         height: 42px;
@@ -284,6 +322,9 @@ export const PaymentVehicle = styled.div`
         line-height: 24px;
         background-color: #393939;
         color: #ffcd61;
+        ${breakpoints.lessThan("md")`
+  margin-left: 0px;
+    `}
       }
     }
     .input-group {
@@ -304,13 +345,16 @@ export const PaymentVehicle = styled.div`
         border: 1px solid #80918e;
         box-sizing: border-box;
         border-radius: 10px;
+        ${breakpoints.lessThan("sm")`
+   width: 100%;
+    `}
         option {
           font-family: Nunito;
           font-style: normal;
           font-weight: normal;
           font-size: 24px;
           line-height: 33px;
-          width: 400px;
+          /* width: 400px; */
           height: 80px;
           color: #80918e;
           background: rgba(203, 203, 212, 0.2);

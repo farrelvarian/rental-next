@@ -6,6 +6,7 @@ import CardSection from "../../../components/module/SectionCard";
 import styled from "styled-components";
 import axios from "axios";
 import Card from "../../../components/base/Card";
+import { toastify } from "../../../components/layouts";
 
 const search = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -67,7 +68,7 @@ const search = () => {
         <h1 className="heading-page">Search</h1>
         <p className="sub-heading">Click item to see details and reservation</p>
       </header>
-      <select class="custom-select" onChange={(e) => handleSort(e)}>
+      <select className="custom-select" onChange={(e) => handleSort(e)}>
         <option selected value={"field=createdAt&sort=DESC"}>
           Terbaru
         </option>
@@ -168,6 +169,7 @@ export const VehiclesType = styled.div`
       color: #393939;
     }
     option {
+      background-color: white;
       border: 0.8px solid #afb0b9;
       box-sizing: border-box;
       border-radius: 6px;
@@ -198,9 +200,10 @@ export const VehiclesType = styled.div`
       ul {
         display: flex;
         list-style-type: none;
-        gap:2rem;
+        gap: 2rem;
         li {
-          button {background-color:white;
+          button {
+            background-color: white;
             border: 0.8px solid #afb0b9;
             box-sizing: border-box;
             border-radius: 6px;

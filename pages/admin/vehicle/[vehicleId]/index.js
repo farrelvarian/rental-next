@@ -13,6 +13,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import axios from "axios";
 import { useState } from "react";
+import { breakpoints } from "../../../../components/layouts/breakpoints";
 
 
 const detailVehicle = (dataVehicle) => {
@@ -41,7 +42,7 @@ const detailVehicle = (dataVehicle) => {
   return (
     <DetailVehicle>
       <NavbarAfterLogin />
-      <button type="button" className="back">
+      <button type="button" className="back" onClick={() => router.back()}>
         <Image className="back-icon" src={backBlack} alt="back" />
         Detail
       </button>
@@ -138,25 +139,45 @@ export const DetailVehicle = styled.div`
     background: transparent;
     border: unset;
     gap: 1rem;
+    ${breakpoints.lessThan("xsm")`
+      width:100%
+    `}
   }
   .detail-vehicle {
     display: flex;
     gap: 3rem;
     margin-bottom: 80px;
-
+    ${breakpoints.lessThan("lg")`
+        gap: 0rem;
+    `}
+    ${breakpoints.lessThan("md")`
+      margin-bottom: 50px;  
+      flex-direction: column; 
+    `}
+   
+   
     .galery-wrapper {
-      width: 600px;
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 2rem;
-
       .image-main {
         position: relative;
-        width: 100%;
-        height: 400px;
+
         img {
-          width: 616px;
-          height: 412px;
+          width: 600px;
+          height: 400px;
+          object-fit: cover;
+          border-radius: 10px;
+          ${breakpoints.lessThan("2xl")`
+        width: 500px; 
+      `}
+          ${breakpoints.lessThan("xl")`
+        width: 400px; 
+      `}
+      ${breakpoints.lessThan("md")` 
+        width: 100%; 
+      `}
         }
       }
       .item-wrapper {
@@ -173,12 +194,21 @@ export const DetailVehicle = styled.div`
           gap: 1rem;
           .item {
             position: relative;
-            width: 200px;
-            height: 150px;
 
             img {
-              width: 290px;
-              height: 164px;
+              width: 200px;
+              height: 150px;
+              border-radius: 10px;
+              ${breakpoints.lessThan("2xl")`
+              width: 150px; 
+            `}
+              ${breakpoints.lessThan("md")`
+              width: 150px;
+            `}
+            ${breakpoints.lessThan("xsm")`
+              display: none; 
+            `}
+            object-fit: cover;
             }
           }
         }
@@ -188,6 +218,7 @@ export const DetailVehicle = styled.div`
       flex: 1;
       position: relative;
       .title-vehicle {
+        margin-top: 0px;
         font-family: Playfair Display;
         font-style: normal;
         font-weight: 900;
@@ -246,6 +277,9 @@ export const DetailVehicle = styled.div`
         line-height: 25px;
         text-align: right;
         color: #000000;
+        ${breakpoints.lessThan("md")`
+    text-align: left;
+    `}
       }
       .amount-wrapper {
         display: flex;
@@ -253,6 +287,10 @@ export const DetailVehicle = styled.div`
         position: absolute;
         bottom: 1;
         width: 100%;
+        ${breakpoints.lessThan("md")`
+          position: relative;
+          margin-top: 2rem;
+        `}
         .btn {
           height: 10px;
           border: 0;
@@ -283,6 +321,10 @@ export const DetailVehicle = styled.div`
   .button-action-wrapper {
     display: flex;
     gap: 2rem;
+    ${breakpoints.lessThan("sm")`
+      flex-direction: column; 
+      gap: 1rem; 
+    `}
 
     .btn {
       height: 89px;
@@ -298,11 +340,29 @@ export const DetailVehicle = styled.div`
       background-color: #393939;
       color: #ffcd61;
       width: 610px;
+      ${breakpoints.lessThan("xl")`
+  width: 510px;
+    `}
+      ${breakpoints.lessThan("lg")`
+     width: 410px;
+    `}
+      ${breakpoints.lessThan("sm")`
+    width: 100%;
+    `}
     }
     .edit {
       background-color: #ffcd61;
       color: #393939;
       width: 481px;
+      ${breakpoints.lessThan("xl")`
+    width: 381px;
+    `}
+      ${breakpoints.lessThan("lg")`
+    width: 281px;
+    `}
+    ${breakpoints.lessThan("sm")`
+    width: 100%;
+    `}
     }
   }
 `;

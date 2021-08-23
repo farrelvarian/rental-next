@@ -4,49 +4,13 @@ import NavbarAfterLogin from "../../../../components/module/Navbar/NavbarAfterLo
 import Footer from "../../../../components/module/Footer";
 import CardSection from "../../../../components/module/SectionCard";
 import styled from "styled-components";
-
+import axios from "axios";
 
 const vehiclesType = () => {
-  const [pagination, setPagination] = useState("");
-  const [Number, setNumber] = useState(1);
-  const [search, setSearch] = useState("");
-  const [Refresh, setRefresh] = useState(false);
-
-//   const router = useRouter();
-//   const { type } = router.query;
-  let pageNumbers = [];
-
-//   useEffect(() => {
-//     axios
-//       .get(`${BASE_URL}vehicles?npp=5&page=${Number}${search}`)
-//       .then((response) => {
-//         const { result } = response.data.data;
-//         const { pagination } = response.data.data;
-//         setProducts(result);
-//         setPagination(pagination);
-//       })
-//       .catch(console.error());
-//   }, [Refresh]);
-
-  const [page, setPage] = useState(1);
-  const handleChange = (event, value) => {
-    setPage(value);
-  };
-
-  for (let i = 1; i <= pagination.totalPages; i++) {
-    pageNumbers.push(i);
+  const router = useRouter();
+  if (router.isFallback) {
+    return <h1>halaman loading</h1>;
   }
-
-  const btnPagination = (Number) => {
-    setNumber(Number);
-    Refresh === true ? setRefresh(false) : setRefresh(true);
-  };
-
-//   const handleForm = (e) => {
-//     setSearch(`&search=${e.target.value}`);
-//     Refresh === true ? setRefresh(false) : setRefresh(true);
-//   };
-
   return (
     <VehiclesType>
       <NavbarAfterLogin />
@@ -59,27 +23,20 @@ const vehiclesType = () => {
         <h1 className="heading-page">Popular in Town</h1>
         <p className="sub-heading">Click item to see details and reservation</p>
       </header>
-      <CardSection
-        heading="Popular in town"
-        anchor="vehicles-type/pupular-in-town"
-      />
-      <section className="container pagination-wrapper">
-        <nav>
-          <ul className="pagination">
-            {pageNumbers.map((number) => (
-              <li key={number} className="page-item">
-                <button
-                  onClick={() => btnPagination(number)}
-                  className="page-link"
-                >
-                  {number}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        ;
-      </section>
+      <CardSection>
+        {/* {locations?.map((item, index) => {
+          return (
+            <Card
+              href={`/admin/vehicle/${item.location}`}
+              key={index}
+              image={item.image_location}
+              alt={item.location}
+              name={item.location}
+              location={item.location}
+            ></Card>
+          );
+        })} */}
+      </CardSection>
       <p className="no-content">There is no vehicle left</p>
       <Footer />
     </VehiclesType>
@@ -87,6 +44,35 @@ const vehiclesType = () => {
 };
 
 export default vehiclesType;
+
+export const getStaticPaths = async () => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}locations`
+    );
+    // console.log(data);
+  const dataLocation = data.data.map((item) => ({
+    params: { vehicles: item.location.toString() },
+  }));
+  // ket: data paths harus sperti dibawah
+  const paths = [dataLocation];
+  console.log(paths.params);
+  return {
+    paths: paths,
+    fallback: true,
+  };
+}
+
+export const getStaticProps = async (context) => {
+  const vehicles = context.params.vehicles;
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}locations/${vehicles}`
+  );
+  return {
+    props: {
+      user: data,
+    },
+  };
+};
 
 export const VehiclesType = styled.div`
 

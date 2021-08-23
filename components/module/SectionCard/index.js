@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
 import styled from "styled-components";
-import Card from "../../base/Card"
+import { breakpoints } from "../../../components/layouts";
 
 const sectionCard = ({ heading,  anchor,children }) => {
   return (
@@ -33,15 +33,35 @@ export const SectionCard = styled.section`
   &.container {
     width: 1500px;
     margin: 0 auto;
+    ${breakpoints.lessThan("2xl")`
+      width: 80%;
+    `}
+    ${breakpoints.lessThan("lg")`
+      width: 90%;
+    `}
   }
 
   padding-top: 82px;
-
+  ${breakpoints.lessThan("2xl")`
+      padding-top: 40px; 
+  `}
+  ${breakpoints.lessThan("md")`
+    padding-top: 40px; 
+  `}
   .heading-section {
     display: flex;
     justify-content: space-between;
     margin-bottom: 40px;
-        h2 {
+    ${breakpoints.lessThan("2xl")`
+          margin-bottom: 25px; 
+        `}
+    ${breakpoints.lessThan("md")`
+          margin-bottom: 15px; 
+        `} 
+        ${breakpoints.lessThan("xsm")` 
+          flex-direction: column; 
+        `}
+    h2 {
       margin: 0;
       font-family: Playfair Display;
       font-style: normal;
@@ -70,5 +90,23 @@ export const SectionCard = styled.section`
     grid-template-columns: 280px 280px 280px 280px 280px;
     justify-content: space-between;
     gap: 2rem;
+    ${breakpoints.lessThan("2xl")`
+          grid-template-columns: 220px 220px 220px 220px; 
+        `}
+    ${breakpoints.lessThan("xl")`
+          grid-template-columns: 33% 33% 33% ; 
+        `}
+        ${breakpoints.lessThan("lg")`
+         grid-template-columns: 30% 30% 30% ; 
+          justify-content: flex-start;
+        `}
+        ${breakpoints.lessThan("md")`
+          grid-template-columns: 45% 45%  ; 
+          justify-content: center;
+        `}
+        ${breakpoints.lessThan("xsm")`
+          grid-template-columns: 95%  ; 
+          justify-content: center;
+        `}
   }
 `;

@@ -2,18 +2,25 @@ import Image from "next/image";
 import Footer from "../../../components/module/Footer";
 import { backWhite } from "../../../public/assets";
 import styled from "styled-components";
+import { breakpoints } from "../../../components/layouts";
+import { useRouter } from "next/router";
 
 const forgotPassword = () => {
+  const router = useRouter()
   return (
     <ForgotPasswordUser>
       <div className="image-container">
-        <button type="button" className="back">
+        <button type="button" className="back" onClick={() => router.back()}>
           <Image className="back-icon" src={backWhite} alt="back" />
           Back
         </button>
         <div className="content-wrapper">
-          <h1>Do’t worry, we got your back!</h1>
-          <input type="email" className="email" placeholder="Enter your email address" />
+          <h1>Don’t worry, we got your back!</h1>
+          <input
+            type="email"
+            className="email"
+            placeholder="Enter your email address"
+          />
           <button type="button" className="sendLink">
             Login
           </button>
@@ -58,6 +65,9 @@ const ForgotPasswordUser = styled.div`
       background: transparent;
       border: unset;
       gap: 1rem;
+      ${breakpoints.lessThan("xsm")`
+           width: 100%
+        `}
     }
     .content-wrapper {
       display: flex;
@@ -80,12 +90,15 @@ const ForgotPasswordUser = styled.div`
         font-weight: 900;
         font-size: 24px;
         line-height: 33px;
-        text-align:center;
+        text-align: center;
         width: 447px;
         height: 79px;
         background: rgba(255, 255, 255, 0.26);
         border: unset;
         border-radius: 10px;
+        ${breakpoints.lessThan("xsm")`
+          width: 300px;
+        `}
       }
       input.email::placeholder {
         color: white;
@@ -106,6 +119,9 @@ const ForgotPasswordUser = styled.div`
         box-shadow: 0px 0px 20px rgba(248, 161, 112, 0.47);
         border: unset;
         border-radius: 10px;
+        ${breakpoints.lessThan("xsm")`
+          width: 300px;
+        `}
       }
       h3 {
         width: 548px;
@@ -117,6 +133,12 @@ const ForgotPasswordUser = styled.div`
         font-weight: bold;
         font-size: 24px;
         line-height: 33px;
+        ${breakpoints.lessThan("sm")`
+          width: 348px;
+        `}
+        ${breakpoints.lessThan("xsm")`
+          width: 300px;
+        `}
       }
     }
   }
