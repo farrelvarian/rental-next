@@ -6,8 +6,9 @@ import styled from "styled-components";
 import { breakpoints } from "../../../components/layouts";
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../components/module/Footer";
+import { privateRouteAdmin } from "../../../configs/route/privateRouteAdmin";
 
-const historyPage = () => {
+const historyPage = ({ locations, histories }) => {
   return (
     <HistoryPage>
       <NavbarAfterLogin />
@@ -35,41 +36,45 @@ const historyPage = () => {
           </div>
           <div className="days-section">
             <h4 className="heading-section">A week ago</h4>
-            <div className="history-wrapper">
-              <div className="history-item">
-                <div className="image-wrapper">
-                  <Image src={imageVehicle} alt="history" layout="fill" />
+            {histories?.map((item, index) => {
+              return (
+                <div className="history-wrapper">
+                  <div className="history-item">
+                    <div className="image-wrapper">
+                      <img src={item.image1} alt="history" layout="fill" />
+                    </div>
+                    <div className="desc">
+                      <h5 className="text-desc">{item.name}</h5>
+                      <p className="text-detail">
+                        {item.date_start}-{item.date_stop}
+                      </p>
+                      <p className="text-desc">Prepayment : {item.total}</p>
+                      <p className="text-detail green">Has been returned</p>
+                    </div>
+                    <div className="btn-delete-wrapper">
+                      <button className="btn-delete">Delete</button>
+                    </div>
+                  </div>
                 </div>
-                <div className="desc">
-                  <h5 className="text-desc">Vespa Matic</h5>
-                  <p className="text-detail">Jan 18 to 21 2021</p>
-                  <p className="text-desc">Prepayment : Rp. 245.000</p>
-                  <p className="text-detail green">Has been returned</p>
-                </div>
-                <div className="btn-delete-wrapper">
-                  <button className="btn-delete">Delete</button>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
         <div className="right-section">
-          <h3 className="text-playfair">New Arrival</h3>
+          <h3 className="text-playfair">Locations</h3>
           <div className="content">
-            <Card
-              href={`/admin/vehicle/1`}
-              image={imageVehicle.src}
-              alt="vehicle 1"
-              name="Lamborghini"
-              location="Jakarta"
-            ></Card>
-            <Card
-              href={`/admin/vehicle/2`}
-              image={imageVehicle.src}
-              alt="vehicle 2"
-              name="White Jeep"
-              location="Malang"
-            ></Card>
+            {locations?.map((item, index) => {
+              return (
+                <Card
+                  href={`/member/vehicle-type/location/${item.location}`}
+                  key={index}
+                  image={item.image_location}
+                  alt={item.location}
+                  name={item.location}
+                  location={item.location}
+                ></Card>
+              );
+            })}
           </div>
           <div className="view-more">
             <p>View more</p>
@@ -84,6 +89,27 @@ const historyPage = () => {
 };
 
 export default historyPage;
+
+export const getServerSideProps = privateRouteAdmin(async (ctx) => {
+ const token = await cookies(ctx).token;
+ const resLocation = await axios.get(
+   `${process.env.NEXT_PUBLIC_BASE_URL}locations?limit=2`
+ );
+ const resHistory = await axios.get(
+   `${process.env.NEXT_PUBLIC_BASE_URL}reservations`,
+   {
+     withCredentials: true,
+     headers: {
+       Cookie: "token=" + token,
+     },
+   }
+ );
+ const locations = await resLocation.data.data;
+ const histories = await resHistory.data.data;
+  return {
+    props: { locations, histories },
+  };
+});
 
 export const HistoryPage = styled.div`
   width: 100%;
@@ -179,6 +205,8 @@ export const HistoryPage = styled.div`
               width: 197px;
               height: 165px;
               img {
+                width: 100%;
+                height: 100%;
                 object-fit: cover;
                 border-radius: 15px;
               }
@@ -199,6 +227,7 @@ export const HistoryPage = styled.div`
       flex-direction: column;
     `}
               .btn-delete {
+                display: none;
                 width: 150px;
                 height: 50px;
                 background: #ffcd61;

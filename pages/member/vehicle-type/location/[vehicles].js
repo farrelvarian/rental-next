@@ -6,6 +6,7 @@ import CardSection from "../../../../components/module/SectionCard";
 import styled from "styled-components";
 import axios from "axios";
 import Card from "../../../../components/base/Card";
+import { privateRouteMember } from "../../../../configs/route/privateRouteMember";
 
 const vehiclesType = ({location}) => {
   const router = useRouter();
@@ -47,11 +48,17 @@ const vehiclesType = ({location}) => {
 
 export default vehiclesType;
 
+// export const getServerSideProps = privateRouteMember(async (ctx) => {
+//   return {
+//     props: {},
+//   };
+// });
+
 export const getStaticPaths = async () => {
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}locations`
     );
-    // console.log(data);
+
   const dataLocation = data.data.map((item) => ({
     params: { vehicles: item.location.toString() },
   }));

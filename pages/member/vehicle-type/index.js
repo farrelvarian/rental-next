@@ -5,9 +5,10 @@ import Footer from "../../../components/module/Footer";
 import CardSection from "../../../components/module/SectionCard";
 import Card from "../../../components/base/Card";
 import axios from "axios";
+import { privateRouteMember } from "../../../configs/route/privateRouteMember";
 
 const vehiclesType = ({ locations, categories}) => {
-  console.log(categories);
+
   return (
     <VehiclesType>
       <NavbarAfterLogin />
@@ -63,7 +64,7 @@ const vehiclesType = ({ locations, categories}) => {
 
 export default vehiclesType;
 
-export async function getServerSideProps() {
+export const getServerSideProps = privateRouteMember(async (ctx)=>{
   const resLocation = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}locations?limit=5`
   );
@@ -79,15 +80,15 @@ export async function getServerSideProps() {
         `${process.env.NEXT_PUBLIC_BASE_URL}categories/${category.category}?limit=5`
       );
       const todo = await response
-      console.log(response);
+
       categories[index].vehicles = todo.data;
-      // console.log(categories);
+   
     })
   );
   return {
     props: { locations,categories },
   };
-}
+})
 
 export const VehiclesType = styled.div`
 display:flex;

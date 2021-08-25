@@ -1,15 +1,46 @@
-import NavbarAfterLogin from "../../../../../components/module/Navbar/NavbarAfterLogin";
-import Footer from "../../../../../components/module/Footer";
-import { backBlack, imageVehicle } from "../../../../../public/assets";
+import NavbarAfterLogin from "../../../../../../components/module/Navbar/NavbarAfterLogin";
+import Footer from "../../../../../../components/module/Footer";
+import { backBlack, imageVehicle } from "../../../../../../public/assets";
 import styled from "styled-components";
 import Image from "next/image";
-import { breakpoints } from "../../../../../components/layouts/breakpoints";
+import { breakpoints } from "../../../../../../components/layouts/breakpoints";
 import { useRouter } from "next/router";
 import cookies from "next-cookies";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { privateRouteMember } from "../../../../../../configs/route/privateRouteMember";
 
-const paymentVehicle = (dataVehicle) => {
+const paymentVehicle = ({dataVehicle,vehicleId,token}, req) => {
+   const userId = cookies(req).user_id;
+   const [users, setUsers] = useState({
+     name: "",
+     email: "",
+     password: "",
+     address: "",
+     image: "",
+     role: "",
+     phone: "",
+     gender: "",
+     dateOfBirth: "",
+     status: "",
+     createdAt: "",
+     updateAt: new Date(),
+   });
+   useEffect(() => {
+     axios
+       .get(`${process.env.NEXT_PUBLIC_BASE_URL}users/${userId}`, {
+         withCredentials: true,
+         headers: {
+           Cookie: "token=" + token,
+         },
+       })
+       .then((response) => {
+          const [result] = response.data.data;
+          setUsers(result);
+       })
+       .catch(console.error());
+   }, []);
+   const qty =2;
   const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: dataVehicle.name,
@@ -27,7 +58,31 @@ const paymentVehicle = (dataVehicle) => {
     image3: dataVehicle.image3,
     updatedAt: new Date(),
   });
+  const [reservation, setReservation] = useState({
+    user_id: userId,
+    vehicle_id: vehicleId,
+    qty: qty,
+    date_start: new Date(),
+    date_stop: new Date(),
+    total: qty * dataVehicle.price,
+    createdAt: new Date(),
+  });
   const payment = ["Cash", "Transfer"];
+  const paymentReservation = () => {  axios
+    .post(`${process.env.NEXT_PUBLIC_BASE_URL}reservations/`, reservation, {
+      withCredentials: true,
+      headers: {
+        Cookie: "token=" + token,
+      },
+    })
+    .then((result) => {
+      alert("success do reservation");
+      router.push('/member/history')
+
+    })
+    .catch((error) => {
+      alert(error.response.data.message);
+    });};
   return (
     <PaymentVehicle>
       <NavbarAfterLogin />
@@ -67,8 +122,10 @@ const paymentVehicle = (dataVehicle) => {
           </div>
           <div className="right order-detail">
             <p className="text-label">Identity :</p>
-            <p className="text-desc">Samantha Doe (+6290987682)</p>
-            <p className="text-desc">samanthadoe@mail.com</p>
+            <p className="text-desc">
+              {users.name} {users.phone}
+            </p>
+            <p className="text-desc">{users.email}</p>
           </div>
         </div>
       </div>
@@ -89,7 +146,7 @@ const paymentVehicle = (dataVehicle) => {
           </select>
         </div>
       </div>
-      <button className="btn finish">
+      <button className="btn finish" onClick={paymentReservation}>
         Finish payment : <span className="timer">59:30</span>
       </button>
       <Footer />
@@ -99,7 +156,7 @@ const paymentVehicle = (dataVehicle) => {
 
 export default paymentVehicle;
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps = privateRouteMember(async (ctx) => {
   const token = await cookies(ctx).token;
   const { vehicleId } = ctx.params;
   const res = await axios.get(
@@ -113,9 +170,9 @@ export async function getServerSideProps(ctx) {
   );
   const [dataVehicle] = await res.data.data;
   return {
-    props: dataVehicle,
+    props: {dataVehicle,vehicleId,token},
   };
-}
+})
 
 export const PaymentVehicle = styled.div`
   width: 100%;

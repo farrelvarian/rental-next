@@ -15,6 +15,7 @@ import axios from "axios";
 import { useState } from "react";
 import { breakpoints } from "../../../../../components/layouts/breakpoints";
 import cookies from "next-cookies";
+import { privateRouteMember } from "../../../../../configs/route/privateRouteMember";
 
 const reservationVehicle = (dataVehicle) => {
    const { query } = useRouter();
@@ -36,9 +37,9 @@ const reservationVehicle = (dataVehicle) => {
     image3: dataVehicle.image3,
     updatedAt: new Date(),
   });
-  // const gotoReserve = () => {
-  //   router.push(`/member/vehicle/${id}/reservation`);
-  // };
+  const gotoPayment = () => {
+    router.push(`/member/vehicle/${id}/reservation/payment`);
+  };
   return (
     <ReservationVehicle>
       <NavbarAfterLogin />
@@ -71,11 +72,11 @@ const reservationVehicle = (dataVehicle) => {
             className="date"
             name="date"
             placeholder="select date"
-            onChange={(e) => handleForm(e)}
+            // onChange={(e) => handleForm(e)}
           />
           <select
             value={vehicles.category_id}
-            onChange={(e) => handleForm(e)}
+            // onChange={(e) => handleForm(e)}
             className="btn duration"
             id="duration"
             name="duration"
@@ -93,7 +94,9 @@ const reservationVehicle = (dataVehicle) => {
         </div>
       </section>
       <section className=" button-action-wrapper">
-        <button className="btn pay">Pay now : Rp. 178.000</button>
+        <button className="btn pay" onClick={gotoPayment}>
+          Pay now : Rp. 178.000
+        </button>
       </section>
       <Footer />
     </ReservationVehicle>
@@ -102,22 +105,40 @@ const reservationVehicle = (dataVehicle) => {
 
 export default reservationVehicle;
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps = privateRouteMember(async (ctx) => {
   const token = await cookies(ctx).token;
   const { vehicleId } = ctx.params;
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,  {
-          withCredentials: true,
-          headers: {
-            Cookie: "token=" + token,
-          },
-        },
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Cookie: "token=" + token,
+      },
+    }
   );
   const [dataVehicle] = await res.data.data;
   return {
     props: dataVehicle,
   };
-}
+});
+
+// export async function getServerSideProps(ctx) {
+//   const token = await cookies(ctx).token;
+//   const { vehicleId } = ctx.params;
+//   const res = await axios.get(
+//     `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,  {
+//           withCredentials: true,
+//           headers: {
+//             Cookie: "token=" + token,
+//           },
+//         },
+//   );
+//   const [dataVehicle] = await res.data.data;
+//   return {
+//     props: dataVehicle,
+//   };
+// }
 
 export const ReservationVehicle = styled.div`
   width: 100%;

@@ -14,6 +14,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useState } from "react";
 import { breakpoints } from "../../../../components/layouts/breakpoints";
+import { privateRouteAdmin } from "../../../../configs/route/privateRouteAdmin";
 
 
 const detailVehicle = (dataVehicle) => {
@@ -105,7 +106,7 @@ const detailVehicle = (dataVehicle) => {
 
 export default detailVehicle;
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps = privateRouteAdmin(async (ctx)=>{
   const token = await cookies(ctx).token;
   const { vehicleId } = ctx.params;
   const res = await axios.get(
@@ -120,7 +121,7 @@ export async function getServerSideProps(ctx) {
   return {
     props: dataVehicle,
   };
-}
+})
 
 export const DetailVehicle = styled.div`
   width: 100%;

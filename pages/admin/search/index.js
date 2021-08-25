@@ -7,6 +7,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Card from "../../../components/base/Card";
 import { toastify } from "../../../components/layouts";
+import { privateRouteAdmin } from "../../../configs/route/privateRouteAdmin";
 
 const search = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -113,6 +114,13 @@ const search = () => {
 };
 
 export default search;
+
+export const getServerSideProps = privateRouteAdmin(async (ctx) => {
+
+  return {
+    props: { },
+  };
+});
 
 export const VehiclesType = styled.div`
   display: flex;

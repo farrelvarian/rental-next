@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import cookies from "next-cookies";
 import axios from "axios";
 import { useState } from "react";
+import { privateRouteAdmin } from "../../../../../configs/route/privateRouteAdmin";
 
 const paymentVehicle = (dataVehicle) => {
   const router = useRouter();
@@ -90,7 +91,7 @@ const paymentVehicle = (dataVehicle) => {
         </div>
       </div>
       <button className="btn finish">
-        Finish payment : <span className="timer">59:30</span>
+       Approve Payment
       </button>
       <Footer />
     </PaymentVehicle>
@@ -99,7 +100,7 @@ const paymentVehicle = (dataVehicle) => {
 
 export default paymentVehicle;
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps = privateRouteAdmin(async (ctx)=>{
   const token = await cookies(ctx).token;
   const { vehicleId } = ctx.params;
   const res = await axios.get(
@@ -115,7 +116,7 @@ export async function getServerSideProps(ctx) {
   return {
     props: dataVehicle,
   };
-}
+})
 
 export const PaymentVehicle = styled.div`
   width: 100%;

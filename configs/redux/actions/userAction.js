@@ -43,7 +43,6 @@ export const registerUser = (data, history) => (dispatch) => {
     });
 };
 export const updateUser = (id,data, image,token) => (dispatch) => {
-  const token = localStorage.getItem("token");
    const formData = new FormData();
    formData.append("name", data.name);
    formData.append("email", data.email);
@@ -60,13 +59,12 @@ export const updateUser = (id,data, image,token) => (dispatch) => {
    axios
      .put(
        `${process.env.NEXT_PUBLIC_BASE_URL}users/${id}`,
-       {
+       formData,{
          withCredentials: true,
          headers: {
            Cookie: "token=" + token,
          },
        },
-       formData
      )
      .then((result) => {
        const dataUser = {

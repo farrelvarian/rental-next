@@ -5,9 +5,9 @@ import styled from "styled-components";
 import { breakpoints } from "../../../components/layouts";
 import { useEffect } from "react";
 import cookies from "next-cookies";
-import { useState } from "react";
+const axios = require("axios");
 
-const navbarAfterLogin = (req) => {
+const navbarAfterLogin = (req,res) => {
   const user_image = cookies(req).user_image;
   const router = useRouter();
   const role = cookies(req).user_role;
@@ -28,6 +28,18 @@ if (user_image === "j:null") {
   const gotoAbout = () => {
     router.push(`/${role}/about`);
   };
+  const gotoProfile = () => {
+    router.push(`/${role}/profile`);
+  };
+  const gotoHelp = () => {
+    router.push(`/${role}/help`);
+  };
+  const gotoLogout = () => {
+   document.cookie = `user_isAuth=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+   router.push(`/${role}/login`)
+  };
+
+
   return (
     <NavbarAfterLogin>
       <Image className="logo" src={logo} alt="Logo" />
@@ -40,27 +52,19 @@ if (user_image === "j:null") {
       <div className="profile-wrapper">
         <Image className="mail" src={mail} alt="Mail" />
         <div className="dropdown">
-          <img src={avatar?user_image:user.src} alt="Profile" />
+          <img src={avatar ? user_image : user.src} alt="Profile" />
           <div className="dropdown-content">
-            <p>Edit Profile</p>
+            <p onClick={gotoProfile}>Edit Profile</p>
             <div className="line" />
-            <p>Help</p>
+            <p onClick={gotoHelp}>Help</p>
             <div className="line" />
-            <p>Log out</p>
+            <p onClick={gotoLogout}>Log out</p>
           </div>
         </div>
       </div>
     </NavbarAfterLogin>
   );
 };
-
-// export async function getServerSideProps(ctx) {
-//   const token = await cookies(ctx).user_image;
-//   return {
-//     props:  token ,
-//   };
-// }
-
 
 export default navbarAfterLogin;
 

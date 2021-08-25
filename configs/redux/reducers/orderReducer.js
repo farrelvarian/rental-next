@@ -4,7 +4,7 @@ const initialState = {
   totalPrice: 0,
 };
 const orderReducer = (state = initialState, action) => {
-  console.log(action.type);
+
   switch (action.type) {
     case "PUT_MYBAG":
       return {

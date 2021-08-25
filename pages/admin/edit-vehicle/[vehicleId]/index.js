@@ -72,14 +72,14 @@ const editVehicle = ({dataVehicle,token}) => {
 
     axios
       .put(
-        `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`,formData,
         {
           withCredentials: true,
           headers: {
             Cookie: "token=" + token,
           },
         },
-        formData
+        
       )
       .then(() => {
         console.log("success edit data");
@@ -256,7 +256,7 @@ const editVehicle = ({dataVehicle,token}) => {
 
 export default editVehicle;
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps = privateRouteAdmin(async (ctx)=>{
   
   const token = await cookies(ctx).token;
   const { vehicleId } = ctx.params;
@@ -275,6 +275,8 @@ export async function getServerSideProps(ctx) {
     props: {dataVehicle,token},
   };
 }
+)
+
 const EditVehicle = styled.div`
   width: 100%;
   display: flex;

@@ -6,6 +6,7 @@ import CardSection from "../../../../components/module/SectionCard";
 import styled from "styled-components";
 import axios from "axios";
 import Card from "../../../../components/base/Card";
+import { privateRouteMember } from "../../../../configs/route/privateRouteMember";
 
 const popularInTown = ({locations}) => {
 
@@ -43,7 +44,7 @@ const popularInTown = ({locations}) => {
 };
 
 
-export async function getServerSideProps() {
+export const getServerSideProps = privateRouteMember(async (ctx) => {
   const resLocation = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}locations`
   );
@@ -52,7 +53,7 @@ export async function getServerSideProps() {
   return {
     props: { locations },
   };
-};
+})
   
   export default popularInTown;
 

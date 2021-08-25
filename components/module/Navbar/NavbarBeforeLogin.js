@@ -4,13 +4,10 @@ import styled from "styled-components";
 import { breakpoints } from "../../../components/layouts";
 import { useRouter } from "next/router";
 
-const navbarBeforeLogin = () => {
+const navbarBeforeLogin = (props) => {
    const router = useRouter();
-   let role = "";
+   const role = props.role;
 
-   useEffect(() => {
-     role = localStorage.getItem("role");
-   }, []);
     const gotoHome = () => {
       router.push(`/${role}/home`);
     };
@@ -27,7 +24,7 @@ const navbarBeforeLogin = () => {
      router.push(`/${role}/login`);
    };
    const gotoRegister = () => {
-     router.push(`/${role}/register`);
+     router.push(`/${role}/signup`);
    };
   return (
     <NavbarBeforeLogin>

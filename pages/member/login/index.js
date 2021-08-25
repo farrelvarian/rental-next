@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../configs/redux/actions/userAction";
 import { useState } from "react";
+import { publicRoute } from "../../../configs/route/publicRoute";
 
 const loginMember = () => {
    const [member, setMember] = useState({
@@ -70,6 +71,12 @@ const loginMember = () => {
 };
 
 export default loginMember;
+
+export const getServerSideProps = publicRoute(async (ctx) => {
+  return {
+    props: {},
+  };
+});
 
 const LoginUser = styled.div`
   width: 100%;

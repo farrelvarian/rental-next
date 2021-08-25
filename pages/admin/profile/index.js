@@ -9,6 +9,8 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../../configs/redux/actions/userAction";
 import cookies from "next-cookies";
+import { privateRouteAdmin } from "../../../configs/route/privateRouteAdmin";
+
 
 const profilePage = ({token,user_id}) => {
   const dispatch = useDispatch();
@@ -20,7 +22,7 @@ const profilePage = ({token,user_id}) => {
     address: "",
     image: "",
     role: "",
-    phone: 0,
+    phone: "",
     gender: "",
     dateOfBirth: "",
     status: "",
@@ -35,6 +37,7 @@ const profilePage = ({token,user_id}) => {
   } else {
     imagePreview = URL.createObjectURL(imageUser[0]);
   }
+  
   useEffect(() => {
     axios
       .get(`${process.env.NEXT_PUBLIC_BASE_URL}users/${id}`, {
@@ -56,6 +59,7 @@ const profilePage = ({token,user_id}) => {
     setImage(e.target.files);
   };
   const updateUserByid = () => {
+document.cookie = `user_image=${imagePreview}; path=/`;
     dispatch(updateUser(id, users, imageUser[0],token));
   };
   return (
@@ -128,7 +132,7 @@ const profilePage = ({token,user_id}) => {
             type="text"
             id="phone"
             name="phone"
-            value={users.address}
+            value={users.phone}
             onChange={(e) => handleForm(e)}
             placeholder="(+62)813456782"
           />
@@ -176,20 +180,19 @@ const profilePage = ({token,user_id}) => {
 
 export default profilePage;
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps = privateRouteAdmin(async (ctx) => {
   const token = await cookies(ctx).token;
-const user_id = await cookies(ctx).user_id;
+  const user_id = await cookies(ctx).user_id;
   return {
     props: { token, user_id },
   };
-}
+});
 
 export const Profile = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 50px;
   padding-bottom: 50px;
   .heading-page {
     width: 80%;

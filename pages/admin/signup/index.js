@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../../configs/redux/actions/userAction";
 import Link from "next/link";
+import { publicRoute } from "../../../configs/route/publicRoute";
 
 
 
@@ -28,7 +29,7 @@ const signupUser = () => {
       password: "",
       role: "admin",
     });
-console.log(admin);
+
     const dispatch = useDispatch();
     const router = useRouter();
 
@@ -123,6 +124,12 @@ console.log(admin);
 };
 
 export default signupUser;
+
+export const getServerSideProps = publicRoute(async (ctx) => {
+  return {
+    props: {},
+  };
+}); 
 
 const SignupUser = styled.div`
   display: flex;

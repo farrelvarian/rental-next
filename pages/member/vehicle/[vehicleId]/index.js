@@ -15,6 +15,7 @@ import axios from "axios";
 import { useState } from "react";
 import { breakpoints } from "../../../../components/layouts/breakpoints";
 import cookies from "next-cookies";
+import { privateRouteMember } from "../../../../configs/route/privateRouteMember";
 
 const detailVehicle = (dataVehicle) => {
    const { query } = useRouter();
@@ -109,7 +110,7 @@ const detailVehicle = (dataVehicle) => {
 
 export default detailVehicle;
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps = privateRouteMember(async (ctx) => {
   const token = await cookies(ctx).token;
   const { vehicleId } = ctx.params;
   const res = await axios.get(
@@ -124,7 +125,7 @@ export async function getServerSideProps(ctx) {
   return {
     props: dataVehicle,
   };
-}
+})
 
 export const DetailVehicle = styled.div`
   width: 100%;

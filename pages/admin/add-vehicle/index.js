@@ -13,6 +13,7 @@ import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin
 import Footer from "../../../components/module/Footer";
 import { breakpoints,toastify } from "../../../components/layouts";
 import cookies from "next-cookies";
+import { privateRouteAdmin } from "../../../configs/route/privateRouteAdmin";
 
 const addVehicle = ({token}) => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const addVehicle = ({token}) => {
   });
   const [images, setImages] = useState([]);
   const [imagesPreview] = [images.map((item) => URL.createObjectURL(item))];
-console.log(images[0]);
+
   const handleForm = (e) => {
     e.preventDefault();
     setVehicles({ ...vehicles, [e.target.name]: e.target.value });
@@ -58,18 +59,18 @@ console.log(images[0]);
     for (let i = 0; i < images.length; i++) {
       formData.append("images", images[i]);
     }
-    console.log(formData);
+
 
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/`,formData,
         {
           withCredentials: true,
           headers: {
             Cookie: "token=" + token,
           },
         },
-        formData
+        
       )
       .then(() => {
         router.push("/admin/home");
@@ -221,13 +222,13 @@ console.log(images[0]);
 
 export default addVehicle;
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps = privateRouteAdmin(async (ctx)=>{
   const token = await cookies(ctx).token;
 
   return {
     props: {  token },
   };
-}
+})
 
 const AddVehicle = styled.div`
   width: 100%;

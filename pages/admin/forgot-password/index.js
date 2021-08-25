@@ -4,6 +4,7 @@ import { backWhite } from "../../../public/assets";
 import styled from "styled-components";
 import { breakpoints } from "../../../components/layouts";
 import { useRouter } from "next/router";
+import { publicRoute } from "../../../configs/route/publicRoute";
 
 const forgotPassword = () => {
   const router = useRouter()
@@ -36,6 +37,12 @@ const forgotPassword = () => {
 };
 
 export default forgotPassword;
+
+export const getServerSideProps = publicRoute(async (ctx) => {
+  return {
+    props: {},
+  };
+}); 
 
 const ForgotPasswordUser = styled.div`
   width: 100%;

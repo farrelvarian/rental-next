@@ -18,11 +18,13 @@ import {
 } from "../../../public/assets";
 import { breakpoints } from "../../../components/layouts";
 import axios from "axios";
+import cookies from "next-cookies";
 
-const home = ({ vehicles }) => {
+const home = ({ vehicles },req) => {
   const router = useRouter();
-  const isAuth = true;
+  const isAuth = cookies(req).user_isAuth
   const gotoAdd=()=>{router.push("/admin/add-vehicle");}
+ 
   return (
     <HomeUser>
       {isAuth ? (
@@ -32,7 +34,7 @@ const home = ({ vehicles }) => {
         </>
       ) : (
         <>
-          <NavbarBeforeLogin />
+          <NavbarBeforeLogin role="admin" />
           <HeroHomeBeforeLogin />
         </>
       )}
