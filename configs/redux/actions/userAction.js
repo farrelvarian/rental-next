@@ -3,14 +3,11 @@ const axios = require("axios");
 
 export const loginUser = (data,history) => (dispatch) => {
   axios
-    .post(`${process.env.NEXT_PUBLIC_BASE_URL}login`, data)
+    .post(`${process.env.NEXT_PUBLIC_BASE_URL}login`, data, {
+      withCredentials: true,
+    })
     .then((result) => {
-      const token = result.data.data.token;
-      const id = result.data.data.id;
       const role = result.data.data.role;
-      const name = result.data.data.name;
-      const image = result.data.data.image;
-      const address = result.data.data.address;
       const isAuth = true;
       const dataUser = {
         data: result.data.data,
@@ -20,14 +17,6 @@ export const loginUser = (data,history) => (dispatch) => {
         //   isAuth: result.data.isAuth,
       };
       dispatch({ type: "POST_LOGIN", payload: dataUser });
-      localStorage.setItem("token", token);
-      localStorage.setItem("id", id);
-      localStorage.setItem("role", role);
-      localStorage.setItem("name", name);
-      localStorage.setItem("image", image);
-      localStorage.setItem("address", address);
-      localStorage.setItem("isAuth", isAuth);
-
       history.push(`/${role}/home`);
     })
     .catch((error) => {
@@ -38,6 +27,7 @@ export const registerUser = (data, history) => (dispatch) => {
   axios
     .post(`${process.env.NEXT_PUBLIC_BASE_URL}register`, data)
     .then((result) => {
+          const role = result.data.data.role;
       const dataUser = {
         data: result.data.data,
         error: result.data.error,
@@ -45,14 +35,14 @@ export const registerUser = (data, history) => (dispatch) => {
         status: result.data.status,
       };
       dispatch({ type: "POST_REGISTER", payload: dataUser });
-      history.push(`/${result.data.data.role}/login`);
+      history.push(`/${role}/login`);
       alert("register berhasil silahkan cek email anda untuk aktivasi")
     })
     .catch((error) => {
       alert(error.response.data.message);
     });
 };
-export const updateUser = (id,data, image) => (dispatch) => {
+export const updateUser = (id,data, image,token) => (dispatch) => {
   const token = localStorage.getItem("token");
    const formData = new FormData();
    formData.append("name", data.name);
@@ -68,15 +58,17 @@ export const updateUser = (id,data, image) => (dispatch) => {
    formData.append("updateAt", data.updateAt);
 
    axios
-     .put(`${process.env.NEXT_PUBLIC_BASE_URL}users/${id}`, formData, {
-       headers: {
-         Authorization: `Bearer ${token}`,
+     .put(
+       `${process.env.NEXT_PUBLIC_BASE_URL}users/${id}`,
+       {
+         withCredentials: true,
+         headers: {
+           Cookie: "token=" + token,
+         },
        },
-     })
+       formData
+     )
      .then((result) => {
-       const image = result.data.data.image;
-       const name = result.data.data.name;
-       const address = result.data.data.address;
        const dataUser = {
          data: result.data.data,
          error: result.data.error,
@@ -84,9 +76,7 @@ export const updateUser = (id,data, image) => (dispatch) => {
          status: result.data.status,
        };
        dispatch({ type: "PUT_USER", payload: dataUser });
-       localStorage.setItem("image", image);
-       localStorage.setItem("name", name);
-       localStorage.setItem("address", address);
+
        alert("success update data");
      })
      .catch((error) => {

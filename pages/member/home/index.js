@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import NavbarBeforeLogin from "../../../components/module/Navbar/NavbarBeforeLogin";
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
@@ -6,11 +6,23 @@ import HeroHomeBeforeLogin from "../../../components/module/HeroHome/HeroHomeBef
 import HeroHomeAfterLogin from "../../../components/module/HeroHome/HeroHomeAfterLogin";
 import Footer from "../../../components/module/Footer";
 import styled from "styled-components";
+import Card from "../../../components/base/Card";
 import CardSection from "../../../components/module/SectionCard";
-import { testimonial, star, circle, plusYellow,next,previous } from "../../../public/assets";
+import {
+  testimonial,
+  star,
+  circle,
+  plusYellow,
+  next,
+  previous,
+} from "../../../public/assets";
+import { breakpoints } from "../../../components/layouts";
+import axios from "axios";
 
-const home = () => {
+const home = ({ vehicles }) => {
+  const router = useRouter();
   const isAuth = true;
+  const gotoAdd=()=>{router.push("/admin/add-vehicle");}
   return (
     <HomeUser>
       {isAuth ? (
@@ -26,9 +38,21 @@ const home = () => {
       )}
       <CardSection
         heading="Popular in Town"
-        anchor="vehicles-type/pupular-in-town"
-      />
-
+        anchor="member/vehicle-type/popular-in-town"
+      >
+        {vehicles?.map((item, index) => {
+          return (
+            <Card
+              href={`/member/vehicle-type/location/${item.location}`}
+              key={index}
+              image={item.image_location}
+              alt={item.location}
+              name={item.location}
+              location={item.location}
+            ></Card>
+          );
+        })}
+      </CardSection>
       <section className="container testimonials-sections">
         <div className="heading-section">
           <h2>Testimonials</h2>
@@ -72,12 +96,36 @@ const home = () => {
 };
 
 export default home;
+
+export async function getServerSideProps() {
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}locations?limit=5`
+  );
+  const vehicles = await res.data.data;
+  return {
+    props: { vehicles },
+  };
+}
+
 const HomeUser = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  .btn.add {
+    margin-top: 50px;
+    height: 89px;
+    border-radius: 10px;
+    border: unset;
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 25px;
+    background-color: #393939;
+    color: #ffcd61;
+    width: 80%;
+  }
   section.testimonials-sections {
     .heading-section {
       h2 {
@@ -92,13 +140,25 @@ const HomeUser = styled.div`
     .content {
       display: flex;
       gap: 20rem;
-
+      ${breakpoints.lessThan("2xl")`
+         gap: 15rem;
+        `}
+      ${breakpoints.lessThan("xl")`
+          gap: 5rem;
+        `}
+     
+        ${breakpoints.lessThan("md")`
+          flex-direction:column
+        `}
+     
       .left {
         display: flex;
         justify-content: center;
         flex-direction: column;
         width: 480px;
-
+        ${breakpoints.lessThan("lg")`
+        width:280px;
+        `}
         .star-wrapper {
           display: flex;
           gap: 1rem;
@@ -138,6 +198,10 @@ const HomeUser = styled.div`
           width: 380px;
           height: 490px;
           filter: drop-shadow(0px 7px 15px rgba(0, 0, 0, 0.05));
+          ${breakpoints.lessThan("sm")`
+          width: 300px;
+          height: 390px;
+        `}
 
           img {
             border-radius: 25px;

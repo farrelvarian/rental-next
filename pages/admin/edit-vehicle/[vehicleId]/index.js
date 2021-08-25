@@ -12,8 +12,13 @@ import {
 import NavbarAfterLogin from "../../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../../components/module/Footer";
 import { breakpoints } from "../../../../components/layouts";
+import cookies from "next-cookies";
+import privateRouteAdmin from "../../../../configs/route/privateRouteAdmin";
+import { useEffect } from "react";
 
-const editVehicle = (dataVehicle) => {
+
+const editVehicle = ({dataVehicle,token}) => {
+
   const { query } = useRouter();
   const id = Number(query.vehicleId);
   const router = useRouter();
@@ -66,7 +71,16 @@ const editVehicle = (dataVehicle) => {
     }
 
     axios
-      .put(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`, formData)
+      .put(
+        `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            Cookie: "token=" + token,
+          },
+        },
+        formData
+      )
       .then(() => {
         console.log("success edit data");
         alert("data berhasil diedit");
@@ -76,7 +90,12 @@ const editVehicle = (dataVehicle) => {
   const deleteVehicleByid = (e) => {
     e.preventDefault();
     axios
-      .delete(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`)
+      .delete(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`,{
+      withCredentials: true,
+      headers: {
+        Cookie: 'token='+token,
+      },
+    })
       .then(() => {
         alert("success delete");
         router.push("/admin/home");
@@ -237,15 +256,23 @@ const editVehicle = (dataVehicle) => {
 
 export default editVehicle;
 
-export async function getServerSideProps(vehicles) {
-  const { vehicleId } = vehicles.params;
+export async function getServerSideProps(ctx) {
+  
+  const token = await cookies(ctx).token;
+  const { vehicleId } = ctx.params;
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Cookie: 'token='+token,
+      },
+    }
   );
   const [dataVehicle] = await res.data.data;
 
   return {
-    props: dataVehicle,
+    props: {dataVehicle,token},
   };
 }
 const EditVehicle = styled.div`

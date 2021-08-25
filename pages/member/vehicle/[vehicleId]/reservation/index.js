@@ -1,32 +1,61 @@
-
+import { useRouter } from "next/router";
 import NavbarAfterLogin from "../../../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../../../components/module/Footer";
 import {
   backBlack,
+  nextBlack,
   plus,
   minus,
+  like,
   imageVehicle,
 } from "../../../../../public/assets";
 import styled from "styled-components";
 import Image from "next/image";
+import axios from "axios";
+import { useState } from "react";
+import { breakpoints } from "../../../../../components/layouts/breakpoints";
+import cookies from "next-cookies";
 
-const reservationVehicle = () => {
-     const date = [];
+const reservationVehicle = (dataVehicle) => {
+   const { query } = useRouter();
+   const id = Number(query.vehicleId);
+  const router = useRouter();
+  const [vehicles, setVehicles] = useState({
+    name: dataVehicle.name,
+    price: dataVehicle.price,
+    description: dataVehicle.description,
+    category_id: dataVehicle.category_id,
+    location_id: dataVehicle.location_id,
+    category: dataVehicle.category,
+    location: dataVehicle.location,
+    stock: dataVehicle.stock,
+    status: dataVehicle.status,
+    image_id: dataVehicle.image_id,
+    image1: dataVehicle.image1,
+    image2: dataVehicle.image2,
+    image3: dataVehicle.image3,
+    updatedAt: new Date(),
+  });
+  // const gotoReserve = () => {
+  //   router.push(`/member/vehicle/${id}/reservation`);
+  // };
   return (
     <ReservationVehicle>
       <NavbarAfterLogin />
-      <button type="button" className="back">
+      <button type="button" className="back" onClick={() => router.back()}>
         <Image className="back-icon" src={backBlack} alt="back" />
         Reservation
       </button>
-      <div className="main">
-        <div className="image-wrapper">
-          <Image src={imageVehicle} layout="fill" alt="image" />
+      <section className=" detail-vehicle">
+        <div className="galery-wrapper">
+          <div className="image-main">
+            <img src={vehicles.image1} alt="vehicle" />
+          </div>
         </div>
-        <div className="detail-wrapper">
-          <h1 className="title-vehicle">Fixie - Gray Only </h1>
-          <p className="location">Yogyakarta</p>
-          <p className="status green">Available</p>
+        <div className="detail-info">
+          <h1 className="title-vehicle">{vehicles.name}</h1>
+          <p className="location">{vehicles.location}</p>
+          <p className="paymentOption red">No prepayment</p>
           <div className="amount-wrapper">
             <button className="btn primary">
               <Image className="minus-icon" src={minus} alt="minus" />
@@ -36,29 +65,59 @@ const reservationVehicle = () => {
               <Image className="plus-icon" src={plus} alt="plus" />
             </button>
           </div>
-          <h3 className="date-title">Reservation Date :</h3>
-          <div className="input-group">
-            <input type="text" className="date" placeholder="Select date" />
-          </div>
-          <div className="input-group">
-            <select id="date" placeholder="date">
-              <option value="" disabled selected>
-                1 Day
-              </option>
-              {date.map((item) => {
-                <option value={item}>{item} </option>;
-              })}
-            </select>
-          </div>
+          <p className="reservation">Reservation Date :</p>
+          <input
+            type="text"
+            className="date"
+            name="date"
+            placeholder="select date"
+            onChange={(e) => handleForm(e)}
+          />
+          <select
+            value={vehicles.category_id}
+            onChange={(e) => handleForm(e)}
+            className="btn duration"
+            id="duration"
+            name="duration"
+          >
+            <option name="duration" value="1">
+              1 Day
+            </option>
+            <option name="duration" value="2">
+              2 Days
+            </option>
+            <option name="duration" value="3">
+              3 Days
+            </option>
+          </select>
         </div>
-      </div>
-      <button className="btn pay">Pay now : Rp. 178.000</button>
+      </section>
+      <section className=" button-action-wrapper">
+        <button className="btn pay">Pay now : Rp. 178.000</button>
+      </section>
       <Footer />
     </ReservationVehicle>
   );
 };
 
 export default reservationVehicle;
+
+export async function getServerSideProps(ctx) {
+  const token = await cookies(ctx).token;
+  const { vehicleId } = ctx.params;
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,  {
+          withCredentials: true,
+          headers: {
+            Cookie: "token=" + token,
+          },
+        },
+  );
+  const [dataVehicle] = await res.data.data;
+  return {
+    props: dataVehicle,
+  };
+}
 
 export const ReservationVehicle = styled.div`
   width: 100%;
@@ -83,35 +142,61 @@ export const ReservationVehicle = styled.div`
     background: transparent;
     border: unset;
     gap: 1rem;
+    ${breakpoints.lessThan("xsm")`
+      width:100%
+    `}
   }
-  .main {
-    width: 80%;
+  .detail-vehicle {
     display: flex;
-    gap: 2rem;
-    margin-bottom: 16px;
+    gap: 3rem;
+    margin-bottom: 80px;
+    ${breakpoints.lessThan("lg")`
+        gap: 0rem;
+    `}
+    ${breakpoints.lessThan("md")`
+      margin-bottom: 50px;  
+      flex-direction: column; 
+    `}
+   
+   
+    .galery-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      .image-main {
+        position: relative;
 
-    .image-wrapper {
-      width: 50%;
-      height: 500px;
-      position: relative;
-
-      img {
-        object-fit: cover;
-        border-radius: 25px;
-        filter: drop-shadow(0px 7px 15px rgba(0, 0, 0, 0.05));
+        img {
+          width: 696px;
+          height: 616px;
+          object-fit: cover;
+          border-radius: 10px;
+          ${breakpoints.lessThan("2xl")`
+        width: 500px; 
+      `}
+          ${breakpoints.lessThan("xl")`
+        width: 400px; 
+      `}
+      ${breakpoints.lessThan("md")` 
+        width: 100%; 
+      `}
+        }
       }
     }
-    .detail-wrapper {
-      width: 50%;
-
+    .detail-info {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
       .title-vehicle {
+        margin-top: 0px;
         font-family: Playfair Display;
         font-style: normal;
         font-weight: 900;
         font-size: 48px;
         color: #042521;
-        margin-bottom: 1rem;
-        margin-top: -30px;
+        margin-bottom: 15px;
       }
       .location {
         font-family: Playfair Display;
@@ -121,26 +206,66 @@ export const ReservationVehicle = styled.div`
         line-height: 24px;
         color: #393939;
         mix-blend-mode: normal;
-        margin-bottom: 2rem;
+        margin-bottom: 15px;
+        margin-top: 0;
       }
-      .status {
+
+      .paymentOption {
+        font-family: Nunito;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 24px;
+        line-height: 24px;
+        margin-bottom: 15px;
+        margin-top: 15px;
+        &.red {
+          color: #9b0a0a;
+        }
+      }
+      .reservation {
         font-family: Nunito;
         font-style: normal;
         font-weight: bold;
         font-size: 24px;
-        line-height: 25px;
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem;
-        &.green {
-          color: #087e0d;
+      }
+      .date {
+        height: 80px;
+        width: 100%;
+        border-radius: 10px;
+        background: rgba(203, 203, 212, 0.2);
+        border: unset;
+        font-family: Nunito;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        color: #80918e;
+        margin-bottom: 15px;
+      }
+      .duration {
+        height: 80px;
+        width: 100%;
+        border-radius: 10px;
+        background: rgba(203, 203, 212, 0.2);
+        border: unset;
+        font-family: Nunito;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        color: #80918e;
+        option {
+          border: unset;
         }
       }
       .amount-wrapper {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
+        /* position: absolute; */
         bottom: 1;
-        width: 50%;
+        width: 100%;
+        ${breakpoints.lessThan("md")`
+          position: relative;
+          margin-top: 2rem;
+        `}
         .btn {
           height: 10px;
           border: 0;
@@ -166,65 +291,31 @@ export const ReservationVehicle = styled.div`
         }
       }
     }
-    .date-title {
-      margin: 1rem 0;
+  }
+
+  .button-action-wrapper {
+    display: flex;
+    gap: 2rem;
+    width:80%;
+    ${breakpoints.lessThan("sm")`
+      flex-direction: column; 
+      gap: 1rem; 
+    `}
+
+    .btn {
+      height: 89px;
+      border-radius: 10px;
+      border: unset;
       font-family: Nunito;
       font-style: normal;
       font-weight: bold;
       font-size: 24px;
       line-height: 25px;
+    }
+    .pay {
+      background-color: #ffcd61;
       color: #393939;
+      width: 100%;
     }
-    .input-group {
-      margin-bottom: 2rem;
-      input.date {
-        padding-left: 41px;
-        font-family: Nunito;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 24px;
-        line-height: 33px;
-        width: 400px;
-        height: 80px;
-        color: #80918e;
-        background: rgba(203, 203, 212, 0.2);
-        border-radius: 10px;
-        border: unset;
-      }
-      select {
-        margin-right: 30px;
-        padding-left: 31px;
-        font-family: Nunito;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 24px;
-        line-height: 33px;
-        width: 400px;
-        height: 80px;
-        color: #80918e;
-        background: rgba(203, 203, 212, 0.2);
-        border-radius: 10px;
-        border: unset;
-        option {
-          font-family: Nunito;
-          font-style: normal;
-          font-weight: normal;
-          font-size: 24px;
-          line-height: 33px;
-          width: 400px;
-          height: 80px;
-          color: #80918e;
-          background: rgba(203, 203, 212, 0.2);
-          border-radius: 10px;
-          border: unset;
-        }
-      }
-    }
-  }
-  .btn.pay {
-    gap: 2rem;
-    background-color: #ffcd61;
-    color: #393939;
-    width: 80%;
   }
 `;

@@ -79,7 +79,7 @@ const search = () => {
         {vehicles?.map((item, index) => {
           return (
             <Card
-              href={`/admin/vehicle/${item.id}`}
+              href={`/member/vehicle/${item.id}`}
               key={index}
               image={item.image1}
               alt={item.name}

@@ -105,10 +105,16 @@ const detailVehicle = (dataVehicle) => {
 
 export default detailVehicle;
 
-export async function getServerSideProps(vehicles) {
-  const { vehicleId } = vehicles.params;
+export async function getServerSideProps(ctx) {
+  const token = await cookies(ctx).token;
+  const { vehicleId } = ctx.params;
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,  {
+          withCredentials: true,
+          headers: {
+            Cookie: "token=" + token,
+          },
+        },
   );
   const [dataVehicle] = await res.data.data;
   return {

@@ -1,4 +1,4 @@
-import React, { useRouter } from "next/router";
+import React, { useEffect,useState,useRouter } from "react";
 import Search from "../../../../components/base/Search";
 import NavbarAfterLogin from "../../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../../components/module/Footer";
@@ -7,14 +7,10 @@ import styled from "styled-components";
 import axios from "axios";
 import Card from "../../../../components/base/Card";
 
-const vehiclesType = ({ category }) => {
-  const router = useRouter();
-  const { query } = useRouter();
-  if (router.isFallback) {
-    return <h1>halaman loading</h1>;
-  }
+const popularInTown = ({locations}) => {
+
   return (
-    <VehiclesType>
+    <PopularInTown>
       <NavbarAfterLogin />
       <section className="container">
         <form className="search-wrapper">
@@ -22,63 +18,45 @@ const vehiclesType = ({ category }) => {
         </form>
       </section>
       <header className="container">
-        <h1 className="heading-page">{query.vehicles}</h1>
+        <h1 className="heading-page">Popular in Town</h1>
         <p className="sub-heading">Click item to see details and reservation</p>
       </header>
-      <CardSection>
-        {category?.map((item, index) => {
+      <CardSection
+      >
+        {locations?.map((item, index) => {
           return (
             <Card
-              href={`/admin/vehicle/${item.id}`}
+              href={`/member/vehicle-type/location/${item.location}`}
               key={index}
-              image={item.image1}
-              alt={item.name}
-              name={item.name}
+              image={item.image_location}
+              alt={item.location}
+              name={item.location}
               location={item.location}
             ></Card>
           );
         })}
       </CardSection>
-      <p className="no-content">There is no vehicle left</p>
+      <p className="no-content">There is no location left</p>
       <Footer />
-    </VehiclesType>
+    </PopularInTown>
   );
 };
 
-export default vehiclesType;
 
-export const getStaticPaths = async () => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}categories`
+export async function getServerSideProps() {
+  const resLocation = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}locations`
   );
-  // console.log(data);
-  const dataLocation = data.data.map((item) => ({
-    params: { vehicles: item.category.toString() },
-  }));
-  // ket: data paths harus sperti dibawah
-  const paths = [
-    { params: { vehicles: "Bike" } },
-  ];
-
+  const locations = await resLocation.data.data;
+  
   return {
-    paths: paths,
-    fallback: true,
+    props: { locations },
   };
 };
+  
+  export default popularInTown;
 
-export const getStaticProps = async (context) => {
-  const vehicles = context.params.vehicles;
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}categories/${vehicles}`
-  );
-  return {
-    props: {
-      category: data.data,
-    },
-  };
-};
-
-export const VehiclesType = styled.div`
+export const PopularInTown = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

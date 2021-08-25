@@ -10,8 +10,37 @@ import {
   linkedin,
   youtube,
 } from "../../../public/assets";
+import { breakpoints } from "../../../components/layouts";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../../configs/redux/actions/userAction";
+import Link from "next/link";
+
+
+
 const socialmedia = [twitter, facebook, instagram, linkedin, youtube];
+
 const signupUser = () => {
+    const [member, setMember] = useState({
+      name: "",
+      email: "",
+      password: "",
+      role: "member",
+    });
+    const dispatch = useDispatch();
+    const router = useRouter();
+
+    const handleForm = (e) => {
+      setMember({ ...member, [e.target.name]: e.target.value });
+    };
+    const registerAdminClick = () => {
+      if (member.name === "" || member.email === "" || member.password === "") {
+        alert("all of field must be filled");
+      } else {
+        dispatch(registerUser(member, router));
+      }
+    };
   return (
     <SignupUser>
       <div className="left">
@@ -27,20 +56,46 @@ const signupUser = () => {
       <div className="right">
         <div className="input-signup">
           <h1>Sign Up</h1>
-          <input type="name" className="name" placeholder="Name" />
-          <input type="email" className="email" placeholder="Email" />
-          <input type="password" className="password" placeholder="Password" />
-          <button type="button" className="signup">
+
+          <input
+            type="name"
+            className="name"
+            name="name"
+            placeholder="Name"
+            onChange={(e) => handleForm(e)}
+          />
+          <input
+            type="email"
+            className="email"
+            name="email"
+            placeholder="Email"
+            onChange={(e) => handleForm(e)}
+          />
+          <input
+            type="password"
+            className="password"
+            name="password"
+            placeholder="Password"
+            onChange={(e) => handleForm(e)}
+          />
+
+          <button type="button" className="signup" onClick={registerAdminClick}>
             Sign Up
           </button>
-          <h3>------ or try another way ------</h3>
+          <div className="divider">
+            <hr className="divider-line"></hr>
+            <span className="text-24 span">or try another way</span>
+            <hr className="divider-line"></hr>
+          </div>
           <button type="button" className="signupWithGoogle">
             <Image className="google-icon" src={google} alt="google" />
             Sign Up with Google
           </button>
-          <button type="button" className="login">
-            Login
-          </button>
+          <Link href="/member/login">
+            <button type="button" className="login">
+              Login
+            </button>
+          </Link>
         </div>
         <div className="footer">
           <Image className="logo" src={logo} alt="logo" />
@@ -70,6 +125,9 @@ export default signupUser;
 
 const SignupUser = styled.div`
   display: flex;
+  ${breakpoints.lessThan("lg")`
+          flex-direction:column;
+        `}
   .left {
     flex: 1;
     /* width: 50%; */
@@ -82,13 +140,45 @@ const SignupUser = styled.div`
     }
   }
   .right {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    align-items: center;
     /* width: 50%; */
     .input-signup {
       display: flex;
       flex-direction: column;
       margin-top: 95px;
       margin-left: 100px;
+      width: 490px;
+
+      ${breakpoints.lessThan("xl")`
+          margin-left: 50px; 
+          margin-top: 0px;
+        `}
+      ${breakpoints.lessThan("sm")`
+         width: 290px;
+        `}
+      .divider {
+        display: flex;
+        flex-direction: row;
+        margin: 2rem 0;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        .divider-line {
+          flex: 1;
+          border: 1px solid rgba(57, 57, 57, 0.5);
+        }
+        .span {
+          font-family: Nunito;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 24px;
+          color: rgba(57, 57, 57, 0.5);
+          text-align: center;
+        }
+      }
       h1 {
         font-family: Playfair Display;
         font-style: normal;
@@ -104,11 +194,15 @@ const SignupUser = styled.div`
         font-weight: 400;
         font-size: 24px;
         line-height: 33px;
-        width: 490px;
+        /* width: 490px; */
         height: 79px;
         background: rgba(218, 218, 218, 0.28);
         border: 0.5px solid rgba(78, 78, 78, 0.5);
         border-radius: 10px;
+        ${breakpoints.lessThan("xl")`
+
+          margin-top: 0px;
+        `}
       }
 
       input.name:focus-visible {
@@ -123,7 +217,7 @@ const SignupUser = styled.div`
         font-weight: 400;
         font-size: 24px;
         line-height: 33px;
-        width: 490px;
+        /* width: 490px; */
         height: 79px;
         background: rgba(218, 218, 218, 0.28);
         border: 0.5px solid rgba(78, 78, 78, 0.5);
@@ -141,7 +235,7 @@ const SignupUser = styled.div`
         font-weight: 400;
         font-size: 24px;
         line-height: 33px;
-        width: 490px;
+        /* width: 490px; */
         height: 79px;
         background: rgba(218, 218, 218, 0.28);
         border: 0.5px solid rgba(78, 78, 78, 0.5);
@@ -157,7 +251,7 @@ const SignupUser = styled.div`
         font-weight: 900;
         font-size: 24px;
         line-height: 33px;
-        width: 490px;
+        /* width: 490px; */
         height: 79px;
         background: #ffcd61;
         box-shadow: 0px 0px 20px rgba(248, 161, 112, 0.47);
@@ -174,7 +268,7 @@ const SignupUser = styled.div`
         font-weight: 900;
         font-size: 24px;
         line-height: 33px;
-        width: 490px;
+        /* width: 490px; */
         height: 79px;
         background: white;
         box-shadow: 0px 0px 20px rgba(78, 78, 78, 0.4);
@@ -190,7 +284,7 @@ const SignupUser = styled.div`
         font-size: 24px;
         line-height: 33px;
         color: #ffcd61;
-        width: 490px;
+        /* width: 490px; */
         height: 79px;
         background: #393939;
         box-shadow: 0px 0px 20px rgba(218, 218, 218, 0.25);
@@ -202,6 +296,14 @@ const SignupUser = styled.div`
       margin-top: 120px;
       margin-left: 73px;
       width: 392px;
+
+      ${breakpoints.lessThan("xl")`
+          margin-left: 23px; 
+          margin-top: 15px;
+        `} 
+        ${breakpoints.lessThan("sm")`
+         width: 290px;
+        `}
       .indentity-text-detail {
         margin-bottom: 54px;
         font-family: Mulish;

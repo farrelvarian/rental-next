@@ -1,13 +1,15 @@
-import React, { useEffect,useState,useRouter } from "react";
+import React, { useRouter } from "next/router";
 import Search from "../../../../components/base/Search";
 import NavbarAfterLogin from "../../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../../components/module/Footer";
 import CardSection from "../../../../components/module/SectionCard";
 import styled from "styled-components";
 import axios from "axios";
+import Card from "../../../../components/base/Card";
 
-const vehiclesType = () => {
+const vehiclesType = ({location}) => {
   const router = useRouter();
+  const {query} = useRouter();
   if (router.isFallback) {
     return <h1>halaman loading</h1>;
   }
@@ -20,22 +22,22 @@ const vehiclesType = () => {
         </form>
       </section>
       <header className="container">
-        <h1 className="heading-page">Popular in Town</h1>
+        <h1 className="heading-page">{query.vehicles}</h1>
         <p className="sub-heading">Click item to see details and reservation</p>
       </header>
       <CardSection>
-        {/* {locations?.map((item, index) => {
+        {location?.map((item, index) => {
           return (
             <Card
-              href={`/admin/vehicle/${item.location}`}
+              href={`/admin/vehicle/${item.id}`}
               key={index}
-              image={item.image_location}
-              alt={item.location}
-              name={item.location}
+              image={item.image1}
+              alt={item.name}
+              name={item.name}
               location={item.location}
             ></Card>
           );
-        })} */}
+        })}
       </CardSection>
       <p className="no-content">There is no vehicle left</p>
       <Footer />
@@ -54,8 +56,12 @@ export const getStaticPaths = async () => {
     params: { vehicles: item.location.toString() },
   }));
   // ket: data paths harus sperti dibawah
-  const paths = [dataLocation];
-  console.log(paths.params);
+  const paths = [
+    { params: { vehicles: "Jakarta" } },
+    { params: { vehicles: "Malang" } },
+    { params: { vehicles: "Kalimantan" } },
+  ];
+
   return {
     paths: paths,
     fallback: true,
@@ -69,7 +75,7 @@ export const getStaticProps = async (context) => {
   );
   return {
     props: {
-      user: data,
+      location: data.data,
     },
   };
 };

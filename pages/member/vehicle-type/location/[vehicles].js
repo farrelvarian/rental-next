@@ -7,9 +7,9 @@ import styled from "styled-components";
 import axios from "axios";
 import Card from "../../../../components/base/Card";
 
-const vehiclesType = ({ category }) => {
+const vehiclesType = ({location}) => {
   const router = useRouter();
-  const { query } = useRouter();
+  const {query} = useRouter();
   if (router.isFallback) {
     return <h1>halaman loading</h1>;
   }
@@ -26,10 +26,10 @@ const vehiclesType = ({ category }) => {
         <p className="sub-heading">Click item to see details and reservation</p>
       </header>
       <CardSection>
-        {category?.map((item, index) => {
+        {location?.map((item, index) => {
           return (
             <Card
-              href={`/admin/vehicle/${item.id}`}
+              href={`/member/vehicle/${item.id}`}
               key={index}
               image={item.image1}
               alt={item.name}
@@ -49,36 +49,39 @@ export default vehiclesType;
 
 export const getStaticPaths = async () => {
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}categories`
-  );
-  // console.log(data);
+    `${process.env.NEXT_PUBLIC_BASE_URL}locations`
+    );
+    // console.log(data);
   const dataLocation = data.data.map((item) => ({
-    params: { vehicles: item.category.toString() },
+    params: { vehicles: item.location.toString() },
   }));
   // ket: data paths harus sperti dibawah
   const paths = [
-    { params: { vehicles: "Bike" } },
+    { params: { vehicles: "Jakarta" } },
+    { params: { vehicles: "Malang" } },
+    { params: { vehicles: "Kalimantan" } },
   ];
 
   return {
     paths: paths,
     fallback: true,
   };
-};
+}
 
 export const getStaticProps = async (context) => {
   const vehicles = context.params.vehicles;
   const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}categories/${vehicles}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}locations/${vehicles}`
   );
   return {
     props: {
-      category: data.data,
+      location: data.data,
     },
   };
 };
 
 export const VehiclesType = styled.div`
+
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,18 +1,21 @@
 import Image from "next/image";
-import {logo,mail,profile} from "../../../public/assets";
+import { logo, mail, profile, user } from "../../../public/assets";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { breakpoints } from "../../../components/layouts";
 import { useEffect } from "react";
+import cookies from "next-cookies";
+import { useState } from "react";
 
-const navbarAfterLogin = () => {
+const navbarAfterLogin = (req) => {
+  const user_image = cookies(req).user_image;
   const router = useRouter();
-  let role=""
+  const role = cookies(req).user_role;
+let avatar
+if (user_image === "j:null") {
+  avatar=false;
+}else{avatar=true}
 
-    useEffect(() => {
-   role = localStorage.getItem("role");
-    }, [])
- console.log(role);
   const gotoHome = () => {
     router.push(`/${role}/home`);
   };
@@ -37,7 +40,7 @@ const navbarAfterLogin = () => {
       <div className="profile-wrapper">
         <Image className="mail" src={mail} alt="Mail" />
         <div className="dropdown">
-          <Image src={profile} alt="Profile" />
+          <img src={avatar?user_image:user.src} alt="Profile" />
           <div className="dropdown-content">
             <p>Edit Profile</p>
             <div className="line" />
@@ -50,6 +53,14 @@ const navbarAfterLogin = () => {
     </NavbarAfterLogin>
   );
 };
+
+// export async function getServerSideProps(ctx) {
+//   const token = await cookies(ctx).user_image;
+//   return {
+//     props:  token ,
+//   };
+// }
+
 
 export default navbarAfterLogin;
 
@@ -107,6 +118,11 @@ const NavbarAfterLogin = styled.div`
     .dropdown {
       position: relative;
       display: inline-block;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
       .dropdown-content {
         display: none;
         position: absolute;
@@ -116,8 +132,9 @@ const NavbarAfterLogin = styled.div`
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         padding: 12px 16px;
         z-index: 1;
-        .line {margin:0;
-          width:100%;
+        .line {
+          margin: 0;
+          width: 100%;
           border: 1px solid #9f9f9f;
         }
       }

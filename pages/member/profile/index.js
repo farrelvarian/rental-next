@@ -1,38 +1,97 @@
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../components/module/Footer";
-import {
-  avatar,
-  edit,
-} from "../../../public/assets";
+import { user, edit } from "../../../public/assets";
 import styled from "styled-components";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { breakpoints } from "../../../components/layouts";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../../configs/redux/actions/userAction";
+import cookies from "next-cookies";
 
-const profilePage = () => {
-  const [value, setValue] = useState();
+const profilePage = ({token,user_id}) => {
+  const dispatch = useDispatch();
+  const id = user_id;
+  const [users, setUsers] = useState({
+    name: "",
+    email: "",
+    password: "",
+    address: "",
+    image: "",
+    role: "",
+    phone: 0,
+    gender: "",
+    dateOfBirth: "",
+    status: "",
+    createdAt: "",
+    updateAt: new Date(),
+  });
+  const [imageUser, setImage] = useState("");
+  let imagePreview = "";
 
+  if (!imageUser) {
+    imagePreview = users.image;
+  } else {
+    imagePreview = URL.createObjectURL(imageUser[0]);
+  }
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BASE_URL}users/${id}`, {
+          withCredentials: true,
+          headers: {
+            Cookie: "token=" + token,
+          },
+        })
+      .then((response) => {
+        const [result] = response.data.data;
+        setUsers(result);
+      })
+      .catch(console.error());
+  }, []);
+  const handleForm = (e) => {
+    setUsers({ ...users, [e.target.name]: e.target.value });
+  };
+  const onFileChange = (e) => {
+    setImage(e.target.files);
+  };
+  const updateUserByid = () => {
+    dispatch(updateUser(id, users, imageUser[0],token));
+  };
   return (
     <Profile>
       <NavbarAfterLogin />
       <h1 className="heading-page">Profile</h1>
       <section className="profile-section">
         <div className="avatar-wrapper">
-          <Image src={avatar} alt="avatar" layout="fill" />
+          <label className="label-image" htmlFor="avatar">
+            <img src={imagePreview ? imagePreview : user.src} alt="avatar" />
+          </label>
+          <input
+            type="file"
+            className="btn btn-select-image"
+            id="avatar"
+            onChange={(e) => onFileChange(e)}
+          />
           <div className="edit-avatar">
-            <Image src={edit} alt="edit" layout="fill" />
+            <label className="label-image" htmlFor="avatar">
+              <Image src={edit} alt="edit" layout="fill" />
+            </label>
           </div>
         </div>
-        <h2 className="text name">Samantha Doe</h2>
-        <p className="text email">samanthadoe@mail.com</p>
-        <p className="text phone">+62833467823</p>
-        <p className="text createdAt">Has been active since 2013</p>
+        <h2 className="text name">{users.name}</h2>
+        <p className="text email">{users.email}</p>
+        <p className="text phone">{users.phone}</p>
+        <p className="text createdAt">
+          Has been active since {users.createdAt}
+        </p>
         <fieldset id="gender">
           <input type="radio" id="male" value="Male" />
-          <label className="gender" htmlfor="male">
+          <label className="gender" for="male">
             Male
           </label>
           <input type="radio" id="female" value="Female" />
-          <label className="gender" htmlfor="female">
+          <label className="gender" for="female">
             Female
           </label>
         </fieldset>
@@ -45,16 +104,20 @@ const profilePage = () => {
             id="email"
             name="email"
             type="text"
+            value={users.email}
+            onChange={(e) => handleForm(e)}
             placeholder="zulaikha17@gmail.com"
           />
           <div className="line" />
         </div>
         <div className="input-group">
-          <label htmlFor="address">Adress :</label>
+          <label htmlFor="address">Address :</label>
           <input
             id="address"
             type="text"
             name="address"
+            value={users.address}
+            onChange={(e) => handleForm(e)}
             placeholder="Iskandar Street no. 67 Block A Near Bus Stop"
           />
           <div className="line" />
@@ -65,6 +128,8 @@ const profilePage = () => {
             type="text"
             id="phone"
             name="phone"
+            value={users.address}
+            onChange={(e) => handleForm(e)}
             placeholder="(+62)813456782"
           />
           <div className="line" />
@@ -75,20 +140,31 @@ const profilePage = () => {
             <label htmlFor="username">Dsiplay name :</label>
             <input
               type="text"
-              id="username"
-              name="username"
+              id="name"
+              name="name"
+              value={users.name}
+              onChange={(e) => handleForm(e)}
               placeholder="zulaikha"
             />
             <div className="line" />
           </div>
           <div className="input-group">
             <label htmlFor="born">DD/MM/YY</label>
-            <input type="text" id="born" name="born" placeholder="03/09/2003" />
+            <input
+              type="text"
+              id="dateOfBirth"
+              name="dateOfBirth"
+              value={users.dateOfBirth}
+              onChange={(e) => handleForm(e)}
+              placeholder="03/09/2003"
+            />
             <div className="line" />
           </div>
         </div>
         <div className="action-button">
-          <button className="btn save">Save Change</button>
+          <button className="btn save" onClick={updateUserByid}>
+            Save Change
+          </button>
           <button className="btn edit">Edit Password</button>
           <button className="btn cancel">Cancel</button>
         </div>
@@ -99,6 +175,14 @@ const profilePage = () => {
 };
 
 export default profilePage;
+
+export async function getServerSideProps(ctx) {
+  const token = await cookies(ctx).token;
+const user_id = await cookies(ctx).user_id;
+  return {
+    props: { token,user_id },
+  };
+}
 
 export const Profile = styled.div`
   width: 100%;
@@ -124,6 +208,17 @@ export const Profile = styled.div`
       width: 200px;
       height: 200px;
       margin-bottom: 2rem;
+      .btn.btn-select-image {
+        display: none;
+      }
+      .label-image {
+        img {
+          width: 200px;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
       .edit-avatar {
         width: 50px;
         height: 50px;
@@ -210,10 +305,14 @@ export const Profile = styled.div`
     }
     .action-button {
       display: flex;
-      justify-content:center;
+      justify-content: center;
       gap: 5rem;
       margin-top: 100px;
+      ${breakpoints.lessThan("sm")`
+            flex-direction:column;
+            `}
       .btn {
+        width: 400px;
         height: 89px;
         border-radius: 10px;
         border: unset;
@@ -222,7 +321,9 @@ export const Profile = styled.div`
         font-weight: bold;
         font-size: 24px;
         line-height: 25px;
-        width: 400px;
+        ${breakpoints.lessThan("xsm")`
+            width: 200px;
+            `}
       }
       .save {
         background-color: #ffcd61;

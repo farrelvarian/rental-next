@@ -8,10 +8,11 @@ import { breakpoints } from "../../../components/layouts";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../../configs/redux/actions/userAction";
+import cookies from "next-cookies";
 
-const profilePage = () => {
+const profilePage = ({token,user_id}) => {
   const dispatch = useDispatch();
-  const id = 1;
+  const id = user_id;
   const [users, setUsers] = useState({
     name: "",
     email: "",
@@ -36,7 +37,12 @@ const profilePage = () => {
   }
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_BASE_URL}users/${id}`)
+      .get(`${process.env.NEXT_PUBLIC_BASE_URL}users/${id}`, {
+          withCredentials: true,
+          headers: {
+            Cookie: "token=" + token,
+          },
+        })
       .then((response) => {
         const [result] = response.data.data;
         setUsers(result);
@@ -50,7 +56,7 @@ const profilePage = () => {
     setImage(e.target.files);
   };
   const updateUserByid = () => {
-    dispatch(updateUser(id, users, imageUser[0]));
+    dispatch(updateUser(id, users, imageUser[0],token));
   };
   return (
     <Profile>
@@ -169,6 +175,14 @@ const profilePage = () => {
 };
 
 export default profilePage;
+
+export async function getServerSideProps(ctx) {
+  const token = await cookies(ctx).token;
+const user_id = await cookies(ctx).user_id;
+  return {
+    props: { token, user_id },
+  };
+}
 
 export const Profile = styled.div`
   width: 100%;

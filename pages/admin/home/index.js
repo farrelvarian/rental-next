@@ -43,11 +43,11 @@ const home = ({ vehicles }) => {
         {vehicles?.map((item, index) => {
           return (
             <Card
-              href={`/admin/vehicle/${item.id}`}
+              href={`/admin/vehicle-type/location/${item.location}`}
               key={index}
-              image={item.image1}
-              alt={item.name}
-              name={item.name}
+              image={item.image_location}
+              alt={item.location}
+              name={item.location}
               location={item.location}
             ></Card>
           );
@@ -106,9 +106,9 @@ export default home;
 
 export async function getServerSideProps() {
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles?npp=5`
+    `${process.env.NEXT_PUBLIC_BASE_URL}locations?limit=5`
   );
-  const vehicles = await res.data.data.result;
+  const vehicles = await res.data.data;
   return {
     props: { vehicles },
   };

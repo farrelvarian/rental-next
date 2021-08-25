@@ -3,24 +3,46 @@ import Footer from "../../../../../components/module/Footer";
 import { backBlack, imageVehicle } from "../../../../../public/assets";
 import styled from "styled-components";
 import Image from "next/image";
+import { breakpoints } from "../../../../../components/layouts/breakpoints";
+import { useRouter } from "next/router";
+import cookies from "next-cookies";
+import axios from "axios";
+import { useState } from "react";
 
-const paymentVehicle = () => {
+const paymentVehicle = (dataVehicle) => {
+  const router = useRouter();
+  const [vehicles, setVehicles] = useState({
+    name: dataVehicle.name,
+    price: dataVehicle.price,
+    description: dataVehicle.description,
+    category_id: dataVehicle.category_id,
+    location_id: dataVehicle.location_id,
+    category: dataVehicle.category,
+    location: dataVehicle.location,
+    stock: dataVehicle.stock,
+    status: dataVehicle.status,
+    image_id: dataVehicle.image_id,
+    image1: dataVehicle.image1,
+    image2: dataVehicle.image2,
+    image3: dataVehicle.image3,
+    updatedAt: new Date(),
+  });
   const payment = ["Cash", "Transfer"];
   return (
     <PaymentVehicle>
       <NavbarAfterLogin />
-      <button type="button" className="back">
+      <button type="button" className="back" onClick={() => router.back()}>
         <Image className="back-icon" src={backBlack} alt="back" />
         Payment
       </button>
 
       <div className="detail-vehicle">
         <div className="image-wrapper">
-          <Image src={imageVehicle} alt="image" layout="fill" />
+          <img src={vehicles.image1} alt="image" layout="fill" />
         </div>
         <div className="desc">
-          <h1 className="title-vehicle">Fixie - Gray Only </h1>
-          <p className="location">Yogyakarta</p>
+          <h1 className="title-vehicle">{vehicles.name}</h1>
+          <p className="location">{vehicles.location}</p>
           <p className="status default">No Prepayment</p>
           <p className="booking-code">#FG1209878YZS</p>
           <button className="btn copy">Copy booking code</button>
@@ -77,6 +99,24 @@ const paymentVehicle = () => {
 
 export default paymentVehicle;
 
+export async function getServerSideProps(ctx) {
+  const token = await cookies(ctx).token;
+  const { vehicleId } = ctx.params;
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Cookie: "token=" + token,
+      },
+    }
+  );
+  const [dataVehicle] = await res.data.data;
+  return {
+    props: dataVehicle,
+  };
+}
+
 export const PaymentVehicle = styled.div`
   width: 100%;
   display: flex;
@@ -100,19 +140,29 @@ export const PaymentVehicle = styled.div`
     background: transparent;
     border: unset;
     gap: 1rem;
+    ${breakpoints.lessThan("xsm")`
+           width: 100%
+        `}
   }
+
   .detail-vehicle {
     width: 80%;
     display: flex;
     align-items: center;
-
+    ${breakpoints.lessThan("md")`
+    flex-direction:column
+    `}
     gap: 3rem;
     .image-wrapper {
       position: relative;
       width: 39%;
       height: 310px;
-
+      ${breakpoints.lessThan("md")`
+     width: 100%;
+    `}
       img {
+        width: 100%;
+        height: 317px;
         object-fit: cover;
         border-radius: 10px;
       }
@@ -177,14 +227,20 @@ export const PaymentVehicle = styled.div`
       display: flex;
       gap: 2rem;
       margin-bottom: 2rem;
-
+      ${breakpoints.lessThan("md")`
+    flex-direction:column;
+    `}
       .left {
         padding: 42px;
         border: 1px solid #80918e;
         box-sizing: border-box;
         border-radius: 10px;
         width: 40%;
-
+        ${breakpoints.lessThan("md")`
+  width: 100%;
+    `} ${breakpoints.lessThan("xsm")`
+     padding: 15px;
+    `}
         &.order-detail {
           display: flex;
           flex-direction: column;
@@ -196,6 +252,9 @@ export const PaymentVehicle = styled.div`
           font-weight: 700;
           font-size: 24px;
           margin: 0;
+          ${breakpoints.lessThan("xsm")`
+     font-size: 17px;
+    `}
         }
         .text-desc {
           font-family: Nunito;
@@ -203,6 +262,9 @@ export const PaymentVehicle = styled.div`
           font-weight: 300;
           font-size: 24px;
           margin: 0;
+          ${breakpoints.lessThan("xsm")`
+     font-size: 17px;
+    `}
         }
       }
       .right {
@@ -211,7 +273,9 @@ export const PaymentVehicle = styled.div`
         border: 1px solid #80918e;
         box-sizing: border-box;
         border-radius: 10px;
-
+        ${breakpoints.lessThan("md")`
+  width: 100%;
+    `}
         &.date-wrapper {
           display: flex;
           justify-content: space-between;
@@ -229,6 +293,9 @@ export const PaymentVehicle = styled.div`
           font-weight: 700;
           font-size: 24px;
           margin: 0;
+          ${breakpoints.lessThan("xsm")`
+     font-size: 17px;
+    `}
         }
         .text-desc {
           font-family: Nunito;
@@ -236,6 +303,9 @@ export const PaymentVehicle = styled.div`
           font-weight: 300;
           font-size: 24px;
           margin: 0;
+          ${breakpoints.lessThan("xsm")`
+     font-size: 17px;
+    `}
         }
       }
     }
@@ -245,6 +315,9 @@ export const PaymentVehicle = styled.div`
     align-items: center;
     gap: 2rem;
     margin-bottom: 2rem;
+    ${breakpoints.lessThan("lg")`
+    flex-direction:column;
+    `}
     .text-label {
       font-family: Nunito;
       font-style: normal;
@@ -261,8 +334,11 @@ export const PaymentVehicle = styled.div`
       align-items: center;
       height: 80px;
       flex: 1;
-
       padding: 0 2rem;
+      ${breakpoints.lessThan("md")`
+  flex-direction:column;
+  padding: 1rem 2rem;
+    `}
       .invoice-code {
         font-family: Playfair Display;
         font-style: normal;
@@ -270,6 +346,8 @@ export const PaymentVehicle = styled.div`
         font-size: 24px;
         line-height: 24px;
         color: #393939;
+        ${breakpoints.lessThan("md")`
+  margin:15px`}
       }
       .btn.copy {
         margin-left: 30px;
@@ -284,6 +362,9 @@ export const PaymentVehicle = styled.div`
         line-height: 24px;
         background-color: #393939;
         color: #ffcd61;
+        ${breakpoints.lessThan("md")`
+  margin-left: 0px;
+    `}
       }
     }
     .input-group {
@@ -304,13 +385,16 @@ export const PaymentVehicle = styled.div`
         border: 1px solid #80918e;
         box-sizing: border-box;
         border-radius: 10px;
+        ${breakpoints.lessThan("sm")`
+   width: 100%;
+    `}
         option {
           font-family: Nunito;
           font-style: normal;
           font-weight: normal;
           font-size: 24px;
           line-height: 33px;
-          width: 400px;
+          /* width: 400px; */
           height: 80px;
           color: #80918e;
           background: rgba(203, 203, 212, 0.2);

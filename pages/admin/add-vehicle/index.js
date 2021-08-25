@@ -12,9 +12,9 @@ import {
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../components/module/Footer";
 import { breakpoints,toastify } from "../../../components/layouts";
+import cookies from "next-cookies";
 
-
-const addVehicle = () => {
+const addVehicle = ({token}) => {
   const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: "",
@@ -61,7 +61,16 @@ console.log(images[0]);
     console.log(formData);
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/`, formData)
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/`,
+        {
+          withCredentials: true,
+          headers: {
+            Cookie: "token=" + token,
+          },
+        },
+        formData
+      )
       .then(() => {
         router.push("/admin/home");
         alert("data berhasil ditambahkan");
@@ -211,6 +220,14 @@ console.log(images[0]);
 };
 
 export default addVehicle;
+
+export async function getServerSideProps(ctx) {
+  const token = await cookies(ctx).token;
+
+  return {
+    props: {  token },
+  };
+}
 
 const AddVehicle = styled.div`
   width: 100%;

@@ -2,25 +2,60 @@ import Image from "next/image";
 import { separator,google } from "../../../public/assets";
 import Footer from "../../../components/module/Footer";
 import styled from "styled-components";
+import { breakpoints } from "../../../components/layouts";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../configs/redux/actions/userAction";
+import { useState } from "react";
 
-const loginUser = () => {
+const loginMember = () => {
+   const [member, setMember] = useState({
+     email: "",
+     password: "",
+   });
+   const dispatch = useDispatch();
+   const router = useRouter();
+
+   const handleForm = (e) => {
+     setMember({ ...member, [e.target.name]: e.target.value });
+   };
+   const loginAdminClick = () => {
+     dispatch(loginUser(member, router));
+   };
   return (
     <LoginUser>
-
       <div className="image-container">
         <div className="left">
           <h1>Let's Explore The World</h1>
           <h3>Don't have account?</h3>
-          <button type="button" className="signup">
-            Sign Up
-          </button>
+          <Link href="/member/signup">
+            <button type="button" className="signup">
+              Sign Up
+            </button>
+          </Link>
         </div>
-        <Image className="separator" src={separator} alt="Separator" />
+        <div className="separator">
+          <Image src={separator} alt="Separator" />
+        </div>
+
         <div className="right">
-          <input type="email" className="email" placeholder="Email" />
-          <input type="password" className="password" placeholder="Password" />
-          <a>Forgot Password?</a>
-          <button type="button" className="login">
+          <input
+            type="email"
+            className="email"
+            placeholder="Email"
+            name="email"
+            onChange={(e) => handleForm(e)}
+          />
+          <input
+            type="password"
+            className="password"
+            placeholder="Password"
+            name="password"
+            onChange={(e) => handleForm(e)}
+          />
+          <a href="/member/forgot-password">Forgot Password?</a>
+          <button type="button" className="login" onClick={loginAdminClick}>
             Login
           </button>
           <button type="button" className="loginWithGoogle">
@@ -29,12 +64,12 @@ const loginUser = () => {
           </button>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </LoginUser>
   );
 };
 
-export default loginUser;
+export default loginMember;
 
 const LoginUser = styled.div`
   width: 100%;
@@ -46,6 +81,9 @@ const LoginUser = styled.div`
     background: rgba(0, 0, 0, 0.4) url("/assets/images/hero-login.svg");
     background-size: 100% auto;
     background-blend-mode: multiply;
+    ${breakpoints.lessThan("sm")`
+            flex-direction:column;
+        `}
     .left {
       h1 {
         width: 390px;
@@ -56,6 +94,9 @@ const LoginUser = styled.div`
         font-weight: bold;
         font-size: 64px;
         line-height: 85px;
+        ${breakpoints.lessThan("lg")`
+            width: 290px;
+        `}
       }
       h3 {
         margin-top: 43px;
@@ -80,10 +121,17 @@ const LoginUser = styled.div`
         box-shadow: 0px 0px 20px rgba(218, 218, 218, 0.25);
         border: unset;
         border-radius: 10px;
+        ${breakpoints.lessThan("lg")`
+            width: 291px;
+        `}
       }
     }
     .separator {
+      margin-top: 107px;
       object-fit: contain;
+      ${breakpoints.lessThan("sm")`
+            display:none;
+        `}
     }
     .right {
       display: flex;
@@ -102,6 +150,12 @@ const LoginUser = styled.div`
         background: rgba(255, 255, 255, 0.26);
         border: unset;
         border-radius: 10px;
+        ${breakpoints.lessThan("lg")`
+            width: 347px;
+        `}
+        ${breakpoints.lessThan("sm")`
+            width: 291px;
+        `}
       }
       input.email::placeholder {
         color: white;
@@ -123,6 +177,12 @@ const LoginUser = styled.div`
         background: rgba(255, 255, 255, 0.26);
         border: unset;
         border-radius: 10px;
+        ${breakpoints.lessThan("lg")`
+            width: 347px;
+        `}
+        ${breakpoints.lessThan("sm")`
+            width: 291px;
+        `}
       }
       input.password::placeholder {
         color: white;
@@ -152,6 +212,12 @@ const LoginUser = styled.div`
         box-shadow: 0px 0px 20px rgba(248, 161, 112, 0.47);
         border: unset;
         border-radius: 10px;
+        ${breakpoints.lessThan("lg")`
+            width: 347px;
+        `}
+        ${breakpoints.lessThan("sm")`
+            width: 291px;
+        `}
       }
       button.loginWithGoogle {
         margin-top: 34px;
@@ -171,6 +237,12 @@ const LoginUser = styled.div`
         border: unset;
         border-radius: 10px;
         gap: 1rem;
+        ${breakpoints.lessThan("lg")`
+            width: 347px;
+        `}
+        ${breakpoints.lessThan("sm")`
+            width: 291px;
+        `}
       }
     }
   }
