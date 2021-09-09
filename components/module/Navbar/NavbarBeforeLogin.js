@@ -2,7 +2,7 @@
 import Image from "next/image";
 import {logo} from "../../../public/assets";
 import styled from "styled-components";
-import { breakpoints } from "../../../components/layouts";
+import { breakpoints } from "../../../components/layouts/breakpoints";
 import { useRouter } from "next/router";
 
 const navbarBeforeLogin = (props) => {

@@ -1,7 +1,5 @@
 import Image from "next/image";
 import styled from "styled-components";
-import {brakpoints} from "../../layouts"
-
 import {
     logo,
   twitter,
@@ -10,7 +8,7 @@ import {
   linkedin,
   youtube,
 } from "../../../public/assets";
-import { breakpoints } from "../../layouts";
+import { breakpoints } from "../../layouts/breakpoints";
 function Footer() {
 
   const destinations = [

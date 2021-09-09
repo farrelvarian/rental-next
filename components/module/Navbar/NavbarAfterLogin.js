@@ -4,7 +4,7 @@ import Image from "next/image";
 import { logo, mail, profile, user } from "../../../public/assets";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { breakpoints } from "../../../components/layouts";
+import { breakpoints } from "../../../components/layouts/breakpoints";
 import { useEffect } from "react";
 import cookies from "next-cookies";
 const axios = require("axios");

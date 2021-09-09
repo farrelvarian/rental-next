@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { breakpoints } from "../../layouts";
+import { breakpoints } from "../../layouts/breakpoints";
 
 const heroHomeBeforeLogin = () => {
   const location = []

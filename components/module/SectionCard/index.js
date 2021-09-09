@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
 import styled from "styled-components";
-import { breakpoints } from "../../../components/layouts";
+import { breakpoints } from "../../../components/layouts/breakpoints";
 
 const sectionCard = ({ heading,  anchor,children }) => {
   return (
