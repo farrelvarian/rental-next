@@ -10,7 +10,7 @@ export { default as youtube } from './icons/youtube.svg';
 export { default as next } from "./icons/next.svg";
 export { default as previous } from "./icons/previous.svg";
 export { default as search } from "./icons/search.svg";
-export { default as separator } from "./decorations/separator.png";
+// export { default as separatorLine } from "./decorations/separator-line.png";
 export { default as plusYellow } from "./decorations/plus-yellow.svg";
 export { default as circle } from "./decorations/circle-green.svg";
 export { default as star } from "./decorations/star.svg";

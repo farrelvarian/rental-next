@@ -3,7 +3,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react-hooks/rules-of-hooks */
 import Image from "next/image";
-import { separator,google } from "../../../public/assets";
+import { google } from "../../../public/assets";
 import Footer from "../../../components/module/Footer";
 import styled from "styled-components";
 import { breakpoints } from "../../../components/layouts";
@@ -40,8 +40,8 @@ const loginMember = () => {
             </button>
           </Link>
         </div>
-        <div className="separator">
-          <Image src={separator} alt="Separator" />
+        <div className="separatorLine">
+          {/* <Image src={separatorLine} alt="Separator line" /> */}
         </div>
 
         <div className="right">
@@ -137,7 +137,7 @@ const LoginUser = styled.div`
         `}
       }
     }
-    .separator {
+    .separatorLine {
       margin-top: 107px;
       object-fit: contain;
       ${breakpoints.lessThan("sm")`

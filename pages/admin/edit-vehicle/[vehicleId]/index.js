@@ -15,7 +15,7 @@ import NavbarAfterLogin from "../../../../components/module/Navbar/NavbarAfterLo
 import Footer from "../../../../components/module/Footer";
 import { breakpoints } from "../../../../components/layouts";
 import cookies from "next-cookies";
-import privateRouteAdmin from "../../../../configs/route/privateRouteAdmin";
+import {privateRouteAdmin} from "../../../../configs/route/privateRouteAdmin";
 import { useEffect } from "react";
 
 
