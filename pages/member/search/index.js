@@ -8,7 +8,6 @@ import CardSection from "../../../components/module/SectionCard";
 import styled from "styled-components";
 import axios from "axios";
 import Card from "../../../components/base/Card";
-import { toastify } from "../../../components/layouts";
 import { privateRouteMember } from "../../../configs/route/privateRouteMember";
 
 const search = () => {
