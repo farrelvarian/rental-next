@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from "next/image";
 import Footer from "../../../components/module/Footer";
 import { backWhite } from "../../../public/assets";

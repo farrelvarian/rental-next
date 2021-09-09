@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState, useRouter } from "react";
 import Search from "../../../components/base/Search";
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";

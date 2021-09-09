@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from "next/image";
 import { logo, mail, profile, user } from "../../../public/assets";
 import { useRouter } from "next/router";

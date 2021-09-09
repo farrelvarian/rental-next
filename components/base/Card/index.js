@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/link-passhref */
 import {breakpoints} from "../../layouts"
 import styled from "styled-components";
 import Link from "next/link";

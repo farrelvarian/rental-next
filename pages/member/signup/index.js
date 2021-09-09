@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/link-passhref */
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from "next/image";
 import styled from "styled-components";
 import {

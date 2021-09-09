@@ -35,3 +35,4 @@ export { default as edit } from "./icons/edit.svg";
 export { default as imagePrev1 } from "./images/image-prev1.png";
 export { default as imagePrev2 } from "./images/image-prev2.png";
 export { default as imagePrev3 } from "./images/image-prev3.png";
+export { default as noImage } from "./images/no_image.png";

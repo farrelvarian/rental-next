@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-page-custom-font */
+/* eslint-disable react/no-unknown-property */
 import '../styles/globals.css'
 import Head from "next/head";
 import { Provider } from "react-redux";

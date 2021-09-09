@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import { useRouter } from "next/router";
 import Image from "next/image";
 import NavbarBeforeLogin from "../../../components/module/Navbar/NavbarBeforeLogin";

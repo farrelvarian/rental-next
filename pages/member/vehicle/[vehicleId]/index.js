@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
 import NavbarAfterLogin from "../../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../../components/module/Footer";
@@ -8,6 +10,7 @@ import {
   minus,
   like,
   imageVehicle,
+  noImage,
 } from "../../../../public/assets";
 import styled from "styled-components";
 import Image from "next/image";
@@ -50,7 +53,10 @@ const detailVehicle = (dataVehicle) => {
       <section className=" detail-vehicle">
         <div className="galery-wrapper">
           <div className="image-main">
-            <img src={vehicles.image1} alt="vehicle" />
+            <img
+              src={vehicles.image1 ? vehicles.image1 : noImage.src}
+              alt="vehicle"
+            />
           </div>
           <div className="item-wrapper">
             <div className="control prev">
@@ -60,10 +66,16 @@ const detailVehicle = (dataVehicle) => {
             </div>
             <div className="item-main">
               <div className="item">
-                <img src={vehicles.image2} alt="vehicle" />
+                <img
+                  src={vehicles.image2 ? vehicles.image2 : noImage.src}
+                  alt="vehicle"
+                />
               </div>
               <div className="item">
-                <img src={vehicles.image3} alt="vehicle" />
+                <img
+                  src={vehicles.image3 ? vehicles.image3 : noImage.src}
+                  alt="vehicle"
+                />
               </div>
             </div>
             <div className="control next">

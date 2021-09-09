@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import styled from "styled-components";
 import { search } from "../../../public/assets";
 import Image from "next/image";

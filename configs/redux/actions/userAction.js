@@ -20,7 +20,8 @@ export const loginUser = (data,history) => (dispatch) => {
       history.push(`/${role}/home`);
     })
     .catch((error) => {
-      alert(error.response.data.message);
+      console.log(error.response);
+      alert(error?.response?.data?.message||"error login");
     });
 };
 export const registerUser = (data, history) => (dispatch) => {
@@ -39,7 +40,7 @@ export const registerUser = (data, history) => (dispatch) => {
       alert("register berhasil silahkan cek email anda untuk aktivasi")
     })
     .catch((error) => {
-      alert(error.response.data.message);
+       alert(error?.response?.data?.message || "error register");
     });
 };
 export const updateUser = (id,data, image,token) => (dispatch) => {
@@ -78,7 +79,7 @@ export const updateUser = (id,data, image,token) => (dispatch) => {
        alert("success update data");
      })
      .catch((error) => {
-       alert(error.response.data.message);
+        alert(error?.response?.data?.message || "error update data");
      });
 };
 export const logoutUser = (history) => () => {

@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter, useRef } from "next/router";
 import axios from "axios";
 import styled from "styled-components";

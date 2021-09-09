@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
 import NavbarAfterLogin from "../../../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../../../components/module/Footer";

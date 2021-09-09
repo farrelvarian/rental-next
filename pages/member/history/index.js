@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react/jsx-key */
 import Card from "../../../components/base/Card";
 import Search from "../../../components/base/Search";
 import Image from "next/image";

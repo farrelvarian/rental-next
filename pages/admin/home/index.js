@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
 import Image from "next/image";
 import NavbarBeforeLogin from "../../../components/module/Navbar/NavbarBeforeLogin";

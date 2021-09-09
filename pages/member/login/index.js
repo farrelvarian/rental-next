@@ -1,3 +1,7 @@
+/* eslint-disable @next/next/link-passhref */
+/* eslint-disable @next/next/no-html-link-for-pages */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from "next/image";
 import { separator,google } from "../../../public/assets";
 import Footer from "../../../components/module/Footer";

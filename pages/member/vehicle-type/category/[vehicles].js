@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useRouter } from "next/router";
 import Search from "../../../../components/base/Search";
 import NavbarAfterLogin from "../../../../components/module/Navbar/NavbarAfterLogin";

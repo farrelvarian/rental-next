@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from "next/image";
 import {logo} from "../../../public/assets";
 import styled from "styled-components";

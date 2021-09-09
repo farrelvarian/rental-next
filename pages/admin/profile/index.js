@@ -1,3 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable react-hooks/rules-of-hooks */
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../components/module/Footer";
 import { user, edit } from "../../../public/assets";
