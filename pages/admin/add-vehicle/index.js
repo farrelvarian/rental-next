@@ -13,7 +13,7 @@ import {
 } from "../../../public/assets";
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../components/module/Footer";
-import { breakpoints,toastify } from "../../../components/layouts";
+import { breakpoints} from "../../../components/layouts/breakpoints";
 import cookies from "next-cookies";
 import { privateRouteAdmin } from "../../../configs/route/privateRouteAdmin";
 

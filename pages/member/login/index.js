@@ -6,7 +6,7 @@ import Image from "next/image";
 import { google } from "../../../public/assets";
 import Footer from "../../../components/module/Footer";
 import styled from "styled-components";
-import { breakpoints } from "../../../components/layouts";
+import { breakpoints } from "../../../components/layouts/breakpoints";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useDispatch } from "react-redux";

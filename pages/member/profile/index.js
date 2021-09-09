@@ -8,7 +8,7 @@ import { user, edit } from "../../../public/assets";
 import styled from "styled-components";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { breakpoints } from "../../../components/layouts";
+import { breakpoints } from "../../../components/layouts/breakpoints";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../../configs/redux/actions/userAction";

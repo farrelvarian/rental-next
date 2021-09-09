@@ -3,7 +3,7 @@ import Image from "next/image";
 import Footer from "../../../components/module/Footer";
 import { backWhite } from "../../../public/assets";
 import styled from "styled-components";
-import { breakpoints } from "../../../components/layouts";
+import { breakpoints } from "../../../components/layouts/breakpoints";
 import { useRouter } from "next/router";
 import { publicRoute } from "../../../configs/route/publicRoute";
 

@@ -17,7 +17,7 @@ import {
   next,
   previous,
 } from "../../../public/assets";
-import { breakpoints } from "../../../components/layouts";
+import { breakpoints } from "../../../components/layouts/breakpoints";
 import axios from "axios";
 import cookies from "next-cookies";
 

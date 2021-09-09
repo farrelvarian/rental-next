@@ -5,7 +5,7 @@ import Search from "../../../components/base/Search";
 import Image from "next/image";
 import { downBlack, imageVehicle } from "../../../public/assets";
 import styled from "styled-components";
-import { breakpoints } from "../../../components/layouts";
+import { breakpoints } from "../../../components/layouts/breakpoints";
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../components/module/Footer";
 import { privateRouteAdmin } from "../../../configs/route/privateRouteAdmin";
