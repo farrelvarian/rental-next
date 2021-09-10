@@ -50,31 +50,35 @@ const vehiclesType = ({ category }) => {
 export default vehiclesType;
 
 // export const getServerSideProps = privateRouteMember(async (ctx) => {
-//   return {
-//     props: {},
+//   const vehicles = context.params.vehicles;
+//   const { data } = await axios.get(
+//     `${process.env.NEXT_PUBLIC_BASE_URL}categories/${vehicles}`
+//   );
+//   return { 
+//     props: {category: data.data},
 //   };
 // });
 
-export const getStaticPaths = async () => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}categories`
-  );
+// export const getStaticPaths = async () => {
+//   const { data } = await axios.get(
+//     `${process.env.NEXT_PUBLIC_BASE_URL}categories`
+//   );
 
-  const dataLocation = data.data.map((item) => ({
-    params: { vehicles: item.category.toString() },
-  }));
-  // ket: data paths harus sperti dibawah
-  const paths = [
-    { params: { vehicles: "Bike" } },
-  ];
+//   const dataLocation = data.data.map((item) => ({
+//     params: { vehicles: item.category.toString() },
+//   }));
+//   // ket: data paths harus sperti dibawah
+//   const paths = [
+//     { params: { vehicles: "Bike" } },
+//   ];
 
-  return {
-    paths: paths,
-    fallback: true,
-  };
-};
+//   return {
+//     paths: paths,
+//     fallback: true,
+//   };
+// };
 
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   const vehicles = context.params.vehicles;
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}categories/${vehicles}`

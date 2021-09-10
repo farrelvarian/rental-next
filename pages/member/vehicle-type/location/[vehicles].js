@@ -55,28 +55,28 @@ export default vehiclesType;
 //   };
 // });
 
-export const getStaticPaths = async () => {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}locations`
-    );
+// export const getStaticPaths = async () => {
+//   const { data } = await axios.get(
+//     `${process.env.NEXT_PUBLIC_BASE_URL}locations`
+//     );
 
-  const dataLocation = data.data.map((item) => ({
-    params: { vehicles: item.location.toString() },
-  }));
-  // ket: data paths harus sperti dibawah
-  const paths = [
-    { params: { vehicles: "Jakarta" } },
-    { params: { vehicles: "Malang" } },
-    { params: { vehicles: "Kalimantan" } },
-  ];
+//   const dataLocation = data.data.map((item) => ({
+//     params: { vehicles: item.location.toString() },
+//   }));
+//   // ket: data paths harus sperti dibawah
+//   const paths = [
+//     { params: { vehicles: "Jakarta" } },
+//     { params: { vehicles: "Malang" } },
+//     { params: { vehicles: "Kalimantan" } },
+//   ];
 
-  return {
-    paths: paths,
-    fallback: true,
-  };
-}
+//   return {
+//     paths: paths,
+//     fallback: true,
+//   };
+// }
 
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   const vehicles = context.params.vehicles;
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}locations/${vehicles}`
