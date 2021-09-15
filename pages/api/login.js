@@ -57,7 +57,7 @@ const login = (req, res) => {
         ]);
 
         res.status(200);
-        res.json({ user: result });
+        res.json({ response });
       })
       .catch((error) => {
         console.log(error, "error");

@@ -9,6 +9,7 @@ export const loginUser = (data,history) => (dispatch) => {
     .then((result) => {
       // const role = result.data.data.role;
       // const isAuth = true;
+      console.log(result,"result action");
       const dataUser = {
         data: result.data.data,
         error: result.data.error,
@@ -16,7 +17,6 @@ export const loginUser = (data,history) => (dispatch) => {
         status: result.data.status,
         //   isAuth: result.data.isAuth,
       };
-      console.log(result.data.user,"result action");
       dispatch({ type: "POST_LOGIN", payload: dataUser });
       // history.push(`/${role}/home`);
     })
