@@ -10,14 +10,14 @@ export const loginUser = (data,history) => (dispatch) => {
       // const role = result.data.data.role;
       // const isAuth = true;
       console.log(result,"result action");
-      const dataUser = {
-        data: result.data.data,
-        error: result.data.error,
-        message: result.data.message,
-        status: result.data.status,
-        //   isAuth: result.data.isAuth,
-      };
-      dispatch({ type: "POST_LOGIN", payload: dataUser });
+      // const dataUser = {
+      //   data: result.data.data,
+      //   error: result.data.error,
+      //   message: result.data.message,
+      //   status: result.data.status,
+      //   //   isAuth: result.data.isAuth,
+      // };
+      // dispatch({ type: "POST_LOGIN", payload: dataUser });
       // history.push(`/${role}/home`);
     })
     .catch((error) => {
