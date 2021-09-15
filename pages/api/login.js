@@ -13,7 +13,8 @@ const login = (req, res) => {
         `${process.env.NEXT_PUBLIC_BASE_URL}login`,data)
       .then((response) => {
         const result = response.data;
-         console.log(result, "result",result.data);
+         console.log(result, "result1");
+         console.log(result.data, "result2");
         res.setHeader("Access-Control-Allow-Headers", "*");
         res.setHeader("Access-Control-Allow-Credentials", true);
         res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
