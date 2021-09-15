@@ -3,12 +3,12 @@ const axios = require("axios");
 
 export const loginUser = (data,history) => (dispatch) => {
   axios
-    .post(`${process.env.NEXT_PUBLIC_BASE_URL}login`, data, {
+    .post(`${process.env.NEXT_PUBLIC_WEB_URL}api/login`, data, {
       withCredentials: true,
     })
     .then((result) => {
       const role = result.data.data.role;
-      const isAuth = true;
+      // const isAuth = true;
       const dataUser = {
         data: result.data.data,
         error: result.data.error,
@@ -16,6 +16,7 @@ export const loginUser = (data,history) => (dispatch) => {
         status: result.data.status,
         //   isAuth: result.data.isAuth,
       };
+      console.log(result.data);
       dispatch({ type: "POST_LOGIN", payload: dataUser });
       history.push(`/${role}/home`);
     })
