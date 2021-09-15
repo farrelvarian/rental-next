@@ -12,6 +12,7 @@ import cookies from "next-cookies";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { privateRouteMember } from "../../../../../../configs/route/privateRouteMember";
+import { toastify } from "../../../../../../components/layouts/toastify";
 
 const paymentVehicle = ({dataVehicle,vehicleId,token}, req) => {
    const userId = cookies(req).user_id;
@@ -38,10 +39,15 @@ const paymentVehicle = ({dataVehicle,vehicleId,token}, req) => {
          },
        })
        .then((response) => {
-          const [result] = response.data.data;
-          setUsers(result);
+         const [result] = response.data.data;
+         setUsers(result);
        })
-       .catch(console.error());
+       .catch((error) => {
+         toastify(
+           error?.response?.data?.message || "error get user",
+           "error"
+         );
+       });
    }, []);
    const qty =2;
   const router = useRouter();
@@ -79,13 +85,16 @@ const paymentVehicle = ({dataVehicle,vehicleId,token}, req) => {
       },
     })
     .then((result) => {
-      alert("success do reservation");
-      router.push('/member/history')
-
+      toastify("success do reservation", "success");
+      router.push("/member/history");
     })
     .catch((error) => {
-      alert(error.response.data.message);
-    });};
+      toastify(
+        error?.response?.data?.message || "error reservation",
+        "error"
+      );
+    });
+  };
   return (
     <PaymentVehicle>
       <NavbarAfterLogin />

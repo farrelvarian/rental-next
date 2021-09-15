@@ -1,5 +1,5 @@
 const axios = require("axios");
-
+import {toastify} from "../../../components/layouts/toastify" 
 
 export const loginUser = (data,history) => (dispatch) => {
   axios
@@ -10,19 +10,20 @@ export const loginUser = (data,history) => (dispatch) => {
       // const role = result.data.data.role;
       // const isAuth = true;
       console.log(result,"result action");
-      // const dataUser = {
-      //   data: result.data.data,
-      //   error: result.data.error,
-      //   message: result.data.message,
-      //   status: result.data.status,
-      //   //   isAuth: result.data.isAuth,
-      // };
-      // dispatch({ type: "POST_LOGIN", payload: dataUser });
-      // history.push(`/${role}/home`);
+      const dataUser = {
+        data: result.data.User.data,
+        error: result.data.User.error,
+        message: result.data.User.message,
+        status: result.data.User.status,
+        //   isAuth: result.data.isAuth,
+      };
+      dispatch({ type: "POST_LOGIN", payload: dataUser });
+      history.push(`/${role}/home`);
+         toastify("Success Login. Happy Shopping!", "success");
     })
     .catch((error) => {
+      toastify(error?.response?.data?.message || "error login", "error");
       console.log(error.response);
-      alert(error?.response?.data?.message||"error login");
     });
 };
 export const registerUser = (data, history) => (dispatch) => {
@@ -38,10 +39,13 @@ export const registerUser = (data, history) => (dispatch) => {
       };
       dispatch({ type: "POST_REGISTER", payload: dataUser });
       history.push(`/${role}/login`);
-      alert("register berhasil silahkan cek email anda untuk aktivasi")
+        toastify(
+          "Success Register. Please check email to verification account",
+          "info"
+        );
     })
     .catch((error) => {
-       alert(error?.response?.data?.message || "error register");
+        toastify(error?.response?.data?.message || "error register", "error");
     });
 };
 export const updateUser = (id,data, image,token) => (dispatch) => {
@@ -76,11 +80,10 @@ export const updateUser = (id,data, image,token) => (dispatch) => {
          status: result.data.status,
        };
        dispatch({ type: "PUT_USER", payload: dataUser });
-
-       alert("success update data");
+        toastify("success update data", "success");
      })
      .catch((error) => {
-        alert(error?.response?.data?.message || "error update data");
+        toastify(error?.response?.data?.message || "error update data", "error");
      });
 };
 export const logoutUser = (history) => () => {

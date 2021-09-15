@@ -19,8 +19,7 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../../configs/redux/actions/userAction";
 import Link from "next/link";
 import { publicRoute } from "../../../configs/route/publicRoute";
-
-
+import { toastify } from "../../../components/layouts/toastify";
 
 const socialmedia = [twitter, facebook, instagram, linkedin, youtube];
 
@@ -39,7 +38,7 @@ const signupUser = () => {
     };
     const registerAdminClick = () => {
       if (member.name === "" || member.email === "" || member.password === "") {
-        alert("all of field must be filled");
+         toastify("all field must be filled", "error");
       } else {
         dispatch(registerUser(member, router));
       }

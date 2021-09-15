@@ -1,5 +1,7 @@
+import { toastify } from "../../../components/layouts/toastify";
 import { BASE_URL } from "../../../configs/configs";
 const axios = require("axios");
+toastify
 
 export const pageProduct = (id,setProducts,setCategories) => (dispatch) => {
   const token = localStorage.getItem("token");
@@ -25,9 +27,12 @@ export const pageProduct = (id,setProducts,setCategories) => (dispatch) => {
          window.scrollTo(0, 0);
        })
        .catch((error) => {
-         console.log(error);
+         toastify(
+           error?.response?.data?.message || "error get category",
+           "error"
+         );
        });})
-     .catch((error)=>{console.log(error);});
+     .catch((error)=>{toastify(error?.response?.data?.message || "error get product", "error");});
 
 };
 export const sellingProductAdd = (products, images) => (dispatch) => {
@@ -51,11 +56,13 @@ export const sellingProductAdd = (products, images) => (dispatch) => {
       },
     })
     .then(() => {
-      console.log("success add data");
-      alert("data berhasil ditambahkan");
-       dispatch({ type: "POST_PRODUCT", payload: products });
+      console.log("success add product");
+      toastify("success add product", "success");
+      dispatch({ type: "POST_PRODUCT", payload: products });
     })
-    .catch(console.error());
+    .catch((error) => {
+     toastify(error?.response?.data?.message || "error add product", "error");
+    });
 };
 export const sellingProductUpdate = (products, images,history,params) => (dispatch) => {
   const token = localStorage.getItem("token");
@@ -77,12 +84,12 @@ export const sellingProductUpdate = (products, images,history,params) => (dispat
       },
     })
     .then(() => {
-      alert("success update data");
+         toastify("success update product", "success");
        dispatch({ type: "PUT_PRODUCT", payload: products });
       history.push(`/profile/seller/myproduct`);
     })
     .catch((error) => {
-      console.log(error);
+      toastify(error?.response?.data?.message || "error update product", "error");
     });
 };
 export const myProduct = (id, Refresh, setRefresh) => (dispatch) => {
@@ -99,6 +106,6 @@ export const myProduct = (id, Refresh, setRefresh) => (dispatch) => {
      })
  
    .catch((error) => {
-     console.log(error);
+     toastify(error?.response?.data?.message || "error delete product", "error");
    });
 };

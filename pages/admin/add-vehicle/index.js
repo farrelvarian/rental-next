@@ -16,6 +16,7 @@ import Footer from "../../../components/module/Footer";
 import { breakpoints} from "../../../components/layouts/breakpoints";
 import cookies from "next-cookies";
 import { privateRouteAdmin } from "../../../configs/route/privateRouteAdmin";
+import { toastify } from "../../../components/layouts/toastify";
 
 const addVehicle = ({token}) => {
   const router = useRouter();
@@ -64,21 +65,22 @@ const addVehicle = ({token}) => {
 
 
     axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/`,formData,
-        {
-          withCredentials: true,
-          headers: {
-            Cookie: "token=" + token,
-          },
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/`, formData, {
+        withCredentials: true,
+        headers: {
+          Cookie: "token=" + token,
         },
-        
-      )
+      })
       .then(() => {
         router.push("/admin/home");
-        alert("data berhasil ditambahkan");
+          toastify("success add product", "success");
       })
-      .catch(console.error());
+      .catch((error) => {
+        toastify(
+          error?.response?.data?.message || "error add product",
+          "error"
+        );
+      });
   };
   return (
     <AddVehicle>

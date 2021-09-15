@@ -17,7 +17,7 @@ import { breakpoints } from "../../../../components/layouts/breakpoints";
 import cookies from "next-cookies";
 import {privateRouteAdmin} from "../../../../configs/route/privateRouteAdmin";
 import { useEffect } from "react";
-
+import { toastify } from "../../../../components/layouts/toastify";
 
 const editVehicle = ({dataVehicle,token}) => {
 
@@ -73,36 +73,42 @@ const editVehicle = ({dataVehicle,token}) => {
     }
 
     axios
-      .put(
-        `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`,formData,
-        {
-          withCredentials: true,
-          headers: {
-            Cookie: "token=" + token,
-          },
+      .put(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`, formData, {
+        withCredentials: true,
+        headers: {
+          Cookie: "token=" + token,
         },
-        
-      )
-      .then(() => {
-        console.log("success edit data");
-        alert("data berhasil diedit");
       })
-      .catch(console.error());
+      .then(() => {
+        console.log("success update product");
+        toastify("success update product", "success");
+      })
+      .catch((error) => {
+        toastify(
+          error?.response?.data?.message || "error add product",
+          "error"
+        );
+      });
   };
   const deleteVehicleByid = (e) => {
     e.preventDefault();
     axios
-      .delete(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`,{
-      withCredentials: true,
-      headers: {
-        Cookie: 'token='+token,
-      },
-    })
+      .delete(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`, {
+        withCredentials: true,
+        headers: {
+          Cookie: "token=" + token,
+        },
+      })
       .then(() => {
-        alert("success delete");
+        toastify("success delete product", "success");
         router.push("/admin/home");
       })
-      .catch(console.error());
+      .catch((error) => {
+        toastify(
+          error?.response?.data?.message || "error delete product",
+          "error"
+        );
+      });
   };
   return (
     <EditVehicle>
@@ -246,7 +252,14 @@ const editVehicle = ({dataVehicle,token}) => {
           <button type="submit" className="btn save" onClick={editVehicleByid}>
             Save Change
           </button>
-          <button className="btn delete" onClick={deleteVehicleByid}>
+          <button
+            className="btn delete"
+            onClick={() => {
+              if (window.confirm("Delete the item?")) {
+                deleteVehicleByid;
+              }
+            }}
+          >
             Delete
           </button>
         </div>
