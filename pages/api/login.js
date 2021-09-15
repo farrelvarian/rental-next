@@ -10,9 +10,7 @@ const login = (req, res) => {
     };
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}login`,data,{
-      withCredentials: true,
-    })
+        `${process.env.NEXT_PUBLIC_BASE_URL}login`,data)
       .then((response) => {
         const result = response.data.user;
         res.setHeader("Access-Control-Allow-Headers", "*");
@@ -53,7 +51,7 @@ const login = (req, res) => {
         res.json({ data: result });
       })
       .catch((error) => {
-        console.log(error, "erpr");
+        console.log(error, "error");
       });
   }
 };
