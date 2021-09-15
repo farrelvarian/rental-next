@@ -12,7 +12,7 @@ const login = (req, res) => {
       .post(
         `${process.env.NEXT_PUBLIC_BASE_URL}login`,data)
       .then((response) => {
-        const result = response.data.data.data;
+        const result = response.data.data;
          console.log(result, "result");
         res.setHeader("Access-Control-Allow-Headers", "*");
         res.setHeader("Access-Control-Allow-Credentials", true);
@@ -33,6 +33,13 @@ const login = (req, res) => {
             path: "/",
           }),
           cookie.serialize("user_role", result.role, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: 7200000,
+            path: "/",
+          }),
+          cookie.serialize("user_image", result.image, {
             httpOnly: true,
             secure: true,
             sameSite: "strict",
