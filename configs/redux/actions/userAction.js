@@ -18,7 +18,7 @@ export const loginUser = (data,history) => (dispatch) => {
       };
       console.log(result.data);
       dispatch({ type: "POST_LOGIN", payload: dataUser });
-      history.push(`/${role}/home`);
+      // history.push(`/${role}/home`);
     })
     .catch((error) => {
       console.log(error.response);
