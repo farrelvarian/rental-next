@@ -12,48 +12,48 @@ const login = (req, res) => {
       .post(
         `${process.env.NEXT_PUBLIC_BASE_URL}login`,data)
       .then((response) => {
-        const result = response.data.data;
-         console.log(result, "result");
+        const result = response.data;
+         console.log(result, "result",result.data);
         res.setHeader("Access-Control-Allow-Headers", "*");
         res.setHeader("Access-Control-Allow-Credentials", true);
         res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-        res.setHeader("Set-Cookie", [
-          cookie.serialize("token", result.token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            maxAge: 7200000,
-            path: "/",
-          }),
-          cookie.serialize("user_id", result.id, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            maxAge: 7200000,
-            path: "/",
-          }),
-          cookie.serialize("user_role", result.role, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            maxAge: 7200000,
-            path: "/",
-          }),
-          cookie.serialize("user_image", result.image, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            maxAge: 7200000,
-            path: "/",
-          }),
-          cookie.serialize("user_isAuth", true, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            maxAge: 7200000,
-            path: "/",
-          }),
-        ]);
+        // res.setHeader("Set-Cookie", [
+        //   cookie.serialize("token", result.token, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: "strict",
+        //     maxAge: 7200000,
+        //     path: "/",
+        //   }),
+        //   cookie.serialize("user_id", result.id, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: "strict",
+        //     maxAge: 7200000,
+        //     path: "/",
+        //   }),
+        //   cookie.serialize("user_role", result.role, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: "strict",
+        //     maxAge: 7200000,
+        //     path: "/",
+        //   }),
+        //   cookie.serialize("user_image", result.image, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: "strict",
+        //     maxAge: 7200000,
+        //     path: "/",
+        //   }),
+        //   cookie.serialize("user_isAuth", true, {
+        //     httpOnly: true,
+        //     secure: true,
+        //     sameSite: "strict",
+        //     maxAge: 7200000,
+        //     path: "/",
+        //   }),
+        // ]);
 
         res.status(200);
         res.json({ data: result });
