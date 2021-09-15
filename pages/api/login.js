@@ -12,7 +12,8 @@ const login = (req, res) => {
       .post(
         `${process.env.NEXT_PUBLIC_BASE_URL}login`,data)
       .then((response) => {
-        const result = response.data.user;
+        const result = response.data;
+         console.log(result, "resut");
         res.setHeader("Access-Control-Allow-Headers", "*");
         res.setHeader("Access-Control-Allow-Credentials", true);
         res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
