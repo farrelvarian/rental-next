@@ -13,6 +13,7 @@ const login = (req, res) => {
         `${process.env.NEXT_PUBLIC_BASE_URL}login`,data)
       .then((response) => {
         const result = response.data.data;
+        const dataLogin = response.data;
         //  console.log(result, "result1");
         //  console.log(result.data, "result2");
         res.setHeader("Access-Control-Allow-Headers", "*");
@@ -57,7 +58,7 @@ const login = (req, res) => {
         ]);
 
         res.status(200);
-        res.json({result:response});
+        res.json({ User: dataLogin });
       })
       .catch((error) => {
         console.log(error, "error");
