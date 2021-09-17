@@ -12,10 +12,7 @@ const login = (req, res) => {
       .post(
         `${process.env.NEXT_PUBLIC_BASE_URL}login`,data)
       .then((response) => {
-        const result = response.data.data;
-        const dataLogin = response
-        //  console.log(result, "result1");
-        //  console.log(result, "result2");
+        const result = response.data.user;
         res.setHeader("Access-Control-Allow-Headers", "*");
         res.setHeader("Access-Control-Allow-Credentials", true);
         res.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
@@ -58,7 +55,7 @@ const login = (req, res) => {
         ]);
 
         res.status(200);
-        res.json({ User: dataLogin });
+        res.json({ data: result });
       })
       .catch((error) => {
         console.log(error, "error");
