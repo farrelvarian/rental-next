@@ -1,34 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align='center'>React JS - Blanja E-commerce</h1>
+  <p align="center">
+<!--     <a href="link_deploy">View Demo</a> -->
+    ·
+    <a href="https://github.com/farrelvarian/rental-next/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/farrelvarian/rental-next/pulls">Request Feature</a>
+  </p>
+
+
+## About The Project
+
+E-commerce website focus on fashion that brings together sellers and customers. It has search, sort, product detail and my bag features for customers as well as add, update and delete products for sellers. Built using ReactJS, ExpressJS and MySQL.
+
+<p align='center'>
+   ·
+<a href="https://rental-next.vercel.app/">Preview Website</a>
+   ·
+<a href="https://cirlce-conn-rental-vehicle.herokuapp.com/">Rest API</a> 
+   ·
+<a href="https://github.com/farrelvarian/rental-next">Repository Frontend</a> 
+   ·
+<a href="https://github.com/farrelvarian/backend-rental">Repository Backend</a> 
+   ·
+  
+  
+## Preview Project
+
+  <p align='center'>
+  <span>
+      <image width="400" src='./screenshot/home fix.png' />
+      <image width="400" src='./screenshot/vehicle-type fix.PNG' />
+      <image width="400" src='./screenshot/vehicle-details fix.PNG' />
+      <image width="400" src='./screenshot/reservation fix.PNG' />
+     
+
+## Built With
+
+[![Next](https://img.shields.io/badge/Next-11.1.2-blue)](https://nextjs.org/)
+
+## Requirements
+
+1. Layout,color, typography
+2. Login
+3. Register
+4. Logout
+2. Form Validation
+3. CRUD Search Sort Pagination
+4. Responsive
+5. Image upload, filter type, max min file size
+6. Navigation handling
+7. Backend API Vehicle-Rental [`here`](https://github.com/farrelvarian/backendE-commerce)
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
+1. Download this Project or you can type `https://github.com/farrelvarian/rental-next`
+2. Open app's directory in CMD or Terminal
+3. Type `npm install` or `yarn install`
+4. Add .env file at root folder project
+```sh
+NEXT_PUBLIC_BASE_URL = "http://localhost:4000/"
+NEXT_PUBLIC_WEB_URL = "http://localhost:3000/"
 ```
+5. Type `npm run dev`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Acknowledgements
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- [Axios](https://www.npmjs.com/package/axios)
+- [React](https://reactjs.org/)
+- [Next](https://nextjs.org/)
+- [React Bootstrap](https://react-bootstrap.github.io/)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Team
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Full-Stack Developer ([Farrel Varian Eka Putra](https://github.com/farrelvarian))
