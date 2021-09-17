@@ -7,7 +7,7 @@ export const loginUser = (data,history) => (dispatch) => {
       withCredentials: true,
     })
     .then((result) => {
-      // const role = result.data.role;
+      const role = result.data.data.role;
       // const isAuth = true;
       console.log(result,"result action");
       // const dataUser = {
@@ -18,7 +18,7 @@ export const loginUser = (data,history) => (dispatch) => {
         //   isAuth: result.data.isAuth,
       // };
       // dispatch({ type: "POST_LOGIN", payload: dataUser });
-      // history.push(`/${role}/home`);
+      history.push(`/${role}/home`);
          toastify("Success Login. Happy Shopping!", "success");
     })
     .catch((error) => {
