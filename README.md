@@ -70,6 +70,6 @@ NEXT_PUBLIC_WEB_URL = "http://localhost:3000/"
 - [Next](https://nextjs.org/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
 
-## Team
+## Contact
 
 - Full-Stack Developer ([Farrel Varian Eka Putra](https://github.com/farrelvarian))
