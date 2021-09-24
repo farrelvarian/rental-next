@@ -16,6 +16,7 @@ import { toastify } from "../../../../../../components/layouts/toastify";
 import {  useDispatch } from "react-redux";
 import { finishReservation } from "../../../../../../configs/redux/actions/orderAction";
 
+
 const paymentVehicle = (dataUser,dataVehicle,dataReservation,token) => {
    const dispatch = useDispatch();
    const [users, setUsers] = useState({
@@ -170,8 +171,8 @@ const paymentVehicle = (dataUser,dataVehicle,dataReservation,token) => {
 export default paymentVehicle;
 
 export const getServerSideProps = privateRouteMember(async (ctx) => {
-  const token = await cookies(ctx).token;
-  const userId= await cookies(ctx).user_id;
+  const token = cookies(ctx).token;
+  const userId= cookies(ctx).user_id;
   const { vehicleId } = ctx.params;
   const { reservationId } = ctx.params;
   const resUser = await axios.get(
