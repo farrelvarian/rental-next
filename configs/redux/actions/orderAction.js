@@ -3,8 +3,8 @@ import { toastify } from "../../../components/layouts/toastify";
 
 export const addReservation = (data, router, id,token) => (dispatch) => {
   axios
-    .post(`${process.env.NEXT_PUBLIC_WEB_URL}reservations`, data, {
-       withCredentials: true,
+    .post(`${process.env.NEXT_PUBLIC_BASE_URL}reservations`, data, {
+      withCredentials: true,
       // headers: {
       //   Cookie: "token=" + token,}
     })
@@ -26,7 +26,7 @@ export const addReservation = (data, router, id,token) => (dispatch) => {
 
 export const finishReservation = (id, data, router,token) => (dispatch) => {
   axios
-    .put(`${process.env.NEXT_PUBLIC_WEB_URL}reservations/${id}`, data, {
+    .put(`${process.env.NEXT_PUBLIC_BASE_URL}reservations/${id}`, data, {
       withCredentials: true,
       // headers: {
       //   Cookie: "token=" + token,
