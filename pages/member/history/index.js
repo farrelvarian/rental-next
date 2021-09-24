@@ -102,7 +102,7 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
      `${process.env.NEXT_PUBLIC_BASE_URL}locations?limit=2`
    );
      const resHistory = await axios.get(
-       `${process.env.NEXT_PUBLIC_BASE_URL}reservations/${user_id}`,
+       `${process.env.NEXT_PUBLIC_BASE_URL}reservations/user/${user_id}`,
        {
          withCredentials: true,
         //  headers: {

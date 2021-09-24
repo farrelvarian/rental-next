@@ -16,27 +16,11 @@ import { toastify } from "../../../../../../components/layouts/toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { finishReservation } from "../../../../../../configs/redux/actions/orderAction";
 
-const paymentVehicle = ({dataVehicle,dataReservation}) => {
+const paymentVehicle = ({dataReservation}) => {
    const dispatch = useDispatch();
   const { data } = useSelector((state) => state.user);
-  console.log(dataVehicle);
   console.log(dataReservation);
   const router = useRouter();
-  const [vehicles, setVehicles] = useState({
-    name: dataVehicle.name,
-    price: dataVehicle.price,
-    description: dataVehicle.description,
-    category_id: dataVehicle.category_id,
-    location_id: dataVehicle.location_id,
-    category: dataVehicle.category,
-    location: dataVehicle.location,
-    stock: dataVehicle.stock,
-    status: dataVehicle.status,
-    image_id: dataVehicle.image_id,
-    image1: dataVehicle.image1,
-    image2: dataVehicle.image2,
-    image3: dataVehicle.image3,
-  });
   const [reservation, setReservation] = useState({
     user_id: dataReservation.user_id,
     vehicle_id: dataReservation.vehicle_id,
@@ -47,57 +31,11 @@ const paymentVehicle = ({dataVehicle,dataReservation}) => {
     method: "Cash",
     status:"PAID"
   });
-  //  const [users, setUsers] = useState({
-  //    name: "",
-  //    email: "",
-  //    password: "",
-  //    address: "",
-  //    image: "",
-  //    role: "",
-  //    phone: "",
-  //    gender: "",
-  //    dateOfBirth: "",
-  //    status: "",
-  //  });
-  //  useEffect(() => {
-  //    axios
-  //      .get(
-  //        `${process.env.NEXT_PUBLIC_BASE_URL}users/${dataReservation.user_id}`,
-  //        {
-  //          withCredentials: true,
-  //          // headers: {
-  //          //   Cookie: "token=" + token,
-  //          // },
-  //        }
-  //      )
-  //      .then((response) => {
-  //        const [result] = response.data.data;
-  //        setUsers(result);
-  //      })
-  //      .catch(console.error());
-  //  }, []);
+
   const payment = ["Cash", "Transfer"];
     const handleChange = (e) => {
       setReservation({ method: e.target.value });
     };
-  // const paymentReservation = () => {  axios
-  //   .post(`${process.env.NEXT_PUBLIC_BASE_URL}reservations/`, reservation, {
-  //     withCredentials: true,
-  //     headers: {
-  //       Cookie: "token=" + token,
-  //     },
-  //   })
-  //   .then((result) => {
-  //     toastify("success do reservation", "success");
-  //     router.push("/member/history");
-  //   })
-  //   .catch((error) => {
-  //     toastify(
-  //       error?.response?.data?.message || "error reservation",
-  //       "error"
-  //     );
-  //   });
-  // };
   return (
     <PaymentVehicle>
       <NavbarAfterLogin />
@@ -108,11 +46,11 @@ const paymentVehicle = ({dataVehicle,dataReservation}) => {
 
       <div className="detail-vehicle">
         <div className="image-wrapper">
-          <img src={vehicles.image1} alt="image" layout="fill" />
+          <img src={dataReservation.image1} alt="image" layout="fill" />
         </div>
         <div className="desc">
-          <h1 className="title-vehicle">{vehicles.name}</h1>
-          <p className="location">{vehicles.location}</p>
+          <h1 className="title-vehicle">{dataReservation.name}</h1>
+          <p className="location">{dataReservation.location}</p>
           <p className="status default">No Prepayment</p>
           <p className="booking-code">#{dataReservation.reservation_id}</p>
           <button className="btn copy">Copy booking code</button>
@@ -122,13 +60,13 @@ const paymentVehicle = ({dataVehicle,dataReservation}) => {
         <div className="detail-row">
           <div className="left">
             <p className="text-label">
-              Quantity : {reservation.qty} {vehicles.category}
+              Quantity : {dataReservation.qty} {dataReservation.category}
             </p>
           </div>
           <div className="right date-wrapper">
             <p className="text-label">Reservation Date :</p>
             <p className="text-desc">
-              {reservation.date_start} - {reservation.date_stop}
+              {dataReservation.date_start} - {dataReservation.date_stop}
             </p>
           </div>
         </div>
@@ -136,9 +74,9 @@ const paymentVehicle = ({dataVehicle,dataReservation}) => {
           <div className="left order-detail">
             <p className="text-label">Order details :</p>
             <p className="text-desc">
-              {reservation.qty} {vehicles.category} : Rp. {reservation.total}
+              {dataReservation.qty} {dataReservation.category} : Rp. {dataReservation.total}
             </p>
-            <p className="text-label">Total : Rp. {reservation.total}</p>
+            <p className="text-label">Total : Rp. {dataReservation.total}</p>
           </div>
           <div className="right order-detail">
             <p className="text-label">Identity :</p>
@@ -194,27 +132,7 @@ export default paymentVehicle;
 
 export const getServerSideProps = privateRouteMember(async (ctx) => {
   const token = await cookies(ctx).token;
-  const { vehicleId } = ctx.params;
   const { reservationId } = ctx.params;
-  // const resUser = await axios.get(
-  //   `${process.env.NEXT_PUBLIC_BASE_URL}users/${user_id}`,
-  //   {
-  //     withCredentials: true,
-  //     //  headers: {
-  //     //    Cookie: "token=" + token,
-  //     //  },
-  //   }
-  // );
-  const resVehicle = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,
-    {
-      withCredentials: true,
-      // headers: {
-      //   Cookie: "token=" + token,
-      // },
-    }
-  );
-  const [dataVehicle] = await resVehicle.data.data;
   const resReservation = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}reservations/${reservationId}`,
     {
@@ -224,10 +142,9 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
       // },
     }
   );
-  // const [dataUser] = await resUser.data.data;
-  const [dataReservation] = await resReservation.data.data;
+  const [dataReservation] = await resReservation.data.data[0];
   return {
-    props: { dataVehicle, dataReservation},
+    props: {dataReservation},
   };
 });
 
