@@ -2,6 +2,7 @@
 import  { useRouter } from "next/router";
 import styled from "styled-components";
 import { breakpoints } from "../../layouts/breakpoints";
+import cookies from "next-cookies";
 
 const heroHomeAfterLogin = (req) => {
    const role = cookies(req).user_role;

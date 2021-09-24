@@ -18,7 +18,7 @@ import axios from "axios";
 import { useState } from "react";
 import { breakpoints } from "../../../../components/layouts/breakpoints";
 import { privateRouteAdmin } from "../../../../configs/route/privateRouteAdmin";
-
+import cookies from "next-cookies";
 
 const detailVehicle = (dataVehicle) => {
    const { query } = useRouter();

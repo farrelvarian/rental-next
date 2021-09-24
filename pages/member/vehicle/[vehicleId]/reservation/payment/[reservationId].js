@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { privateRouteMember } from "../../../../../../configs/route/privateRouteMember";
 import { toastify } from "../../../../../../components/layouts/toastify";
 import {  useDispatch } from "react-redux";
-const paymentVehicle = ({dataVehicle,dataReservation,vehicleId,token}, req) => {
+const paymentVehicle = ({dataVehicle,dataReservation,token}, req) => {
    const dispatch = useDispatch();
   const userId = cookies(req).user_id;
    const [users, setUsers] = useState({
@@ -177,7 +177,7 @@ const paymentVehicle = ({dataVehicle,dataReservation,vehicleId,token}, req) => {
         className="btn finish"
         onClick={() =>
           dispatch(
-            finishReservation(dataReservation.reservation_id,reservation, router)
+            finishReservation(dataReservation.reservation_id,reservation, router,token)
           )
         }
       >
@@ -215,7 +215,7 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
   const [dataVehicle] = await resVehicle.data.data;
   const [dataReservation] = await resReservation.data.data;
   return {
-    props: { dataVehicle, dataReservation,vehicleId, token },
+    props: { dataVehicle, dataReservation, token },
   };
 })
 

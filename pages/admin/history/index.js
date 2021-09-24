@@ -9,6 +9,7 @@ import { breakpoints } from "../../../components/layouts/breakpoints";
 import NavbarAfterLogin from "../../../components/module/Navbar/NavbarAfterLogin";
 import Footer from "../../../components/module/Footer";
 import { privateRouteAdmin } from "../../../configs/route/privateRouteAdmin";
+import cookies from "next-cookies";
 
 const historyPage = ({ locations, histories }) => {
   return (

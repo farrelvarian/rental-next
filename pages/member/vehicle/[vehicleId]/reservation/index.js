@@ -20,11 +20,10 @@ import cookies from "next-cookies";
 import { privateRouteMember } from "../../../../../configs/route/privateRouteMember";
 import {  useDispatch } from "react-redux";
 
-const reservationVehicle = ({dataVehicle},req) => {
+const reservationVehicle = ({dataVehicle,token},req) => {
     const dispatch = useDispatch();
    const { query } = useRouter();
    const userId = cookies(req).user_id;
-    const token = cookies(req).token;
    const id = Number(query.vehicleId);
   const router = useRouter();
   const [vehicles, setVehicles] = useState({
@@ -154,7 +153,7 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
   );
   const [dataVehicle] = await res.data.data;
   return {
-    props: {dataVehicle},
+    props: {dataVehicle,token},
   };
 });
 
