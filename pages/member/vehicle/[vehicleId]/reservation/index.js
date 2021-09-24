@@ -55,16 +55,14 @@ const reservationVehicle = ({dataVehicle,token},req) => {
      if (params === "plus" && form.qty < vehicles.stock) {
        setForm({
          ...form,
-         qty: form.qty + 1,
-         total: dataVehicle.price * form.qty,
-       });
+         qty: form.qty + 1,})
+        setForm({ ...form,total: dataVehicle.price * form.qty,})
      }
      if (params === "minus" && form.qty > 1) {
        setForm({
          ...form,
-         qty: form.qty - 1,
-         total: dataVehicle.price * form.qty,
-       });
+         qty: form.qty - 1,})
+      setForm({ ...form,total: dataVehicle.price * form.qty,})    
      }
      console.log(form.qty);
      console.log(form.total);
