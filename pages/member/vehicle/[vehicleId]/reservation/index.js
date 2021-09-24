@@ -18,14 +18,14 @@ import { useState } from "react";
 import { breakpoints } from "../../../../../components/layouts/breakpoints";
 import cookies from "next-cookies";
 import { privateRouteMember } from "../../../../../configs/route/privateRouteMember";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addReservation } from "../../../../../configs/redux/actions/orderAction";
 
-const reservationVehicle = ({dataVehicle,token},req) => {
-    const dispatch = useDispatch();
-   const { query } = useRouter();
-   const userId = cookies(req).user_id;
-   const id = Number(query.vehicleId);
+const reservationVehicle = ({ dataVehicle, token }, req) => {
+  const dispatch = useDispatch();
+  const { query } = useRouter();
+  const userId = cookies(req).user_id;
+  const id = Number(query.vehicleId);
   const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: dataVehicle.name,
@@ -43,30 +43,32 @@ const reservationVehicle = ({dataVehicle,token},req) => {
     image3: dataVehicle.image3,
     updatedAt: new Date(),
   });
-    const [form, setForm] = useState({
-      user_id: userId,
-      vehicle_id: id,
-      qty: 1,
-      date_start: new Date(),
-      date_stop: new Date(),
-      total: dataVehicle.price,
-    });
-   const handleQty = (params) => {
-     if (params === "plus" && form.qty < vehicles.stock) {
-       setForm({
-         ...form,
-         qty: form.qty + 1,})
-        setForm({ ...form,total: dataVehicle.price * form.qty,})
-     }
-     if (params === "minus" && form.qty > 1) {
-       setForm({
-         ...form,
-         qty: form.qty - 1,})
-      setForm({ ...form,total: dataVehicle.price * form.qty,})    
-     }
-     console.log(form.qty);
-     console.log(form.total);
-   };
+  const [form, setForm] = useState({
+    user_id: userId,
+    vehicle_id: id,
+    date_start: new Date(),
+    date_stop: new Date(),
+    qty: 1,
+    total: dataVehicle.price,
+  });
+  const handleQty = (params) => {
+    if (params === "plus" && form.qty < vehicles.stock) {
+      setForm({
+        ...form,
+        qty: form.qty + 1,
+        total: dataVehicle.price * form.qty,
+      });
+    }
+    if (params === "minus" && form.qty > 1) {
+      setForm({
+        ...form,
+        qty: form.qty - 1,
+        total: dataVehicle.price * form.qty,
+      });
+    }
+    console.log(form.qty);
+    console.log(form.total);
+  };
   // const gotoPayment = () => {
   //   router.push(`/member/vehicle/${id}/reservation/payment`);
   // };
@@ -127,7 +129,7 @@ const reservationVehicle = ({dataVehicle,token},req) => {
       <section className=" button-action-wrapper">
         <button
           className="btn pay"
-          onClick={() => dispatch(addReservation(form, router,id,token))}
+          onClick={() => dispatch(addReservation(form, router, id, token))}
         >
           Pay Now : Rp. {form.total}
         </button>
@@ -153,7 +155,7 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
   );
   const [dataVehicle] = await res.data.data;
   return {
-    props: {dataVehicle,token},
+    props: { dataVehicle, token },
   };
 });
 
@@ -323,7 +325,7 @@ export const ReservationVehicle = styled.div`
         `}
         input.btn.count {
           height: 72px;
-          text-align:center
+          text-align: center;
         }
         .btn {
           height: 10px;
