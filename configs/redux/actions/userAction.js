@@ -10,14 +10,14 @@ export const loginUser = (data,history) => (dispatch) => {
       const role = result.data.data.role;
       // const isAuth = true;
       console.log(result,"result action");
-      // const dataUser = {
-      //   data: result.data.User.data,
-      //   error: result.data.User.error,
-      //   message: result.data.User.message,
-      //   status: result.data.User.status,
+      const dataUser = {
+        data: result.data.data,
+        error: null,
+        message: null,
+        status: null,
         //   isAuth: result.data.isAuth,
-      // };
-      // dispatch({ type: "POST_LOGIN", payload: dataUser });
+      };
+      dispatch({ type: "POST_LOGIN", payload: dataUser });
       history.push(`/${role}/home`);
          toastify("Success Login. Happy Shopping!", "success");
     })
@@ -79,7 +79,7 @@ export const updateUser = (id,data, image,token) => (dispatch) => {
          message: result.data.message,
          status: result.data.status,
        };
-       dispatch({ type: "PUT_USER", payload: dataUser });
+       dispatch({ type: "PUT_USER", payload: result });
         toastify("success update data", "success");
      })
      .catch((error) => {
