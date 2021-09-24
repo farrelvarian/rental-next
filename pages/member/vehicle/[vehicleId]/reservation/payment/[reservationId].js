@@ -17,35 +17,10 @@ import {  useDispatch } from "react-redux";
 import { finishReservation } from "../../../../../../configs/redux/actions/orderAction";
 
 
-const paymentVehicle = (dataVehicle,dataReservation,user_id,token) => {
+const paymentVehicle = (dataVehicle,dataReservation,token) => {
    const dispatch = useDispatch();
-   console.log(user_id);
-  const [users, setUsers] = useState({
-    name: "",
-    email: "",
-    password: "",
-    address: "",
-    image: "",
-    role: "",
-    phone: "",
-    gender: "",
-    dateOfBirth: "",
-    status: "",
-  });
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_BASE_URL}users/${user_id}`, {
-        withCredentials: true,
-        // headers: {
-        //   Cookie: "token=" + token,
-        // },
-      })
-      .then((response) => {
-        const [result] = response.data.data;
-        setUsers(result);
-      })
-      .catch(console.error());
-  }, []);
+  const { data } = useSelector((state) => state.user);
+  console.log(data);
   const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: dataVehicle.name,
@@ -72,6 +47,35 @@ const paymentVehicle = (dataVehicle,dataReservation,user_id,token) => {
     method: "Cash",
     status:"PAID"
   });
+   const [users, setUsers] = useState({
+     name: "",
+     email: "",
+     password: "",
+     address: "",
+     image: "",
+     role: "",
+     phone: "",
+     gender: "",
+     dateOfBirth: "",
+     status: "",
+   });
+   useEffect(() => {
+     axios
+       .get(
+         `${process.env.NEXT_PUBLIC_BASE_URL}users/${dataReservation.user_id}`,
+         {
+           withCredentials: true,
+           // headers: {
+           //   Cookie: "token=" + token,
+           // },
+         }
+       )
+       .then((response) => {
+         const [result] = response.data.data;
+         setUsers(result);
+       })
+       .catch(console.error());
+   }, []);
   const payment = ["Cash", "Transfer"];
     const handleChange = (e) => {
       setReservation({ method: e.target.value });
@@ -171,7 +175,12 @@ const paymentVehicle = (dataVehicle,dataReservation,user_id,token) => {
         className="btn finish"
         onClick={() =>
           dispatch(
-            finishReservation(dataReservation.reservation_id,reservation, router,token)
+            finishReservation(
+              dataReservation.reservation_id,
+              reservation,
+              router,
+              token
+            )
           )
         }
       >
@@ -186,7 +195,6 @@ export default paymentVehicle;
 
 export const getServerSideProps = privateRouteMember(async (ctx) => {
   const token = await cookies(ctx).token;
-  const user_id = await cookies(ctx).user_id;
   const { vehicleId } = ctx.params;
   const { reservationId } = ctx.params;
   // const resUser = await axios.get(
@@ -220,7 +228,7 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
   const [dataVehicle] = await resVehicle.data.data;
   const [dataReservation] = await resReservation.data.data;
   return {
-    props: { dataVehicle, dataReservation,user_id, token },
+    props: { dataVehicle, dataReservation, token },
   };
 });
 
