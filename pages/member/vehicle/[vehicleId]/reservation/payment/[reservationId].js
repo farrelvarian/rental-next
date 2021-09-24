@@ -100,7 +100,7 @@ const paymentVehicle = ({dataReservation}) => {
             onChange={handleChange}
             value={reservation.method}
           >
-            <option value="" disabled selected>
+            <option value="" disabled>
               select payment method
             </option>
             {payment.map((item) => {
