@@ -17,21 +17,35 @@ import {  useDispatch } from "react-redux";
 import { finishReservation } from "../../../../../../configs/redux/actions/orderAction";
 
 
-const paymentVehicle = (dataUser,dataVehicle,dataReservation,token) => {
+const paymentVehicle = (dataVehicle,dataReservation,user_id,token) => {
    const dispatch = useDispatch();
-   const [users, setUsers] = useState({
-     name: dataUser.name,
-     email: dataUser.email,
-     password: dataUser.password,
-     address: dataUser.address,
-     image: dataUser.image,
-     role: dataUser.role,
-     phone: dataUser.phone,
-     gender: dataUser.gender,
-     dateOfBirth: dataUser.dateOfBirth,
-     status: dataUser.status,
-   });
-  
+   console.log(user_id);
+  const [users, setUsers] = useState({
+    name: "",
+    email: "",
+    password: "",
+    address: "",
+    image: "",
+    role: "",
+    phone: "",
+    gender: "",
+    dateOfBirth: "",
+    status: "",
+  });
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BASE_URL}users/${user_id}`, {
+        withCredentials: true,
+        // headers: {
+        //   Cookie: "token=" + token,
+        // },
+      })
+      .then((response) => {
+        const [result] = response.data.data;
+        setUsers(result);
+      })
+      .catch(console.error());
+  }, []);
   const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: dataVehicle.name,
@@ -175,15 +189,15 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
   const user_id = await cookies(ctx).user_id;
   const { vehicleId } = ctx.params;
   const { reservationId } = ctx.params;
-  const resUser = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}users/${user_id}`,
-    {
-      withCredentials: true,
-      //  headers: {
-      //    Cookie: "token=" + token,
-      //  },
-    }
-  );
+  // const resUser = await axios.get(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}users/${user_id}`,
+  //   {
+  //     withCredentials: true,
+  //     //  headers: {
+  //     //    Cookie: "token=" + token,
+  //     //  },
+  //   }
+  // );
   const resVehicle = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,
     {
@@ -202,11 +216,11 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
       // },
     }
   );
-  const [dataUser] = await resUser.data.data;
+  // const [dataUser] = await resUser.data.data;
   const [dataVehicle] = await resVehicle.data.data;
   const [dataReservation] = await resReservation.data.data;
   return {
-    props: { dataUser, dataVehicle, dataReservation, token },
+    props: { dataVehicle, dataReservation,user_id, token },
   };
 });
 
