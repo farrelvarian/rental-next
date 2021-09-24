@@ -1,4 +1,4 @@
-<h1 align='center'>React JS - Blanja E-commerce</h1>
+<h1 align='center'>React JS - Circle-Conn Vehicle-Rental</h1>
   <p align="center">
 <!--     <a href="link_deploy">View Demo</a> -->
     ·
@@ -10,7 +10,7 @@
 
 ## About The Project
 
-E-commerce website focus on fashion that brings together sellers and customers. It has search, sort, product detail and my bag features for customers as well as add, update and delete products for sellers. Built using ReactJS, ExpressJS and MySQL.
+A vehicle rental website that brings together renters and vehicle owners. It has search, sort, vehicle detail and reservation features for tenants as well as add, update and delete vehicles for owners. Built using NextJS, ExpressJS and MySQL.
 
 <p align='center'>
    ·
@@ -70,6 +70,6 @@ NEXT_PUBLIC_WEB_URL = "http://localhost:3000/"
 - [Next](https://nextjs.org/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
 
-## Team
+## Contact
 
 - Full-Stack Developer ([Farrel Varian Eka Putra](https://github.com/farrelvarian))
