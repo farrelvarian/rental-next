@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
-import reducers from "./reducers/index";
+import reducers from "./reducers/rootReducer";
 import { persistReducer } from "redux-persist";
 
 import { CookieStorage } from "redux-persist-cookie-storage";

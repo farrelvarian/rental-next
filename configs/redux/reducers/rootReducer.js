@@ -3,10 +3,10 @@ import userReducer from "./userReducer";
 import orderReducer from "./orderReducer";
 // import productReducer from "./productReducer";
 
-const rootReducer = combineReducers({
+const rootReducer = {
   user: userReducer,
   // product: productReducer,
   order: orderReducer,
-});
+};
 
-export default rootReducer;
+export default combineReducers(rootReducer);
