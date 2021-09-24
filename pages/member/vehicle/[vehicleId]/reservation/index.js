@@ -51,7 +51,7 @@ const reservationVehicle = ({dataVehicle,token},req) => {
       total: vehicles.price,
     });
    const handleQty = (params) => {
-     if (params === "plus" && form.qty < stock) {
+     if (params === "plus" && form.qty < vehicles.stock) {
        setForm({
          ...form,
          qty: form.qty + 1,
@@ -321,6 +321,10 @@ export const ReservationVehicle = styled.div`
           position: relative;
           margin-top: 2rem;
         `}
+        input.btn.count {
+          height: 10px;
+          text-align:center
+        }
         .btn {
           height: 10px;
           border: 0;
@@ -351,7 +355,7 @@ export const ReservationVehicle = styled.div`
   .button-action-wrapper {
     display: flex;
     gap: 2rem;
-    width:80%;
+    width: 80%;
     ${breakpoints.lessThan("sm")`
       flex-direction: column; 
       gap: 1rem; 
