@@ -1,20 +1,23 @@
-const initialState = {
-  item: 0,
-  product: [],
-  totalPrice: 0,
-};
-const orderReducer = (state = initialState, action) => {
 
-  switch (action.type) {
-    case "PUT_MYBAG":
-      return {
-        ...state,
-        item: state.item + 1,
-        product: [...state.product, action.payload],
-        totalPrice: state.totalPrice + action.payload.price,
-      };
-    default:
-      return state;
-  }
+const initialValue = {
+  data: [],
 };
+
+const orderReducer = (state = initialValue, action) => {
+   switch (action.type) {
+     case "ADD_RESERVATION":
+       return {
+         ...state,
+         data: action.payload,
+       };
+     case "FINISH_RESERVATION":
+       return {
+         ...state,
+         data: [],
+       };
+     default:
+       return state;
+   }
+};
+
 export default orderReducer;

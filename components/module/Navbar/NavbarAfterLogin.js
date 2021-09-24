@@ -14,7 +14,7 @@ const navbarAfterLogin = (req,res) => {
   const router = useRouter();
   const role = cookies(req).user_role;
 let avatar
-if (user_image === "j:null") {
+if (!user_image) {
   avatar=false;
 }else{avatar=true}
 

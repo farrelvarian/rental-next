@@ -18,9 +18,13 @@ import { useState } from "react";
 import { breakpoints } from "../../../../../components/layouts/breakpoints";
 import cookies from "next-cookies";
 import { privateRouteMember } from "../../../../../configs/route/privateRouteMember";
+import {  useDispatch } from "react-redux";
 
-const reservationVehicle = (dataVehicle) => {
+const reservationVehicle = ({dataVehicle},req) => {
+    const dispatch = useDispatch();
    const { query } = useRouter();
+   const userId = cookies(req).user_id;
+    const token = cookies(req).token;
    const id = Number(query.vehicleId);
   const router = useRouter();
   const [vehicles, setVehicles] = useState({
@@ -39,9 +43,34 @@ const reservationVehicle = (dataVehicle) => {
     image3: dataVehicle.image3,
     updatedAt: new Date(),
   });
-  const gotoPayment = () => {
-    router.push(`/member/vehicle/${id}/reservation/payment`);
-  };
+    const [form, setForm] = useState({
+      user_id: userId,
+      vehicle_id: id,
+      qty: 1,
+      date_start: new Date(),
+      date_stop: new Date(),
+      total: vehicles.price,
+    });
+   const handleQty = (params) => {
+     if (params === "plus" && form.qty < stock) {
+       setForm({
+         ...form,
+         qty: form.qty + 1,
+         total: vehicles.price * form.qty,
+       });
+     }
+     if (params === "minus" && form.qty > 1) {
+       setForm({
+         ...form,
+         qty: form.qty - 1,
+
+         total: vehicles.price * form.qty,
+       });
+     }
+   };
+  // const gotoPayment = () => {
+  //   router.push(`/member/vehicle/${id}/reservation/payment`);
+  // };
   return (
     <ReservationVehicle>
       <NavbarAfterLogin />
@@ -60,11 +89,12 @@ const reservationVehicle = (dataVehicle) => {
           <p className="location">{vehicles.location}</p>
           <p className="paymentOption red">No prepayment</p>
           <div className="amount-wrapper">
-            <button className="btn primary">
+            <button className="btn primary" onClick={() => handleQty("minus")}>
               <Image className="minus-icon" src={minus} alt="minus" />
-            </button>
-            <p className="btn count">2</p>
-            <button className="btn secondary">
+            </button>{" "}
+            <input className="btn count" type="number" value={form.qty}></input>
+            {/* <p className="btn count">2</p> */}
+            <button className="btn secondary" onClick={() => handleQty("plus")}>
               <Image className="plus-icon" src={plus} alt="plus" />
             </button>
           </div>
@@ -96,8 +126,11 @@ const reservationVehicle = (dataVehicle) => {
         </div>
       </section>
       <section className=" button-action-wrapper">
-        <button className="btn pay" onClick={gotoPayment}>
-          Pay now : Rp. 178.000
+        <button
+          className="btn pay"
+          onClick={() => dispatch(addReservation(form, router,id,token))}
+        >
+          Pay Now : Rp. {form.subTotal}
         </button>
       </section>
       <Footer />
@@ -121,7 +154,7 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
   );
   const [dataVehicle] = await res.data.data;
   return {
-    props: dataVehicle,
+    props: {dataVehicle},
   };
 });
 
