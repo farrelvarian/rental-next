@@ -1,7 +1,7 @@
 const axios = require("axios");
 import { toastify } from "../../../components/layouts/toastify";
 
-export const addReservation = (data, router, id,token) => (dispatch) => {
+export const addReservation = (data, router, id) => (dispatch) => {
   axios
     .post(`${process.env.NEXT_PUBLIC_BASE_URL}reservations`, data, {
       withCredentials: true,
@@ -24,7 +24,7 @@ export const addReservation = (data, router, id,token) => (dispatch) => {
     });
 };
 
-export const finishReservation = (id, data, router,token) => (dispatch) => {
+export const finishReservation = (id, data, router) => (dispatch) => {
   axios
     .put(`${process.env.NEXT_PUBLIC_BASE_URL}reservations/${id}`, data, {
       withCredentials: true,

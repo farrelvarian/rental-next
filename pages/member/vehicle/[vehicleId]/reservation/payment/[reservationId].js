@@ -16,7 +16,7 @@ import { toastify } from "../../../../../../components/layouts/toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { finishReservation } from "../../../../../../configs/redux/actions/orderAction";
 
-const paymentVehicle = (dataVehicle,dataReservation,token) => {
+const paymentVehicle = ({dataVehicle,dataReservation}) => {
    const dispatch = useDispatch();
   const { data } = useSelector((state) => state.user);
   console.log(dataVehicle);
@@ -178,8 +178,7 @@ const paymentVehicle = (dataVehicle,dataReservation,token) => {
             finishReservation(
               dataReservation.reservation_id,
               reservation,
-              router,
-              token
+              router
             )
           )
         }
@@ -215,6 +214,7 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
       // },
     }
   );
+  const [dataVehicle] = await resVehicle.data.data;
   const resReservation = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}reservations/${reservationId}`,
     {
@@ -225,10 +225,9 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
     }
   );
   // const [dataUser] = await resUser.data.data;
-  const [dataVehicle] = await resVehicle.data.data;
   const [dataReservation] = await resReservation.data.data;
   return {
-    props: { dataVehicle, dataReservation, token },
+    props: { dataVehicle, dataReservation},
   };
 });
 

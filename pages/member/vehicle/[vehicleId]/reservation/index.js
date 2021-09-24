@@ -21,7 +21,7 @@ import { privateRouteMember } from "../../../../../configs/route/privateRouteMem
 import { useDispatch } from "react-redux";
 import { addReservation } from "../../../../../configs/redux/actions/orderAction";
 
-const reservationVehicle = ({ dataVehicle, token }, req) => {
+const reservationVehicle = ({ dataVehicle}, req) => {
   const dispatch = useDispatch();
   const { query } = useRouter();
   const userId = cookies(req).user_id;
@@ -129,7 +129,7 @@ const reservationVehicle = ({ dataVehicle, token }, req) => {
       <section className=" button-action-wrapper">
         <button
           className="btn pay"
-          onClick={() => dispatch(addReservation(form, router, id, token))}
+          onClick={() => dispatch(addReservation(form, router, id))}
         >
           Pay Now : Rp. {form.total}
         </button>
@@ -155,7 +155,7 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
   );
   const [dataVehicle] = await res.data.data;
   return {
-    props: { dataVehicle, token },
+    props: { dataVehicle},
   };
 });
 
