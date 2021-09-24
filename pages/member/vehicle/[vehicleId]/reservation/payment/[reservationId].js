@@ -46,35 +46,35 @@ const paymentVehicle = (dataVehicle,dataReservation,token) => {
     method: "Cash",
     status:"PAID"
   });
-   const [users, setUsers] = useState({
-     name: "",
-     email: "",
-     password: "",
-     address: "",
-     image: "",
-     role: "",
-     phone: "",
-     gender: "",
-     dateOfBirth: "",
-     status: "",
-   });
-   useEffect(() => {
-     axios
-       .get(
-         `${process.env.NEXT_PUBLIC_BASE_URL}users/${dataReservation.user_id}`,
-         {
-           withCredentials: true,
-           // headers: {
-           //   Cookie: "token=" + token,
-           // },
-         }
-       )
-       .then((response) => {
-         const [result] = response.data.data;
-         setUsers(result);
-       })
-       .catch(console.error());
-   }, []);
+  //  const [users, setUsers] = useState({
+  //    name: "",
+  //    email: "",
+  //    password: "",
+  //    address: "",
+  //    image: "",
+  //    role: "",
+  //    phone: "",
+  //    gender: "",
+  //    dateOfBirth: "",
+  //    status: "",
+  //  });
+  //  useEffect(() => {
+  //    axios
+  //      .get(
+  //        `${process.env.NEXT_PUBLIC_BASE_URL}users/${dataReservation.user_id}`,
+  //        {
+  //          withCredentials: true,
+  //          // headers: {
+  //          //   Cookie: "token=" + token,
+  //          // },
+  //        }
+  //      )
+  //      .then((response) => {
+  //        const [result] = response.data.data;
+  //        setUsers(result);
+  //      })
+  //      .catch(console.error());
+  //  }, []);
   const payment = ["Cash", "Transfer"];
     const handleChange = (e) => {
       setReservation({ method: e.target.value });
@@ -142,9 +142,9 @@ const paymentVehicle = (dataVehicle,dataReservation,token) => {
           <div className="right order-detail">
             <p className="text-label">Identity :</p>
             <p className="text-desc">
-              {users?.name} {users?.phone}
+              {data.name} {data.phone}
             </p>
-            <p className="text-desc">{users?.email}</p>
+            <p className="text-desc">{data.email}</p>
           </div>
         </div>
       </div>
