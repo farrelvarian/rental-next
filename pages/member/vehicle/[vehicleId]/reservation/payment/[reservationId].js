@@ -13,9 +13,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { privateRouteMember } from "../../../../../../configs/route/privateRouteMember";
 import { toastify } from "../../../../../../components/layouts/toastify";
-import {  useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { finishReservation } from "../../../../../../configs/redux/actions/orderAction";
-
 
 const paymentVehicle = (dataVehicle,dataReservation,token) => {
    const dispatch = useDispatch();
