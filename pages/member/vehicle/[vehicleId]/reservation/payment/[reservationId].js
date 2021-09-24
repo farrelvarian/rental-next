@@ -170,14 +170,13 @@ const paymentVehicle = (dataUser,dataVehicle,dataReservation,token) => {
 
 export default paymentVehicle;
 
-export const getServerSideProps = privateRouteMember(async (context) => {
-  const token = cookies(context).token;
-  const userId = cookies(context).user_id;
-  console.log(userId);
-  const { vehicleId } = context.params;
-  const { reservationId } = context.params;
+export const getServerSideProps = privateRouteMember(async (ctx) => {
+  const token = await cookies(ctx).token;
+  const user_id = await cookies(ctx).user_id;
+  const { vehicleId } = ctx.params;
+  const { reservationId } = ctx.params;
   const resUser = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}users/${userId}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}users/${user_id}`,
     {
       withCredentials: true,
       //  headers: {
