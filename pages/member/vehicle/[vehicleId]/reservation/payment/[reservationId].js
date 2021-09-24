@@ -19,7 +19,8 @@ import { finishReservation } from "../../../../../../configs/redux/actions/order
 const paymentVehicle = (dataVehicle,dataReservation,token) => {
    const dispatch = useDispatch();
   const { data } = useSelector((state) => state.user);
-  console.log(data);
+  console.log(dataVehicle);
+  console.log(dataReservation);
   const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: dataVehicle.name,
