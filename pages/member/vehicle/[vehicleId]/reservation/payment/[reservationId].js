@@ -143,9 +143,9 @@ const paymentVehicle = (dataVehicle,dataReservation,token) => {
           <div className="right order-detail">
             <p className="text-label">Identity :</p>
             <p className="text-desc">
-              {users.name} {users.phone}
+              {users?.name} {users?.phone}
             </p>
-            <p className="text-desc">{users.email}</p>
+            <p className="text-desc">{users?.email}</p>
           </div>
         </div>
       </div>
