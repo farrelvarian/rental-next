@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import { privateRouteMember } from "../../../../../../configs/route/privateRouteMember";
 import { toastify } from "../../../../../../components/layouts/toastify";
 import {  useDispatch } from "react-redux";
+import { finishReservation } from "../../../../../../configs/redux/actions/orderAction";
+
 const paymentVehicle = ({dataVehicle,dataReservation,token}, req) => {
    const dispatch = useDispatch();
   const userId = cookies(req).user_id;

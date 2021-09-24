@@ -19,6 +19,7 @@ import { breakpoints } from "../../../../../components/layouts/breakpoints";
 import cookies from "next-cookies";
 import { privateRouteMember } from "../../../../../configs/route/privateRouteMember";
 import {  useDispatch } from "react-redux";
+import { addReservation } from "../../../../../configs/redux/actions/orderAction";
 
 const reservationVehicle = ({dataVehicle,token},req) => {
     const dispatch = useDispatch();
@@ -65,6 +66,8 @@ const reservationVehicle = ({dataVehicle,token},req) => {
          total: dataVehicle.price * form.qty,
        });
      }
+     console.log(form.qty);
+     console.log(form.total);
    };
   // const gotoPayment = () => {
   //   router.push(`/member/vehicle/${id}/reservation/payment`);
