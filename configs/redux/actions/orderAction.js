@@ -5,8 +5,8 @@ export const addReservation = (data, router, id,token) => (dispatch) => {
   axios
     .post(`${process.env.NEXT_PUBLIC_WEB_URL}reservations`, data, {
        withCredentials: true,
-      headers: {
-        Cookie: "token=" + token,}
+      // headers: {
+      //   Cookie: "token=" + token,}
     })
     .then((result) => {
       const endData = result.data.data;
@@ -28,9 +28,9 @@ export const finishReservation = (id, data, router,token) => (dispatch) => {
   axios
     .put(`${process.env.NEXT_PUBLIC_WEB_URL}reservations/${id}`, data, {
       withCredentials: true,
-      headers: {
-        Cookie: "token=" + token,
-      },
+      // headers: {
+      //   Cookie: "token=" + token,
+      // },
     })
     .then(async () => {
       console.log(data, "data finish payment");

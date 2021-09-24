@@ -105,9 +105,9 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
        `${process.env.NEXT_PUBLIC_BASE_URL}reservations/${user_id}`,
        {
          withCredentials: true,
-         headers: {
-           Cookie: "token=" + token,
-         },
+        //  headers: {
+        //    Cookie: "token=" + token,
+        //  },
        }
      );
    const locations = await resLocation.data.data;

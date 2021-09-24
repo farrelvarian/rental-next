@@ -67,9 +67,9 @@ const addVehicle = ({token}) => {
     axios
       .post(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/`, formData, {
         withCredentials: true,
-        headers: {
-          Cookie: "token=" + token,
-        },
+        // headers: {
+        //   Cookie: "token=" + token,
+        // },
       })
       .then(() => {
         router.push("/admin/home");

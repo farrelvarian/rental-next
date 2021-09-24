@@ -148,9 +148,9 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
     `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,
     {
       withCredentials: true,
-      headers: {
-        Cookie: "token=" + token,
-      },
+      // headers: {
+      //   Cookie: "token=" + token,
+      // },
     }
   );
   const [dataVehicle] = await res.data.data;

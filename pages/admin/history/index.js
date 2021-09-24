@@ -102,9 +102,9 @@ export const getServerSideProps = privateRouteAdmin(async (ctx) => {
    `${process.env.NEXT_PUBLIC_BASE_URL}reservations`,
    {
      withCredentials: true,
-     headers: {
-       Cookie: "token=" + token,
-     },
+    //  headers: {
+    //    Cookie: "token=" + token,
+    //  },
    }
  );
  const locations = await resLocation.data.data;

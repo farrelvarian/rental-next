@@ -75,9 +75,9 @@ const editVehicle = ({dataVehicle,token}) => {
     axios
       .put(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`, formData, {
         withCredentials: true,
-        headers: {
-          Cookie: "token=" + token,
-        },
+        // headers: {
+        //   Cookie: "token=" + token,
+        // },
       })
       .then(() => {
         console.log("success update product");
@@ -95,9 +95,9 @@ const editVehicle = ({dataVehicle,token}) => {
     axios
       .delete(`${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${id}`, {
         withCredentials: true,
-        headers: {
-          Cookie: "token=" + token,
-        },
+        // headers: {
+        //   Cookie: "token=" + token,
+        // },
       })
       .then(() => {
         toastify("success delete product", "success");

@@ -46,9 +46,9 @@ const profilePage = ({token,user_id}) => {
     axios
       .get(`${process.env.NEXT_PUBLIC_BASE_URL}users/${id}`, {
           withCredentials: true,
-          headers: {
-            Cookie: "token=" + token,
-          },
+          // headers: {
+          //   Cookie: "token=" + token,
+          // },
         })
       .then((response) => {
         const [result] = response.data.data;

@@ -67,9 +67,9 @@ export const updateUser = (id,data, image,token) => (dispatch) => {
        `${process.env.NEXT_PUBLIC_BASE_URL}users/${id}`,
        formData,{
          withCredentials: true,
-         headers: {
-           Cookie: "token=" + token,
-         },
+        //  headers: {
+        //    Cookie: "token=" + token,
+        //  },
        },
      )
      .then((result) => {
