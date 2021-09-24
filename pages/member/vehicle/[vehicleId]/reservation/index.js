@@ -129,7 +129,7 @@ const reservationVehicle = ({dataVehicle,token},req) => {
           className="btn pay"
           onClick={() => dispatch(addReservation(form, router,id,token))}
         >
-          Pay Now : Rp. {form.subTotal}
+          Pay Now : Rp. {form.total}
         </button>
       </section>
       <Footer />
@@ -322,7 +322,7 @@ export const ReservationVehicle = styled.div`
           margin-top: 2rem;
         `}
         input.btn.count {
-          height: 10px;
+          height: 72px;
           text-align:center
         }
         .btn {
