@@ -1,11 +1,18 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import  { useRouter } from "next/router";
 import styled from "styled-components";
 import { breakpoints } from "../../layouts/breakpoints";
 
-const heroHomeAfterLogin = () => {
+const heroHomeAfterLogin = (req) => {
+   const role = cookies(req).user_role;
+  const router = useRouter();
   const location = [];
   const type = [];
   const payment = [];
   const date = [];
+  const gotoSearch = () => {
+    router.push(`/${role}/search`);
+  };
   return (
     <HeroHomeAfterLogin>
       <div className="home">
@@ -36,7 +43,7 @@ const heroHomeAfterLogin = () => {
             })}
           </select>
         </div>
-        <button type="button" className="search">
+        <button type="button" className="search" onClick={()=>gotoSearch}>
           Search
         </button>
       </div>
@@ -76,7 +83,7 @@ const HeroHomeAfterLogin = styled.div`
       font-size: 24px;
       line-height: 33px;
     }
-    .row {
+    .row {display:none;
       input {
         margin-right: 30px;
         padding-left: 31px;

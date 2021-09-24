@@ -1,53 +1,59 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import { breakpoints } from "../../layouts/breakpoints";
 
 const heroHomeBeforeLogin = () => {
+  const router = useRouter();
   const location = []
   const type = [];
  const payment = [];
  const date = [];
+ const gotoSearch = () => {
+   router.push(`/member/search`);
+ };
   return (
     <HeroHomeBeforeLogin>
       <div className="home">
         <h1>Explore and Travel</h1>
         <h3>Vehicle Finder</h3>
-          <div className="row first">
-            <select id="location" placeholder="Location">
-              <option value="" disabled selected>
-                Location
-              </option>
-              {location.map((item) => {
-                <option value={item}>{item} </option>;
-              })}
-            </select>
-            <select id="type" placeholder="Type">
-              <option value="" disabled selected>
-                Type
-              </option>
-              {type.map((item) => {
-                <option value={item}>{item} </option>;
-              })}
-            </select>
-          </div>
-          <div className="row last">
-            <select id="payment" placeholder="Payment">
-              <option value="" disabled selected>
-                Payment
-              </option>
-              {payment.map((item) => {
-                <option value={item}>{item} </option>;
-              })}
-            </select>
-            <select id="date" placeholder="date">
-              <option value="" disabled selected>
-                Date
-              </option>
-              {date.map((item) => {
-                <option value={item}>{item} </option>;
-              })}
-            </select>
-          </div>
-        <button type="button" className="explore">
+        <div className="row first">
+          <select id="location" placeholder="Location">
+            <option value="" disabled selected>
+              Location
+            </option>
+            {location.map((item) => {
+              <option value={item}>{item} </option>;
+            })}
+          </select>
+          <select id="type" placeholder="Type">
+            <option value="" disabled selected>
+              Type
+            </option>
+            {type.map((item) => {
+              <option value={item}>{item} </option>;
+            })}
+          </select>
+        </div>
+        <div className="row last">
+          <select id="payment" placeholder="Payment">
+            <option value="" disabled selected>
+              Payment
+            </option>
+            {payment.map((item) => {
+              <option value={item}>{item} </option>;
+            })}
+          </select>
+          <select id="date" placeholder="date">
+            <option value="" disabled selected>
+              Date
+            </option>
+            {date.map((item) => {
+              <option value={item}>{item} </option>;
+            })}
+          </select>
+        </div>
+        <button type="button" className="explore" onClick={() => gotoSearch}>
           Explore
         </button>
       </div>
@@ -88,7 +94,7 @@ const HeroHomeBeforeLogin = styled.div`
       font-size: 24px;
       line-height: 33px;
     }
-    .row {
+    .row {display:none;
       select {
         margin-right: 30px;
         padding-left: 31px;
