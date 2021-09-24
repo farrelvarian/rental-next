@@ -53,7 +53,7 @@ const heroHomeBeforeLogin = () => {
             })}
           </select>
         </div>
-        <button type="button" className="explore" onClick={() => gotoSearch}>
+        <button type="button" className="explore" onClick={gotoSearch}>
           Explore
         </button>
       </div>

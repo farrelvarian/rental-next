@@ -44,7 +44,7 @@ const heroHomeAfterLogin = (req) => {
             })}
           </select>
         </div>
-        <button type="button" className="search" onClick={()=>gotoSearch}>
+        <button type="button" className="search" onClick={gotoSearch}>
           Search
         </button>
       </div>
