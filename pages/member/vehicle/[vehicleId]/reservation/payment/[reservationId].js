@@ -142,7 +142,7 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
       // },
     }
   );
-  const [dataReservation] = await resReservation.data.data[0];
+  const [dataReservation] = await resReservation.data.data;
   return {
     props: {dataReservation},
   };
