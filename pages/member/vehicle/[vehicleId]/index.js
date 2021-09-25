@@ -21,8 +21,8 @@ import cookies from "next-cookies";
 import { privateRouteMember } from "../../../../configs/route/privateRouteMember";
 
 const detailVehicle = (dataVehicle) => {
-   const { query } = useRouter();
-   const id = Number(query.vehicleId);
+  const { query } = useRouter();
+  const id = Number(query.vehicleId);
   const router = useRouter();
   const [vehicles, setVehicles] = useState({
     name: dataVehicle.name,
@@ -40,10 +40,10 @@ const detailVehicle = (dataVehicle) => {
     image3: dataVehicle.image3,
     updatedAt: new Date(),
   });
- const [form, setForm] = useState({
-   qty: 1,
-   total: dataVehicle.price,
- });
+  const [form, setForm] = useState({
+    qty: 1,
+    total: dataVehicle.price,
+  });
   const handleQty = (params) => {
     if (params === "plus" && form.qty < vehicles.stock) {
       setForm({
@@ -114,7 +114,7 @@ const detailVehicle = (dataVehicle) => {
           <p className="paymentOption red">No prepayment</p>
           <p className="detail">Capacity : 1 person</p>
           <p className="detail">Type : {vehicles.category}</p>
-          <p className="detail">Reservation before 2 PM</p>  
+          <p className="detail">Reservation before 2 PM</p>
           <p className="price">Rp. {form.total}/day</p>
           <div className="amount-wrapper">
             <button className="btn primary" onClick={() => handleQty("minus")}>
@@ -149,18 +149,19 @@ export const getServerSideProps = privateRouteMember(async (ctx) => {
   const token = await cookies(ctx).token;
   const { vehicleId } = ctx.params;
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,  {
-          withCredentials: true,
-          // headers: {
-          //   Cookie: "token=" + token,
-          // },
-        },
+    `${process.env.NEXT_PUBLIC_BASE_URL}vehicles/${vehicleId}`,
+    {
+      withCredentials: true,
+      // headers: {
+      //   Cookie: "token=" + token,
+      // },
+    }
   );
   const [dataVehicle] = await res.data.data;
   return {
     props: dataVehicle,
   };
-})
+});
 
 export const DetailVehicle = styled.div`
   width: 100%;
@@ -336,9 +337,10 @@ export const DetailVehicle = styled.div`
         ${breakpoints.lessThan("md")`
           position: relative;
           margin-top: 2rem;
-        `} 
+        `}
         input.btn.count {
           height: 72px;
+          width: 100px;
           text-align: center;
         }
         .btn {
