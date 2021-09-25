@@ -40,6 +40,28 @@ const detailVehicle = (dataVehicle) => {
     image3: dataVehicle.image3,
     updatedAt: new Date(),
   });
+ const [form, setForm] = useState({
+   qty: 1,
+   total: dataVehicle.price,
+ });
+  const handleQty = (params) => {
+    if (params === "plus" && form.qty < vehicles.stock) {
+      setForm({
+        ...form,
+        qty: form.qty + 1,
+        total: dataVehicle.price * form.qty,
+      });
+    }
+    if (params === "minus" && form.qty > 1) {
+      setForm({
+        ...form,
+        qty: form.qty - 1,
+        total: dataVehicle.price * form.qty,
+      });
+    }
+    console.log(form.qty);
+    console.log(form.total);
+  };
   const gotoReserve = () => {
     router.push(`/member/vehicle/${id}/reservation`);
   };
@@ -92,14 +114,15 @@ const detailVehicle = (dataVehicle) => {
           <p className="paymentOption red">No prepayment</p>
           <p className="detail">Capacity : 1 person</p>
           <p className="detail">Type : {vehicles.category}</p>
-          <p className="detail">Reservation before 2 PM</p>
-          <p className="price">Rp. {vehicles.price}/day</p>
+          <p className="detail">Reservation before 2 PM</p>  
+          <p className="price">Rp. {form.total}/day</p>
           <div className="amount-wrapper">
-            <button className="btn primary">
+            <button className="btn primary" onClick={() => handleQty("minus")}>
               <Image className="minus-icon" src={minus} alt="minus" />
             </button>
-            <p className="btn count">2</p>
-            <button className="btn secondary">
+            <input className="btn count" type="number" value={form.qty}></input>
+            {/* <p className="btn count">2</p> */}
+            <button className="btn secondary" onClick={() => handleQty("plus")}>
               <Image className="plus-icon" src={plus} alt="plus" />
             </button>
           </div>
@@ -313,7 +336,11 @@ export const DetailVehicle = styled.div`
         ${breakpoints.lessThan("md")`
           position: relative;
           margin-top: 2rem;
-        `}
+        `} 
+        input.btn.count {
+          height: 72px;
+          text-align: center;
+        }
         .btn {
           height: 10px;
           border: 0;
@@ -389,9 +416,9 @@ export const DetailVehicle = styled.div`
     }
   }
   .like {
-    display:flex;
-    gap:1rem;
-    align-items:center;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
     justify-content: center;
     background-color: #393939;
     color: #ffcd61;

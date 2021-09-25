@@ -92,7 +92,7 @@ const reservationVehicle = ({ dataVehicle}, req) => {
           <div className="amount-wrapper">
             <button className="btn primary" onClick={() => handleQty("minus")}>
               <Image className="minus-icon" src={minus} alt="minus" />
-            </button>{" "}
+            </button>
             <input className="btn count" type="number" value={form.qty}></input>
             {/* <p className="btn count">2</p> */}
             <button className="btn secondary" onClick={() => handleQty("plus")}>
