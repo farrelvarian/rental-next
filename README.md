@@ -29,16 +29,16 @@ A vehicle rental website that brings together renters and vehicle owners. It has
   <p align='center'>
   <span>
       <image width="700" src='./screenshot/1.jpeg' />
-      <image width="400" src='./screenshot/2.jpeg' />
-      <image width="400" src='./screenshot/3.jpeg' />
+      <image width="200" src='./screenshot/2.jpeg' />
+      <image width="200" src='./screenshot/3.jpeg' />
       <image width="700" src='./screenshot/4.jpeg' />
       <image width="700" src='./screenshot/5.jpeg' />
-      <image width="400" src='./screenshot/6.jpeg' />
+      <image width="200" src='./screenshot/6.jpeg' />
       <image width="400" src='./screenshot/7.jpeg' />
-      <image width="400" src='./screenshot/8.jpeg' />
-      <image width="400" src='./screenshot/9.jpeg' />
-      <image width="400" src='./screenshot/10.jpeg' />
-      <image width="400" src='./screenshot/11.jpeg' />
+      <image width="200" src='./screenshot/8.jpeg' />
+      <image width="200" src='./screenshot/9.jpeg' />
+      <image width="700" src='./screenshot/10.jpeg' />
+      <image width="200" src='./screenshot/11.jpeg' />
      
 
 ## Built With
